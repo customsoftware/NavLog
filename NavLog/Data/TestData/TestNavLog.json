@@ -1,0 +1,70 @@
+{
+    "navLog": [
+        {
+            "wayPoint": {
+                "name": "KPVU",
+                "location": {
+                    "latitude": 40.21967,
+                    "longitude": 111.72333
+                },
+                "altitude": 4500,
+                "wind": {
+                    "speed": 5,
+                    "direction": 150
+                },
+                "courseFrom": 135,
+                "headingFrom": 135,
+                "estimatedDistanceToNextWayPoint": 1.6,
+                "estimatedGroundSpeed": 117,
+                "estimatedTimeReached": 76,
+                "computedFuelBurnToNextWayPoint": 0.3,
+                "sequence": 0,
+                "isCompleted": false
+            }
+        },
+        {
+            "wayPoint": {
+                "name": "Pattern Turn",
+                "location": {
+                    "latitude": 40.19671,
+                    "longitude": 111.7031
+                },
+                "altitude": 5100,
+                "wind": {
+                    "speed": 0,
+                    "direction": 0
+                },
+                "courseFrom": 19,
+                "headingFrom": 9,
+                "estimatedDistanceToNextWayPoint": 3.6,
+                "estimatedGroundSpeed": 117,
+                "estimatedTimeReached": 151,
+                "computedFuelBurnToNextWayPoint": 0.5,
+                "sequence": 1,
+                "isCompleted": false
+            }
+        },
+        {
+            "wayPoint": {
+                "name": "CITUV-US",
+                "location": {
+                    "latitude": 40.21967,
+                    "longitude": 111.72333
+                },
+                "altitude": 7000,
+                "wind": {
+                    "speed": 0,
+                    "direction": 0
+                },
+                "courseFrom": 319,
+                "headingFrom": 308,
+                "estimatedDistanceToNextWayPoint": 16.3,
+                "estimatedGroundSpeed": 117,
+                "estimatedTimeReached": 503,
+                "computedFuelBurnToNextWayPoint": 1.4,
+                "sequence": 2,
+                "isCompleted": false
+            }
+        }
+    ]
+}

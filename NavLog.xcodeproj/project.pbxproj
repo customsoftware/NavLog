@@ -7,14 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1562A98E7A400C7CE81 /* WayPoint.swift */; };
+		9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1582A98ECB100C7CE81 /* Aircraft.swift */; };
+		9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F15A2A98EDC000C7CE81 /* NavLog.swift */; };
+		9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F15C2A98EDE700C7CE81 /* IncidentalModels.swift */; };
+		9058F1602A9901C800C7CE81 /* GPSObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F15F2A9901C800C7CE81 /* GPSObserver.swift */; };
+		9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1662A99313700C7CE81 /* AircraftMetaDataView.swift */; };
+		9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1682A9932B600C7CE81 /* WaypointListItem.swift */; };
+		9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F16A2A9932D600C7CE81 /* NavigationLog.swift */; };
+		9058F16D2A99332E00C7CE81 /* MissionLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F16C2A99332E00C7CE81 /* MissionLog.swift */; };
+		9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */; };
+		9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */; };
+		9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */; };
 		90A2584B2A96C27000B40DAD /* NavLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584A2A96C27000B40DAD /* NavLogApp.swift */; };
 		90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584C2A96C27000B40DAD /* ContentView.swift */; };
 		90A2584F2A96C27000B40DAD /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584E2A96C27000B40DAD /* Item.swift */; };
 		90A258512A96C27300B40DAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258502A96C27300B40DAD /* Assets.xcassets */; };
 		90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258532A96C27300B40DAD /* Preview Assets.xcassets */; };
-		90A258602A96C27300B40DAD /* NavLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2585F2A96C27300B40DAD /* NavLogTests.swift */; };
+		90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */; };
 		90A2586A2A96C27300B40DAD /* NavLogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A258692A96C27300B40DAD /* NavLogUITests.swift */; };
 		90A2586C2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2586B2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift */; };
+		90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */; };
+		90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C72A9FE6C90083F8D5 /* Constants.swift */; };
+		90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */; };
+		90CE24D12A99776A00552366 /* TestAircraft.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D02A99776A00552366 /* TestAircraft.json */; };
+		90CE24D32A99787800552366 /* TestNavLog.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D22A99787800552366 /* TestNavLog.json */; };
+		90CE25652A9A5D9600552366 /* ComparisonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE25642A9A5D9600552366 /* ComparisonBarView.swift */; };
+		90CE25672A9A62FF00552366 /* HSIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE25662A9A62FF00552366 /* HSIImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +54,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9058F1562A98E7A400C7CE81 /* WayPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
+		9058F1582A98ECB100C7CE81 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
+		9058F15A2A98EDC000C7CE81 /* NavLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLog.swift; sourceTree = "<group>"; };
+		9058F15C2A98EDE700C7CE81 /* IncidentalModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentalModels.swift; sourceTree = "<group>"; };
+		9058F15F2A9901C800C7CE81 /* GPSObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSObserver.swift; sourceTree = "<group>"; };
+		9058F1662A99313700C7CE81 /* AircraftMetaDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftMetaDataView.swift; sourceTree = "<group>"; };
+		9058F1682A9932B600C7CE81 /* WaypointListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointListItem.swift; sourceTree = "<group>"; };
+		9058F16A2A9932D600C7CE81 /* NavigationLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLog.swift; sourceTree = "<group>"; };
+		9058F16C2A99332E00C7CE81 /* MissionLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionLog.swift; sourceTree = "<group>"; };
+		9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemStringView.swift; sourceTree = "<group>"; };
+		9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemFloatView.swift; sourceTree = "<group>"; };
+		9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemIntView.swift; sourceTree = "<group>"; };
 		90A258472A96C27000B40DAD /* NavLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2584A2A96C27000B40DAD /* NavLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogApp.swift; sourceTree = "<group>"; };
 		90A2584C2A96C27000B40DAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,10 +75,18 @@
 		90A258552A96C27300B40DAD /* NavLog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NavLog.entitlements; sourceTree = "<group>"; };
 		90A258562A96C27300B40DAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90A2585B2A96C27300B40DAD /* NavLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		90A2585F2A96C27300B40DAD /* NavLogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogTests.swift; sourceTree = "<group>"; };
+		90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogDistanceTests.swift; sourceTree = "<group>"; };
 		90A258652A96C27300B40DAD /* NavLogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavLogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A258692A96C27300B40DAD /* NavLogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogUITests.swift; sourceTree = "<group>"; };
 		90A2586B2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
+		90B2B9C72A9FE6C90083F8D5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavLogTimeTests.swift; sourceTree = "<group>"; };
+		90CE24CE2A99747400552366 /* Waypoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Waypoint.json; sourceTree = "<group>"; };
+		90CE24D02A99776A00552366 /* TestAircraft.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestAircraft.json; sourceTree = "<group>"; };
+		90CE24D22A99787800552366 /* TestNavLog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestNavLog.json; sourceTree = "<group>"; };
+		90CE25642A9A5D9600552366 /* ComparisonBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonBarView.swift; sourceTree = "<group>"; };
+		90CE25662A9A62FF00552366 /* HSIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSIImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +114,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9058F1552A98E77600C7CE81 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9058F1562A98E7A400C7CE81 /* WayPoint.swift */,
+				9058F1582A98ECB100C7CE81 /* Aircraft.swift */,
+				9058F15A2A98EDC000C7CE81 /* NavLog.swift */,
+				9058F15C2A98EDE700C7CE81 /* IncidentalModels.swift */,
+				90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */,
+				90CE24CF2A99772B00552366 /* TestData */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9058F15E2A9901AD00C7CE81 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9058F15F2A9901C800C7CE81 /* GPSObserver.swift */,
+				90B2B9C72A9FE6C90083F8D5 /* Constants.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9058F1632A99309300C7CE81 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				90CE25632A9A5D7500552366 /* HeadingDisplay */,
+				90CE25622A9A5D6100552366 /* Aircraft Meta */,
+				9058F1682A9932B600C7CE81 /* WaypointListItem.swift */,
+				9058F16A2A9932D600C7CE81 /* NavigationLog.swift */,
+				9058F16C2A99332E00C7CE81 /* MissionLog.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		90A2583E2A96C27000B40DAD = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +171,9 @@
 		90A258492A96C27000B40DAD /* NavLog */ = {
 			isa = PBXGroup;
 			children = (
+				9058F1632A99309300C7CE81 /* Views */,
+				9058F15E2A9901AD00C7CE81 /* Components */,
+				9058F1552A98E77600C7CE81 /* Data */,
 				90A2584A2A96C27000B40DAD /* NavLogApp.swift */,
 				90A2584C2A96C27000B40DAD /* ContentView.swift */,
 				90A2584E2A96C27000B40DAD /* Item.swift */,
@@ -120,7 +196,8 @@
 		90A2585E2A96C27300B40DAD /* NavLogTests */ = {
 			isa = PBXGroup;
 			children = (
-				90A2585F2A96C27300B40DAD /* NavLogTests.swift */,
+				90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */,
+				90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */,
 			);
 			path = NavLogTests;
 			sourceTree = "<group>";
@@ -132,6 +209,36 @@
 				90A2586B2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift */,
 			);
 			path = NavLogUITests;
+			sourceTree = "<group>";
+		};
+		90CE24CF2A99772B00552366 /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				90CE24CE2A99747400552366 /* Waypoint.json */,
+				90CE24D02A99776A00552366 /* TestAircraft.json */,
+				90CE24D22A99787800552366 /* TestNavLog.json */,
+			);
+			path = TestData;
+			sourceTree = "<group>";
+		};
+		90CE25622A9A5D6100552366 /* Aircraft Meta */ = {
+			isa = PBXGroup;
+			children = (
+				9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */,
+				9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */,
+				9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */,
+				9058F1662A99313700C7CE81 /* AircraftMetaDataView.swift */,
+			);
+			path = "Aircraft Meta";
+			sourceTree = "<group>";
+		};
+		90CE25632A9A5D7500552366 /* HeadingDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				90CE25642A9A5D9600552366 /* ComparisonBarView.swift */,
+				90CE25662A9A62FF00552366 /* HSIImageView.swift */,
+			);
+			path = HeadingDisplay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,7 +345,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90CE24D12A99776A00552366 /* TestAircraft.json in Resources */,
 				90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */,
+				90CE24D32A99787800552366 /* TestNavLog.json in Resources */,
 				90A258512A96C27300B40DAD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,9 +373,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */,
+				90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */,
+				9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */,
+				9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */,
+				9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */,
 				90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */,
+				9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */,
 				90A2584F2A96C27000B40DAD /* Item.swift in Sources */,
+				9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */,
+				90CE25672A9A62FF00552366 /* HSIImageView.swift in Sources */,
 				90A2584B2A96C27000B40DAD /* NavLogApp.swift in Sources */,
+				90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */,
+				9058F1602A9901C800C7CE81 /* GPSObserver.swift in Sources */,
+				9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */,
+				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
+				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
+				90CE25652A9A5D9600552366 /* ComparisonBarView.swift in Sources */,
+				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
+				9058F16D2A99332E00C7CE81 /* MissionLog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +399,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90A258602A96C27300B40DAD /* NavLogTests.swift in Sources */,
+				90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */,
+				90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

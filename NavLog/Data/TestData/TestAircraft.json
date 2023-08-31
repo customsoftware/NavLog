@@ -1,0 +1,14 @@
+{
+    "aircraft": {
+        "stallSpeed": 48,
+        "fuelCapacity": 48,
+        "standardClimbRate": 600,
+        "standardDescentRate": 500,
+        "cruiseFuelBurnRate": 8.6,
+        "climbToAltitudeBurnRate": 12.5,
+        "descendingFuelBurnRate": 2.5,
+        "climbSpeed": 90,
+        "cruiseSpeed": 110,
+        "distanceMode": "standard"
+    }
+}

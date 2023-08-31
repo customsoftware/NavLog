@@ -1,0 +1,22 @@
+{
+    "wayPoint": {
+        "name": "KPVU",
+        "location": {
+            "latitude": 40.21967,
+            "longitude": 111.72333
+        },
+        "altitude": 4500,
+        "wind": {
+            "speed": 5,
+            "direction": 150
+        },
+        "courseFrom": 135,
+        "headingFrom": 135,
+        "estimatedDistanceToNextWayPoint": 1.6,
+        "estimatedGroundSpeed": 117,
+        "estimatedTimeReached": 76,
+        "computedFuelBurnToNextWayPoint": 0.3,
+        "sequence": 0,
+        "isCompleted": false
+    }
+}
