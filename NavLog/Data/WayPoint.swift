@@ -8,7 +8,6 @@
 import Foundation
 import CoreLocation
 
-
 struct WayPoint {
     /// This is the name you give the waypoint
     var name: String
@@ -23,7 +22,7 @@ struct WayPoint {
     /// This is the intended magnetic heading the plane must fly to follow the course
     var headingFrom: Int
     /// This is the distance in nautical miles to the next waypoint
-    var estimatedDitanceToNextWaypoint: Int
+    var estimatedDistanceToNextWaypoint: Double
     /// This is the estimated ground speed the plane will be flying at towards the next waypoint
     var estimatedGroundSpeed: Int
     /// This is the estimated elapse time to the next waypoint, measured in seconds.
@@ -48,4 +47,6 @@ struct WayPoint {
     /// determined by the elapse time from crossing the previous waypoint to crossing this waypoint.
     /// It can then do simple math to determine speed to cross the distance in the recorded time.
     var actualGroundSpeed: Int?
+    
+    var distanceMode: DistanceMode = .nautical
 }

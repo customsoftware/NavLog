@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */; };
+		90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */; };
 		9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1562A98E7A400C7CE81 /* WayPoint.swift */; };
 		9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1582A98ECB100C7CE81 /* Aircraft.swift */; };
 		9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F15A2A98EDC000C7CE81 /* NavLog.swift */; };
@@ -25,8 +27,6 @@
 		90A258512A96C27300B40DAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258502A96C27300B40DAD /* Assets.xcassets */; };
 		90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258532A96C27300B40DAD /* Preview Assets.xcassets */; };
 		90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */; };
-		90A2586A2A96C27300B40DAD /* NavLogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A258692A96C27300B40DAD /* NavLogUITests.swift */; };
-		90A2586C2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2586B2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift */; };
 		90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */; };
 		90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C72A9FE6C90083F8D5 /* Constants.swift */; };
 		90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */; };
@@ -54,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEngine.swift; sourceTree = "<group>"; };
+		90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogSummary.swift; sourceTree = "<group>"; };
 		9058F1562A98E7A400C7CE81 /* WayPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
 		9058F1582A98ECB100C7CE81 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
 		9058F15A2A98EDC000C7CE81 /* NavLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLog.swift; sourceTree = "<group>"; };
@@ -76,9 +78,6 @@
 		90A258562A96C27300B40DAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90A2585B2A96C27300B40DAD /* NavLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogDistanceTests.swift; sourceTree = "<group>"; };
-		90A258652A96C27300B40DAD /* NavLogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavLogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		90A258692A96C27300B40DAD /* NavLogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogUITests.swift; sourceTree = "<group>"; };
-		90A2586B2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
 		90B2B9C72A9FE6C90083F8D5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavLogTimeTests.swift; sourceTree = "<group>"; };
@@ -132,6 +131,7 @@
 			children = (
 				9058F15F2A9901C800C7CE81 /* GPSObserver.swift */,
 				90B2B9C72A9FE6C90083F8D5 /* Constants.swift */,
+				90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -153,7 +153,6 @@
 			children = (
 				90A258492A96C27000B40DAD /* NavLog */,
 				90A2585E2A96C27300B40DAD /* NavLogTests */,
-				90A258682A96C27300B40DAD /* NavLogUITests */,
 				90A258482A96C27000B40DAD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -163,7 +162,6 @@
 			children = (
 				90A258472A96C27000B40DAD /* NavLog.app */,
 				90A2585B2A96C27300B40DAD /* NavLogTests.xctest */,
-				90A258652A96C27300B40DAD /* NavLogUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,17 +196,9 @@
 			children = (
 				90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */,
 				90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */,
+				90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */,
 			);
 			path = NavLogTests;
-			sourceTree = "<group>";
-		};
-		90A258682A96C27300B40DAD /* NavLogUITests */ = {
-			isa = PBXGroup;
-			children = (
-				90A258692A96C27300B40DAD /* NavLogUITests.swift */,
-				90A2586B2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift */,
-			);
-			path = NavLogUITests;
 			sourceTree = "<group>";
 		};
 		90CE24CF2A99772B00552366 /* TestData */ = {
@@ -279,24 +269,8 @@
 			productReference = 90A2585B2A96C27300B40DAD /* NavLogTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		90A258642A96C27300B40DAD /* NavLogUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 90A258752A96C27300B40DAD /* Build configuration list for PBXNativeTarget "NavLogUITests" */;
-			buildPhases = (
-				90A258612A96C27300B40DAD /* Sources */,
-				90A258622A96C27300B40DAD /* Frameworks */,
-				90A258632A96C27300B40DAD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				90A258672A96C27300B40DAD /* PBXTargetDependency */,
-			);
-			name = NavLogUITests;
-			productName = NavLogUITests;
-			productReference = 90A258652A96C27300B40DAD /* NavLogUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
+
+
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -335,7 +309,6 @@
 			targets = (
 				90A258462A96C27000B40DAD /* NavLog */,
 				90A2585A2A96C27300B40DAD /* NavLogTests */,
-				90A258642A96C27300B40DAD /* NavLogUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -388,6 +361,7 @@
 				9058F1602A9901C800C7CE81 /* GPSObserver.swift in Sources */,
 				9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */,
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
+				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				90CE25652A9A5D9600552366 /* ComparisonBarView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
@@ -401,6 +375,7 @@
 			files = (
 				90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */,
 				90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */,
+				90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,8 +383,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90A2586A2A96C27300B40DAD /* NavLogUITests.swift in Sources */,
-				90A2586C2A96C27300B40DAD /* NavLogUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,7 +632,6 @@
 				DEVELOPMENT_TEAM = 4MAEKVPSTZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.customsoftware.NavLogUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -677,7 +649,6 @@
 				DEVELOPMENT_TEAM = 4MAEKVPSTZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.customsoftware.NavLogUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -712,15 +683,6 @@
 			buildConfigurations = (
 				90A258732A96C27300B40DAD /* Debug */,
 				90A258742A96C27300B40DAD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		90A258752A96C27300B40DAD /* Build configuration list for PBXNativeTarget "NavLogUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				90A258762A96C27300B40DAD /* Debug */,
-				90A258772A96C27300B40DAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

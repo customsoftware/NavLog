@@ -26,11 +26,20 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
     
     
     func startTrackingLocation() {
+        locationManger.startUpdatingLocation()
         started = true
     }
     
     func stopTrackingLocation() {
         started = false
+    }
+    
+    
+    private func configureTracking(isFine: Bool = false) {
+        /// There are two modes of operation for the plane.
+        /// 1. On the ground and taxiing to or from the runway.
+        /// 2. Flying
+        /// We care about the second one far more than the first. So how do we filter out the first, but not the second?
     }
     
     
@@ -60,7 +69,7 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
         return retValue / 3600
     }
     
-    
+    /// 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .notDetermined:

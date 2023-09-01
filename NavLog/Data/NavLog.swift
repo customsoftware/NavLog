@@ -1,5 +1,5 @@
 //
-//  NavLogRecord.swift
+//  NavLog.swift
 //  NavLog
 //
 //  Created by Kenneth Cluff on 8/25/23.
@@ -9,7 +9,7 @@ import Foundation
 
 
 
-struct NavLogRecord {
+struct NavLog {
     /// This represents in gallons how much fuel is onboard at the start of the flight
     var startingFuel: Float
     /// This is when the flight starts for planning purposes
@@ -43,7 +43,7 @@ struct NavLogRecord {
         log.filter { aWayPoint in
             aWayPoint.isCompleted
         }.forEach { aWayPoint in
-            fuelUsed = aWayPoint.computedFuelBurnToNextWayPoint
+            fuelUsed += aWayPoint.computedFuelBurnToNextWayPoint
         }
         return startingFuel - fuelUsed
     }
@@ -58,7 +58,7 @@ struct NavLogRecord {
     func timeToFuelExhaustion(aircraft: Aircraft) -> Double {
         let remainingFuel = fuelRemaining()
         let timeToExhaustion = remainingFuel/aircraft.cruiseFuelBurnRate
-        return Double(timeToExhaustion)
+        return round(Double(timeToExhaustion) * 100) / 100
     }
     
     
@@ -81,7 +81,7 @@ struct NavLogRecord {
         return log.sorted { waypoint1, wayPoint2 in
             waypoint1.sequence < wayPoint2.sequence
         }
-        .first { wayPoint in
+        .last { wayPoint in
             wayPoint.isCompleted == true
         }
     }
