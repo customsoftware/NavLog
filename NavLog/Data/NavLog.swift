@@ -1,5 +1,5 @@
 //
-//  NavLog.swift
+//  NavLogRecord.swift
 //  NavLog
 //
 //  Created by Kenneth Cluff on 8/25/23.
@@ -9,7 +9,7 @@ import Foundation
 
 
 
-struct NavLog {
+struct NavLogRecord {
     /// This represents in gallons how much fuel is onboard at the start of the flight
     var startingFuel: Float
     /// This is when the flight starts for planning purposes
