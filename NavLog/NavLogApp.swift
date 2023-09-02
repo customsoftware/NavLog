@@ -10,11 +10,10 @@ import SwiftData
 
 @main
 struct NavLogApp: App {
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppStartView()
         }
-        .modelContainer(for: Item.self)
     }
 }

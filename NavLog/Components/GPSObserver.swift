@@ -14,14 +14,16 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
     private static let metersToKnots: Double = 1.94384
     private static let metersToStandard: Double = 2.23694
     
-    private let locationManger = CLLocationManager()
-    private var canBeUsed: Bool = false
+    let locationManger = CLLocationManager()
+    var canBeUsed: Bool = false
     private var started: Bool = false
     private var currentLocation: CLLocation?
     
-    override init() {
-        super.init()
+    func configure() {
         locationManger.delegate = self
+        checkPermissions()
+        
+        startTrackingLocation()
     }
     
     
@@ -32,14 +34,6 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
     
     func stopTrackingLocation() {
         started = false
-    }
-    
-    
-    private func configureTracking(isFine: Bool = false) {
-        /// There are two modes of operation for the plane.
-        /// 1. On the ground and taxiing to or from the runway.
-        /// 2. Flying
-        /// We care about the second one far more than the first. So how do we filter out the first, but not the second?
     }
     
     
@@ -69,28 +63,48 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
         return retValue / 3600
     }
     
-    /// 
+    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .notDetermined:
-            fatalError("You need to request authorization to use GPS location system")
-        case .restricted, .denied:
-            canBeUsed = false
-        case .authorizedAlways, .authorizedWhenInUse, .authorized:
-            canBeUsed = true
-        @unknown default:
-            fatalError("You have a new authorization status for the GPS location system")
-        }
+        resolvePermissions(manager)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        
-        
+        print("We're here .... ")
     }
     
     enum GPSErrors: Error {
         case notAuthorized
         case noCurrentLocation
+    }
+}
+
+fileprivate extension GPSObserver {
+    func checkPermissions() {
+        resolvePermissions(locationManger)
+    }
+    
+    func configureTracking(isFine: Bool = false) {
+        /// There are two modes of operation for the plane.
+        /// 1. On the ground and taxiing to or from the runway.
+        /// 2. Flying
+        /// We care about the second one far more than the first. So how do we filter out the first, but not the second?
+    }
+    
+    
+    func resolvePermissions(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            print("Location authorization not determineed")
+            manager.requestWhenInUseAuthorization()
+            
+        case .restricted, .denied:
+            print("Location authorization not restricted or denied")
+            canBeUsed = false
+        case .authorizedAlways, .authorizedWhenInUse, .authorized:
+            print("Location authorization granted to some level")
+            canBeUsed = true
+        @unknown default:
+            fatalError("You have a new authorization status for the GPS location system")
+        }
     }
 }

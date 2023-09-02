@@ -21,9 +21,10 @@
 		9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */; };
 		9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */; };
 		9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */; };
+		908A23CD2AA2925700F1C3A7 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908A23CC2AA2925700F1C3A7 /* Core.swift */; };
+		908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */; };
 		90A2584B2A96C27000B40DAD /* NavLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584A2A96C27000B40DAD /* NavLogApp.swift */; };
 		90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584C2A96C27000B40DAD /* ContentView.swift */; };
-		90A2584F2A96C27000B40DAD /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584E2A96C27000B40DAD /* Item.swift */; };
 		90A258512A96C27300B40DAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258502A96C27300B40DAD /* Assets.xcassets */; };
 		90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258532A96C27300B40DAD /* Preview Assets.xcassets */; };
 		90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */; };
@@ -38,13 +39,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		90A2585C2A96C27300B40DAD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 90A2583F2A96C27000B40DAD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 90A258462A96C27000B40DAD;
-			remoteInfo = NavLog;
-		};
-		90A258662A96C27300B40DAD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 90A2583F2A96C27000B40DAD /* Project object */;
 			proxyType = 1;
@@ -68,10 +62,11 @@
 		9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemStringView.swift; sourceTree = "<group>"; };
 		9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemFloatView.swift; sourceTree = "<group>"; };
 		9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemIntView.swift; sourceTree = "<group>"; };
+		908A23CC2AA2925700F1C3A7 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
+		908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStartView.swift; sourceTree = "<group>"; };
 		90A258472A96C27000B40DAD /* NavLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2584A2A96C27000B40DAD /* NavLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogApp.swift; sourceTree = "<group>"; };
 		90A2584C2A96C27000B40DAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		90A2584E2A96C27000B40DAD /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		90A258502A96C27300B40DAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		90A258532A96C27300B40DAD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		90A258552A96C27300B40DAD /* NavLog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NavLog.entitlements; sourceTree = "<group>"; };
@@ -97,13 +92,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		90A258582A96C27300B40DAD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		90A258622A96C27300B40DAD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -144,6 +132,8 @@
 				9058F1682A9932B600C7CE81 /* WaypointListItem.swift */,
 				9058F16A2A9932D600C7CE81 /* NavigationLog.swift */,
 				9058F16C2A99332E00C7CE81 /* MissionLog.swift */,
+				908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */,
+				90A2584C2A96C27000B40DAD /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,8 +163,7 @@
 				9058F15E2A9901AD00C7CE81 /* Components */,
 				9058F1552A98E77600C7CE81 /* Data */,
 				90A2584A2A96C27000B40DAD /* NavLogApp.swift */,
-				90A2584C2A96C27000B40DAD /* ContentView.swift */,
-				90A2584E2A96C27000B40DAD /* Item.swift */,
+				908A23CC2AA2925700F1C3A7 /* Core.swift */,
 				90A258502A96C27300B40DAD /* Assets.xcassets */,
 				90A258552A96C27300B40DAD /* NavLog.entitlements */,
 				90A258562A96C27300B40DAD /* Info.plist */,
@@ -269,8 +258,6 @@
 			productReference = 90A2585B2A96C27300B40DAD /* NavLogTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-
-
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -285,10 +272,6 @@
 						CreatedOnToolsVersion = 15.0;
 					};
 					90A2585A2A96C27300B40DAD = {
-						CreatedOnToolsVersion = 15.0;
-						TestTargetID = 90A258462A96C27000B40DAD;
-					};
-					90A258642A96C27300B40DAD = {
 						CreatedOnToolsVersion = 15.0;
 						TestTargetID = 90A258462A96C27000B40DAD;
 					};
@@ -332,13 +315,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		90A258632A96C27300B40DAD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -349,11 +325,11 @@
 				9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */,
 				90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */,
 				9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */,
+				908A23CD2AA2925700F1C3A7 /* Core.swift in Sources */,
 				9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */,
 				9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */,
 				90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */,
 				9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */,
-				90A2584F2A96C27000B40DAD /* Item.swift in Sources */,
 				9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */,
 				90CE25672A9A62FF00552366 /* HSIImageView.swift in Sources */,
 				90A2584B2A96C27000B40DAD /* NavLogApp.swift in Sources */,
@@ -365,6 +341,7 @@
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				90CE25652A9A5D9600552366 /* ComparisonBarView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
+				908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */,
 				9058F16D2A99332E00C7CE81 /* MissionLog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,13 +356,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		90A258612A96C27300B40DAD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -393,11 +363,6 @@
 			isa = PBXTargetDependency;
 			target = 90A258462A96C27000B40DAD /* NavLog */;
 			targetProxy = 90A2585C2A96C27300B40DAD /* PBXContainerItemProxy */;
-		};
-		90A258672A96C27300B40DAD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 90A258462A96C27000B40DAD /* NavLog */;
-			targetProxy = 90A258662A96C27300B40DAD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -534,6 +499,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NavLog/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Alwats abd When - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Always - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Use description - gotta have it";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "WHen - gotta have it";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -565,6 +534,10 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NavLog/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Alwats abd When - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Always - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Use description - gotta have it";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "WHen - gotta have it";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -620,40 +593,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NavLog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NavLog";
-			};
-			name = Release;
-		};
-		90A258762A96C27300B40DAD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4MAEKVPSTZ;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = NavLog;
-			};
-			name = Debug;
-		};
-		90A258772A96C27300B40DAD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4MAEKVPSTZ;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = NavLog;
 			};
 			name = Release;
 		};
