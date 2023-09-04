@@ -11,7 +11,7 @@ import Foundation
 class Core {
     static let services = Core()
     let gpsEngine = GPSObserver()
-    
+    let navEngine = NavigationEngine()
     
     
 }

@@ -8,30 +8,92 @@
 //  This is the waypoint item used in the Mission Log and Navigation Log. It is read-only in the mission log.
 
 import SwiftUI
+import MapKit
 
 struct WaypointListItem: View {
+    
+    @Binding var wayPoint: WayPoint
+    
+    let formatter = Formatter()
+    
     var body: some View {
-        HStack {
-            VStack(content: {
-                Text("Name")
-                Text("Loc")
-            })
-            VStack(content: {
-                Text("Alt")
-                Text("Wind")
-            })
-            VStack(content: {
-                Text("Course")
-                Text("Heading")
-            })
-            Text("EDW")
-            Text("ETW")
-            Text("EFB")
+        
+        VStack {
+            HStack (alignment: .top, spacing: nil) {
+                VStack(alignment: .leading) {
+                    Text("Name")
+                    Text(wayPoint.name)
+                        .font(.headline)
+                        .frame(width: 100)
+                        
+                    //                Text("Loc")
+                    //                Map(coordinateRegion:
+                    //                        .constant(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: wayPoint.location.coordinate.latitude, longitude: wayPoint.location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.125, longitudeDelta: 0.125))))
+                    //                .frame(width: 75, height: 75, alignment: .center)
+                }
+                
+                VStack(alignment: .leading, content: {
+                    Text("Alt")
+                    Text("\(wayPoint.altitude)")
+                        .font(.headline)
+                    Text("Wind")
+                    Text("\(wayPoint.windPrintable())")
+                        .font(.headline)
+                })
+                .frame(width: 85)
+                VStack(content: {
+                    Text("Heading")
+                    Text("\(wayPoint.headingFrom)")
+                        .font(.headline)
+                    Text("Course")
+                    Text("\(wayPoint.courseFrom)")
+                        .font(.headline)
+                })
+                Spacer()
+            }
+            .padding(.leading, 10)
+            HStack {
+                HStack {
+                    Text("Dist")
+                    Text(String(format: "%g", wayPoint.estimatedDistanceToNextWaypoint))
+                        .font(.headline)
+                    Text(wayPoint.shortDistanceMode())
+                }
+                HStack {
+                    Text("Time")
+                    Text(wayPoint.estimateTime())
+                        .font(.headline)
+                }
+                HStack {
+                    Text("Fuel")
+                    Text(String(format: "%g", wayPoint.computedFuelBurnToNextWayPoint))
+                        .font(.headline)
+                    Text("gal")
+                }
+                Spacer()
+            }
+            .padding(.top, 5)
+            .padding(.leading, 10)
+            Spacer()
+            Divider().padding(.leading, 10)
         }
     }
+    
+    func generateCoordinateRegion(from aLocation: CLLocation) -> MKMapRect {
+        return MKMapRect(origin: MKMapPoint(aLocation.coordinate), size: MKMapSize(width: 75, height: 75))
+    }
+    
+    func generatePin(from aLocation: CLLocation) -> [APin] {
+        return [APin(coordinate: aLocation.coordinate)]
+    }
+    
 }
 
+struct APin: Identifiable {
+    let id = UUID()
+    let coordinate: CLLocationCoordinate2D
+}
 
 #Preview {
-    WaypointListItem()
+    WaypointListItem(wayPoint: .constant(Core.services.navEngine.loadWayPoints()[0]))
 }

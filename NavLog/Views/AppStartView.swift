@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AppStartView: View {
+    @State var wayPointList: [WayPoint] = Core.services.navEngine.loadWayPoints()
+    
     var body: some View {
         TabView {
             ZStack {
@@ -21,13 +23,13 @@ struct AppStartView: View {
                 Label("Home", systemImage: "house")
             }
             
-            ContentView()
+            HeadingMasterView(wayPointList: $wayPointList)
                 .tabItem {
                     Label("Map", systemImage: "map.circle")
                         .foregroundColor(.black)
                 }
             
-            MissionLog()
+            NavigationLog(missionLog: $wayPointList)
                 .tabItem {
                     Label("Mission", systemImage: "airplane.circle")
                 }

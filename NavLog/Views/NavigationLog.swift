@@ -10,13 +10,14 @@
 import SwiftUI
 
 struct NavigationLog: View {
+    
+    @Binding var missionLog: [WayPoint]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        Button(action: computeClimb, label: {
-            Text("Insert TOC")
-        })
-        Button(action: computeDescent, label: {Text("Insert TOD")
-        })
+        List($missionLog) { waypoint in
+            WaypointListItem(wayPoint: waypoint)
+        }
+        .edgesIgnoringSafeArea(.horizontal)
     }
     
 
@@ -35,5 +36,5 @@ struct NavigationLog: View {
 }
 
 #Preview {
-    NavigationLog()
+    NavigationLog(missionLog: .constant(Core.services.navEngine.buildTestNavLog()!.log))
 }

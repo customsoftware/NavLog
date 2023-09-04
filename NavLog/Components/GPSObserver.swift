@@ -16,6 +16,7 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
     
     let locationManger = CLLocationManager()
     var canBeUsed: Bool = false
+    var isRunning: Bool = false
     private var started: Bool = false
     private var currentLocation: CLLocation?
     

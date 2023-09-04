@@ -8,7 +8,10 @@
 import Foundation
 import CoreLocation
 
-struct WayPoint {
+struct WayPoint: Identifiable {
+    /// This is how it is identifieable
+    var id: UUID = UUID()
+    
     /// This is the name you give the waypoint
     var name: String
     /// This is the location of the starting point measured in degrees latitude and longitude
@@ -49,4 +52,30 @@ struct WayPoint {
     var actualGroundSpeed: Int?
     
     var distanceMode: DistanceMode = .nautical
+    
+    func windPrintable() -> String {
+        return "\(wind.directionFrom) @ \(wind.speed)"
+    }
+    
+    func estimateTime() -> String {
+        var retValue: String = ""
+        retValue = "\(Int(estimatedTimeReached)):"
+        let seconds = Int(estimatedTimeReached.truncatingRemainder(dividingBy: 1) * 60)
+        retValue = retValue + "\(seconds)"
+        return retValue
+    }
+    
+    func shortDistanceMode() -> String {
+        let retValue : String
+        switch distanceMode {
+        case .standard:
+            retValue = "SM"
+        case .nautical:
+            retValue = "NM"
+        case .metric:
+            retValue = "KM"
+        }
+        
+        return retValue
+    }
 }
