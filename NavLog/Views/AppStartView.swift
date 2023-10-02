@@ -9,11 +9,14 @@ import SwiftUI
 
 struct AppStartView: View {
     @State var wayPointList: [WayPoint] = Core.services.navEngine.loadWayPoints()
+    @State var altimeterOffset: Double = 4500
+    @State var currentAltimeter: Double = 4500
     
     var body: some View {
         TabView {
             ZStack {
                 Image("LaunchImage", bundle: nil)
+                    .aspectRatio(contentMode: .fill)
                 Text("Welcome to Navigator Assistant")
                     .font(.title)
                     .foregroundStyle(.white)
@@ -22,16 +25,27 @@ struct AppStartView: View {
             .tabItem {
                 Label("Home", systemImage: "house")
             }
+            .onAppear {
+                print("Started timer")
+                UIApplication.shared.isIdleTimerDisabled = false
+            }
             
-            HeadingMasterView(wayPointList: $wayPointList)
+            HeadingMasterView(wayPointList: $wayPointList, altimeterOffset: $altimeterOffset)
                 .tabItem {
                     Label("Map", systemImage: "map.circle")
                         .foregroundColor(.black)
+                }
+                .onAppear {
+                    print("Shut off timer")
+                    UIApplication.shared.isIdleTimerDisabled = true
                 }
             
             NavigationLog(missionLog: $wayPointList)
                 .tabItem {
                     Label("Mission", systemImage: "airplane.circle")
+                }                .onAppear {
+                    print("Started timer")
+                    UIApplication.shared.isIdleTimerDisabled = false
                 }
         }
         .onAppear(perform: {

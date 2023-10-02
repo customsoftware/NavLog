@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */; };
 		90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */; };
+		904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904321D52AA61A4600F10D77 /* SliderBarView.swift */; };
+		904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A67152ACB558200FDC4E9 /* NavigationDetail.swift */; };
 		9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1562A98E7A400C7CE81 /* WayPoint.swift */; };
 		9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1582A98ECB100C7CE81 /* Aircraft.swift */; };
 		9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F15A2A98EDC000C7CE81 /* NavLog.swift */; };
@@ -17,7 +19,6 @@
 		9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1662A99313700C7CE81 /* AircraftMetaDataView.swift */; };
 		9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1682A9932B600C7CE81 /* WaypointListItem.swift */; };
 		9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F16A2A9932D600C7CE81 /* NavigationLog.swift */; };
-		9058F16D2A99332E00C7CE81 /* MissionLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F16C2A99332E00C7CE81 /* MissionLog.swift */; };
 		9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */; };
 		9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */; };
 		9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */; };
@@ -33,8 +34,6 @@
 		90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */; };
 		90CE24D12A99776A00552366 /* TestAircraft.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D02A99776A00552366 /* TestAircraft.json */; };
 		90CE24D32A99787800552366 /* TestNavLog.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D22A99787800552366 /* TestNavLog.json */; };
-		90CE25652A9A5D9600552366 /* ComparisonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE25642A9A5D9600552366 /* ComparisonBarView.swift */; };
-		90CE25672A9A62FF00552366 /* HSIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE25662A9A62FF00552366 /* HSIImageView.swift */; };
 		90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */; };
 		90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */; };
 		90D55EAF2AA3F01400AAC1D7 /* HeadingNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */; };
@@ -53,6 +52,8 @@
 /* Begin PBXFileReference section */
 		90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEngine.swift; sourceTree = "<group>"; };
 		90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogSummary.swift; sourceTree = "<group>"; };
+		904321D52AA61A4600F10D77 /* SliderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarView.swift; sourceTree = "<group>"; };
+		904A67152ACB558200FDC4E9 /* NavigationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDetail.swift; sourceTree = "<group>"; };
 		9058F1562A98E7A400C7CE81 /* WayPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
 		9058F1582A98ECB100C7CE81 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
 		9058F15A2A98EDC000C7CE81 /* NavLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLog.swift; sourceTree = "<group>"; };
@@ -61,7 +62,6 @@
 		9058F1662A99313700C7CE81 /* AircraftMetaDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftMetaDataView.swift; sourceTree = "<group>"; };
 		9058F1682A9932B600C7CE81 /* WaypointListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointListItem.swift; sourceTree = "<group>"; };
 		9058F16A2A9932D600C7CE81 /* NavigationLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLog.swift; sourceTree = "<group>"; };
-		9058F16C2A99332E00C7CE81 /* MissionLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionLog.swift; sourceTree = "<group>"; };
 		9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemStringView.swift; sourceTree = "<group>"; };
 		9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemFloatView.swift; sourceTree = "<group>"; };
 		9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemIntView.swift; sourceTree = "<group>"; };
@@ -82,8 +82,6 @@
 		90CE24CE2A99747400552366 /* Waypoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Waypoint.json; sourceTree = "<group>"; };
 		90CE24D02A99776A00552366 /* TestAircraft.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestAircraft.json; sourceTree = "<group>"; };
 		90CE24D22A99787800552366 /* TestNavLog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestNavLog.json; sourceTree = "<group>"; };
-		90CE25642A9A5D9600552366 /* ComparisonBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonBarView.swift; sourceTree = "<group>"; };
-		90CE25662A9A62FF00552366 /* HSIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSIImageView.swift; sourceTree = "<group>"; };
 		90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingDetailView.swift; sourceTree = "<group>"; };
 		90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingMasterView.swift; sourceTree = "<group>"; };
 		90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingNavigationView.swift; sourceTree = "<group>"; };
@@ -107,6 +105,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		904A67142ACB556600FDC4E9 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				9058F16A2A9932D600C7CE81 /* NavigationLog.swift */,
+				904A67152ACB558200FDC4E9 /* NavigationDetail.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		9058F1552A98E77600C7CE81 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,12 +140,10 @@
 		9058F1632A99309300C7CE81 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				90D55EA92AA3E6B900AAC1D7 /* AltHeading */,
-				90CE25632A9A5D7500552366 /* HeadingDisplay */,
+				90D55EA92AA3E6B900AAC1D7 /* Heading */,
 				90CE25622A9A5D6100552366 /* Aircraft Meta */,
 				9058F1682A9932B600C7CE81 /* WaypointListItem.swift */,
-				9058F16A2A9932D600C7CE81 /* NavigationLog.swift */,
-				9058F16C2A99332E00C7CE81 /* MissionLog.swift */,
+				904A67142ACB556600FDC4E9 /* Navigation */,
 				908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */,
 				90A2584C2A96C27000B40DAD /* ContentView.swift */,
 			);
@@ -218,23 +223,15 @@
 			path = "Aircraft Meta";
 			sourceTree = "<group>";
 		};
-		90CE25632A9A5D7500552366 /* HeadingDisplay */ = {
-			isa = PBXGroup;
-			children = (
-				90CE25642A9A5D9600552366 /* ComparisonBarView.swift */,
-				90CE25662A9A62FF00552366 /* HSIImageView.swift */,
-			);
-			path = HeadingDisplay;
-			sourceTree = "<group>";
-		};
-		90D55EA92AA3E6B900AAC1D7 /* AltHeading */ = {
+		90D55EA92AA3E6B900AAC1D7 /* Heading */ = {
 			isa = PBXGroup;
 			children = (
 				90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */,
 				90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */,
 				90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */,
+				904321D52AA61A4600F10D77 /* SliderBarView.swift */,
 			);
-			path = AltHeading;
+			path = Heading;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,9 +345,10 @@
 				9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */,
 				90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */,
 				9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */,
+				904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */,
+				904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */,
 				90D55EAF2AA3F01400AAC1D7 /* HeadingNavigationView.swift in Sources */,
 				9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */,
-				90CE25672A9A62FF00552366 /* HSIImageView.swift in Sources */,
 				90A2584B2A96C27000B40DAD /* NavLogApp.swift in Sources */,
 				90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */,
 				9058F1602A9901C800C7CE81 /* GPSObserver.swift in Sources */,
@@ -359,10 +357,8 @@
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
-				90CE25652A9A5D9600552366 /* ComparisonBarView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
 				908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */,
-				9058F16D2A99332E00C7CE81 /* MissionLog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,15 +515,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NavLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Nav Assist";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Alwats abd When - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Always - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Use description - gotta have it";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "WHen - gotta have it";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "When - gotta have it";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -554,15 +551,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NavLog/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Nav Assist";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Alwats abd When - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Always - This app needs to get location all the time so it can tell you where the airplane is, how fast it is moving and how high above the ground it is.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Use description - gotta have it";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "WHen - gotta have it";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "When - gotta have it";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

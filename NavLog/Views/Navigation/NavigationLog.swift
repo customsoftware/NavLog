@@ -14,10 +14,18 @@ struct NavigationLog: View {
     @Binding var missionLog: [WayPoint]
     
     var body: some View {
-        List($missionLog) { waypoint in
-            WaypointListItem(wayPoint: waypoint)
+        NavigationSplitView {
+            List($missionLog) { waypoint in
+                NavigationLink {
+                    NavigationDetail(waypoint: waypoint)
+                } label: {
+                    WaypointListItem(wayPoint: waypoint)
+                }
+            }
+            .navigationTitle("Navigation List")
+        } detail: {
+            Text("Select a waypoint")
         }
-        .edgesIgnoringSafeArea(.horizontal)
     }
     
 

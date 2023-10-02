@@ -11,7 +11,7 @@ import Foundation
 
 struct NavLog {
     /// This represents in gallons how much fuel is onboard at the start of the flight
-    var startingFuel: Float
+    var startingFuel: Double
     /// This is when the flight starts for planning purposes
     var estimatedStartingTime: Double
     /// This is when the flight ends for planning purposes
@@ -35,10 +35,10 @@ struct NavLog {
     
     
     /// This subtracts the computed fuel burned on the flight from the starting fuel.
-    func fuelRemaining() -> Float {
+    func fuelRemaining() -> Double {
         // Get the starting fuel
         // Add up the estimated fuel burns for the completed waypoints
-        var fuelUsed: Float = Float(0)
+        var fuelUsed: Double = 0
         // Subract that value from the starting fuel
         log.filter { aWayPoint in
             aWayPoint.isCompleted
@@ -57,7 +57,7 @@ struct NavLog {
     /// This computes the value by dividing fuel remaining by the cruise fuel burn rate
     func timeToFuelExhaustion(aircraft: Aircraft) -> Double {
         let remainingFuel = fuelRemaining()
-        let timeToExhaustion = remainingFuel/aircraft.cruiseFuelBurnRate
+        let timeToExhaustion = remainingFuel/Double(aircraft.cruiseFuelBurnRate)
         return round(Double(timeToExhaustion) * 100) / 100
     }
     

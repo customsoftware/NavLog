@@ -32,7 +32,7 @@ struct WayPoint: Identifiable {
     var estimatedTimeReached: Double
     /// This is how much fuel is expected to be burned flying to that waypoint. It is computed by
     /// multiplying aircraft fuel burn rate by elapse time.
-    var computedFuelBurnToNextWayPoint: Float
+    var computedFuelBurnToNextWayPoint: Double
     /// This is the ordinal value of the waypoint in the array of waypoints that make up the navLog.
     /// Once the flight begins, this can not be changed.
     var sequence: Int = 0

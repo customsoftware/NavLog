@@ -3,4 +3,54 @@
    uuid = "86077ECF-A6A2-4DF2-BC5A-BB304215C00C"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8188B053-B228-4F08-9DC2-169361A457A8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NavLog/Data/NavLog.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "activeWayPoint()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8188B053-B228-4F08-9DC2-169361A457A8 - 3d5ff061728ce4b3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NavLog.NavLog.activeWayPoint() -&gt; Swift.Optional&lt;NavLog.WayPoint&gt;"
+                  moduleName = "NavLog"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kennethcluff/Developer/NavLog/NavLog/NavLog/Data/NavLog.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "8188B053-B228-4F08-9DC2-169361A457A8 - bb64ef54d46eb8a2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (NavLog.WayPoint, NavLog.WayPoint) -&gt; Swift.Bool in NavLog.NavLog.activeWayPoint() -&gt; Swift.Optional&lt;NavLog.WayPoint&gt;"
+                  moduleName = "NavLog"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kennethcluff/Developer/NavLog/NavLog/NavLog/Data/NavLog.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

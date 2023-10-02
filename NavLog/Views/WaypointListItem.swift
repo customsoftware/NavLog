@@ -33,7 +33,7 @@ struct WaypointListItem: View {
                 }
                 
                 VStack(alignment: .leading, content: {
-                    Text("Alt")
+                    Text("ALT")
                     Text("\(wayPoint.altitude)")
                         .font(.headline)
                     Text("Wind")
@@ -42,10 +42,10 @@ struct WaypointListItem: View {
                 })
                 .frame(width: 85)
                 VStack(content: {
-                    Text("Heading")
+                    Text("HDG")
                     Text("\(wayPoint.headingFrom)")
                         .font(.headline)
-                    Text("Course")
+                    Text("CRS")
                     Text("\(wayPoint.courseFrom)")
                         .font(.headline)
                 })
@@ -54,18 +54,18 @@ struct WaypointListItem: View {
             .padding(.leading, 10)
             HStack {
                 HStack {
-                    Text("Dist")
+                    Text("D")
                     Text(String(format: "%g", wayPoint.estimatedDistanceToNextWaypoint))
                         .font(.headline)
                     Text(wayPoint.shortDistanceMode())
                 }
                 HStack {
-                    Text("Time")
+                    Text("T")
                     Text(wayPoint.estimateTime())
                         .font(.headline)
                 }
                 HStack {
-                    Text("Fuel")
+                    Text("F")
                     Text(String(format: "%g", wayPoint.computedFuelBurnToNextWayPoint))
                         .font(.headline)
                     Text("gal")
@@ -75,7 +75,7 @@ struct WaypointListItem: View {
             .padding(.top, 5)
             .padding(.leading, 10)
             Spacer()
-            Divider().padding(.leading, 10)
+//            Divider().padding(.leading, 10)
         }
     }
     

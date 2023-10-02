@@ -6,34 +6,55 @@
 //
 
 import Foundation
+import SwiftUI
 import CoreLocation
 
 /// This class does the heavy lifting for determing aircraft performance.
 /// It uses GPS signals to determine location and speed.
-class GPSObserver: NSObject, CLLocationManagerDelegate {
-    private static let metersToKnots: Double = 1.94384
-    private static let metersToStandard: Double = 2.23694
+class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
+    static let metersToKnots: Double = 1.94384
+    static let metersToStandardMiles: Double = 2.23694
+    static let metersToFeet: Double = 3.28084
     
-    let locationManger = CLLocationManager()
+    var locationManger = CLLocationManager()
     var canBeUsed: Bool = false
     var isRunning: Bool = false
     private var started: Bool = false
-    private var currentLocation: CLLocation?
+    private (set) var currentLocation: CLLocation? {
+        didSet {
+            guard let aLocation = currentLocation else { return }
+            speed = aLocation.speed
+            altitude = aLocation.ellipsoidalAltitude
+            course = aLocation.course
+            latitude = aLocation.coordinate.latitude
+            longitude = aLocation.coordinate.longitude
+        }
+    }
+    @Published var speed: Double = 0
+    @Published var altitude: Double = 0
+    @Published var course: Double = 0
+    @Published var latitude: Double = 0
+    @Published var longitude: Double = 0
+    
+    override init() {
+        super.init()
+        locationManger.delegate = self
+    }
+    
     
     func configure() {
-        locationManger.delegate = self
         checkPermissions()
-        
-        startTrackingLocation()
     }
     
     
     func startTrackingLocation() {
+        locationManger.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManger.startUpdatingLocation()
         started = true
     }
     
     func stopTrackingLocation() {
+        locationManger.stopUpdatingLocation()
         started = false
     }
     
@@ -54,7 +75,7 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
         var retValue: Double = 0
         switch aircraft.distanceMode {
         case .standard:
-            retValue = reportedSpeed * GPSObserver.metersToStandard
+            retValue = reportedSpeed * GPSObserver.metersToStandardMiles
         case .nautical:
             retValue = reportedSpeed * GPSObserver.metersToKnots
         case .metric:
@@ -70,7 +91,13 @@ class GPSObserver: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("We're here .... ")
+        currentLocation = locations.last
+//        print("LAT: \(currentLocation?.coordinate.latitude ?? 0) - LONG: \(currentLocation?.coordinate.longitude ?? 0) - ALT: \(currentLocation?.altitude ?? 0) - HDG: \(currentLocation?.course ?? 0)")
+//        print("ALT: \(currentLocation?.altitude ?? 0) - SPD: \(currentLocation?.speed ?? 0)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("There was a location error: \(error.localizedDescription)")
     }
     
     enum GPSErrors: Error {
