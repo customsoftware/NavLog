@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gpx xmlns="https://www.topografix.com/GPX/1/1" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" creator="FlyQ" version="1.1" xsi:schemaLocation="https://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd">
+<rte>
+<name>VORtoPSC</name>
+<rtept lat="40.21917" lon="-111.7234">
+<name>KPVU</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="40.45694" lon="-111.9139">
+<name>VPPTM-US</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="40.76389" lon="-111.9142">
+<name>VPSLC-US</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="40.76549" lon="-112.1472">
+<name>CRKIT-US</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="41.96037" lon="-113.0442">
+<name>SHEAR-US</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="42.58024" lon="-113.8659">
+<name>BYI</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="43.55281" lon="-116.1921">
+<name>BOI</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="44.09398" lon="-116.9031">
+<name>S75</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="44.8406" lon="-117.8079">
+<name>BKE</name>
+<overfly>false</overfly>
+</rtept>
+<rtept lat="46.26468" lon="-119.119">
+<name>KPSC</name>
+<overfly>false</overfly>
+</rtept>
+</rte>
+</gpx>

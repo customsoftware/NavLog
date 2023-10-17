@@ -32,6 +32,14 @@
 		90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */; };
 		90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C72A9FE6C90083F8D5 /* Constants.swift */; };
 		90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */; };
+		90B8641D2AD83F4E009D18E5 /* DynonPlan.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 90B8641C2AD83F4E009D18E5 /* DynonPlan.gpx */; };
+		90B8641F2AD83FF9009D18E5 /* GarminPlan.fpl in Resources */ = {isa = PBXBuildFile; fileRef = 90B8641E2AD83FF9009D18E5 /* GarminPlan.fpl */; };
+		90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B864222AD95F0D009D18E5 /* FlightPlan.swift */; };
+		90B864272ADB2697009D18E5 /* DynonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B864262ADB2697009D18E5 /* DynonParser.swift */; };
+		90B864292ADB2754009D18E5 /* GarminParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B864282ADB2754009D18E5 /* GarminParser.swift */; };
+		90B8642B2ADB27DE009D18E5 /* ParserObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B8642A2ADB27DE009D18E5 /* ParserObjects.swift */; };
+		90B8642D2ADB2881009D18E5 /* ParseEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B8642C2ADB2881009D18E5 /* ParseEngine.swift */; };
+		90B8642F2ADB33AA009D18E5 /* ParserTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B8642E2ADB33AA009D18E5 /* ParserTesting.swift */; };
 		90CE24D12A99776A00552366 /* TestAircraft.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D02A99776A00552366 /* TestAircraft.json */; };
 		90CE24D32A99787800552366 /* TestNavLog.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D22A99787800552366 /* TestNavLog.json */; };
 		90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */; };
@@ -79,6 +87,14 @@
 		90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
 		90B2B9C72A9FE6C90083F8D5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavLogTimeTests.swift; sourceTree = "<group>"; };
+		90B8641C2AD83F4E009D18E5 /* DynonPlan.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = DynonPlan.gpx; sourceTree = "<group>"; };
+		90B8641E2AD83FF9009D18E5 /* GarminPlan.fpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = GarminPlan.fpl; sourceTree = "<group>"; };
+		90B864222AD95F0D009D18E5 /* FlightPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightPlan.swift; sourceTree = "<group>"; };
+		90B864262ADB2697009D18E5 /* DynonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynonParser.swift; sourceTree = "<group>"; };
+		90B864282ADB2754009D18E5 /* GarminParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminParser.swift; sourceTree = "<group>"; };
+		90B8642A2ADB27DE009D18E5 /* ParserObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserObjects.swift; sourceTree = "<group>"; };
+		90B8642C2ADB2881009D18E5 /* ParseEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEngine.swift; sourceTree = "<group>"; };
+		90B8642E2ADB33AA009D18E5 /* ParserTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTesting.swift; sourceTree = "<group>"; };
 		90CE24CE2A99747400552366 /* Waypoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Waypoint.json; sourceTree = "<group>"; };
 		90CE24D02A99776A00552366 /* TestAircraft.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestAircraft.json; sourceTree = "<group>"; };
 		90CE24D22A99787800552366 /* TestNavLog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestNavLog.json; sourceTree = "<group>"; };
@@ -123,6 +139,11 @@
 				9058F15C2A98EDE700C7CE81 /* IncidentalModels.swift */,
 				90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */,
 				90CE24CF2A99772B00552366 /* TestData */,
+				90B864222AD95F0D009D18E5 /* FlightPlan.swift */,
+				90B864262ADB2697009D18E5 /* DynonParser.swift */,
+				90B864282ADB2754009D18E5 /* GarminParser.swift */,
+				90B8642A2ADB27DE009D18E5 /* ParserObjects.swift */,
+				90B8642C2ADB2881009D18E5 /* ParseEngine.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -153,6 +174,7 @@
 		90A2583E2A96C27000B40DAD = {
 			isa = PBXGroup;
 			children = (
+				90B864242AD96768009D18E5 /* Playgrounds */,
 				90A258492A96C27000B40DAD /* NavLog */,
 				90A2585E2A96C27300B40DAD /* NavLogTests */,
 				90A258482A96C27000B40DAD /* Products */,
@@ -177,6 +199,8 @@
 				90A2584A2A96C27000B40DAD /* NavLogApp.swift */,
 				908A23CC2AA2925700F1C3A7 /* Core.swift */,
 				90A258502A96C27300B40DAD /* Assets.xcassets */,
+				90B8641C2AD83F4E009D18E5 /* DynonPlan.gpx */,
+				90B8641E2AD83FF9009D18E5 /* GarminPlan.fpl */,
 				90A258552A96C27300B40DAD /* NavLog.entitlements */,
 				90A258562A96C27300B40DAD /* Info.plist */,
 				90A258522A96C27300B40DAD /* Preview Content */,
@@ -198,8 +222,16 @@
 				90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */,
 				90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */,
 				90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */,
+				90B8642E2ADB33AA009D18E5 /* ParserTesting.swift */,
 			);
 			path = NavLogTests;
+			sourceTree = "<group>";
+		};
+		90B864242AD96768009D18E5 /* Playgrounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Playgrounds;
 			sourceTree = "<group>";
 		};
 		90CE24CF2A99772B00552366 /* TestData */ = {
@@ -317,7 +349,9 @@
 			files = (
 				90CE24D12A99776A00552366 /* TestAircraft.json in Resources */,
 				90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */,
+				90B8641D2AD83F4E009D18E5 /* DynonPlan.gpx in Resources */,
 				90CE24D32A99787800552366 /* TestNavLog.json in Resources */,
+				90B8641F2AD83FF9009D18E5 /* GarminPlan.fpl in Resources */,
 				90A258512A96C27300B40DAD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,8 +376,12 @@
 				9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */,
 				908A23CD2AA2925700F1C3A7 /* Core.swift in Sources */,
 				9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */,
+				90B864292ADB2754009D18E5 /* GarminParser.swift in Sources */,
 				9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */,
+				90B8642B2ADB27DE009D18E5 /* ParserObjects.swift in Sources */,
+				90B8642D2ADB2881009D18E5 /* ParseEngine.swift in Sources */,
 				90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */,
+				90B864272ADB2697009D18E5 /* DynonParser.swift in Sources */,
 				9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */,
 				904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */,
 				904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */,
@@ -356,6 +394,7 @@
 				90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */,
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
+				90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
 				908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */,
@@ -367,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */,
+				90B8642F2ADB33AA009D18E5 /* ParserTesting.swift in Sources */,
 				90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */,
 				90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */,
 			);

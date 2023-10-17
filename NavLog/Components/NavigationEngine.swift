@@ -9,12 +9,10 @@ import Foundation
 import CoreLocation
 
 class NavigationEngine {
-    var activeLog: NavLog?
-    
-    
-    func loadLog(_ aLog: NavLog) {
-        
-    }
+    var activeLog: NavLogXML?
+    var activeWayPoints: [WayPoint] = []
+    let doGarmin = true
+    let metersToFeetMultiple = 3.28084
     
     func runLog() {
         
@@ -26,84 +24,60 @@ class NavigationEngine {
         return retValue
     }
     
-    func buildTestNavLog() -> NavLog? {
-        let initialFuel: Float = 32.3
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm"
+    
+    func buildTestNavLog() {
+        let parser: ParserProtocol
+        let xmlData: Data
+        let fileName: String
+        let fileID: String
         
-        guard let startTime: Date = dateFormatter.date(from: "08/31/2023 20:10"),
-              let stopTime: Date = dateFormatter.date(from: "08/31/2023 21:10") else {
-            return nil
+        if doGarmin {
+            parser = ParserFactory.getNavLogParser(.garmin) { aLog in
+                self.activeLog = aLog
+                var sequence = 0
+                aLog.navPoints.forEach { navPoint in
+                    self.loadIntoWayPoint(navPoint, sequence)
+                    sequence += 1
+                }
+             }
+            fileName = "GarminPlan"
+            fileID = "fpl"
+        } else {
+            
+            parser = ParserFactory.getNavLogParser(.dynon, using: { aLog in
+                self.activeLog = aLog
+                var sequence = 0
+                aLog.navPoints.forEach { navPoint in
+                    self.loadIntoWayPoint(navPoint, sequence)
+                    sequence += 1
+                }
+                
+            })
+            fileName = "DynonPlan"
+            fileID = "gpx"
+         }
+        guard let sourceFile = Bundle.main.path(forResource: fileName, ofType: fileID) else { return }
+        if let xmlData = FileManager().contents(atPath: sourceFile) {
+            parser.parseData(xmlData)
         }
+    }
+    
+    
+    fileprivate func loadIntoWayPoint(_ logEntry: NavigationPoint, _ index: Int) {
+        let aLocation = CLLocation(latitude: logEntry.latitude, longitude: logEntry.longitude)
+        let theAltitude = Int(logEntry.elevation * metersToFeetMultiple)
         
-        var newLog = NavLog(startingFuel: Double(initialFuel), estimatedStartingTime: startTime.timeIntervalSince1970, estimatedEndingTime: stopTime.timeIntervalSince1970)
-        
-        newLog.log = loadWayPoints()
-        
-        return newLog
+        var aWayPoint = WayPoint(name: logEntry.name, location: aLocation, altitude: theAltitude, wind: Wind(speed: 0, directionFrom: 0), courseFrom: 0, headingFrom: 0, estimatedDistanceToNextWaypoint: 0, estimatedGroundSpeed: 0, estimatedTimeReached: 0, computedFuelBurnToNextWayPoint: 0)
+        aWayPoint.sequence = index
+        activeWayPoints.append(aWayPoint)
     }
     
     func loadWayPoints() -> [WayPoint] {
-        var w1 = WayPoint(name: "KPVU", location: CLLocation(latitude: 40.21916, longitude: -111.7234), altitude: 4497, wind: Wind(speed: 6, directionFrom: 150), courseFrom: 145, headingFrom: 183, estimatedDistanceToNextWaypoint: 1.8, estimatedGroundSpeed: 90, estimatedTimeReached: 1.4, computedFuelBurnToNextWayPoint: 0.3)
-        w1.distanceMode = .standard
-        w1.sequence = 0
+        // We need the app to wait for this to finish
         
-         var w2 = WayPoint(name: "WayPoint 1", location: CLLocation(latitude: 40.19671, longitude: -111.7031), altitude: 7000, wind: Wind(speed: 1, directionFrom: 10), courseFrom: 19, headingFrom: 96, estimatedDistanceToNextWaypoint: 4.1, estimatedGroundSpeed: 159, estimatedTimeReached: 2.1, computedFuelBurnToNextWayPoint: 0.4)
-        w2.distanceMode = .standard
-        w2.sequence = 1
-
-        var w3 = WayPoint(name: "CITUV", location: CLLocation(latitude: 40.246361, longitude: -111.679694), altitude: 7000, wind: Wind(speed: 2, directionFrom: 23), courseFrom: 319, headingFrom: 276, estimatedDistanceToNextWaypoint: 18.7, estimatedGroundSpeed: 139, estimatedTimeReached: 8.1, computedFuelBurnToNextWayPoint: 1.3)
-        w3.distanceMode = .standard
-        w3.sequence = 2
-
-        var w4 = WayPoint(name: "VPPTM-US", location: CLLocation(latitude: 40.45694, longitude: -111.9138), altitude: 7000, wind: Wind(speed: 2, directionFrom: 23), courseFrom: 0, headingFrom: 353, estimatedDistanceToNextWaypoint: 47, estimatedGroundSpeed: 159, estimatedTimeReached: 17.9, computedFuelBurnToNextWayPoint: 3.0)
-        w4.distanceMode = .standard
-        w4.sequence = 3
-
-        var w5 = WayPoint(name: "VPWBR-US", location: CLLocation(latitude: 41.1361, longitude: -111.9138), altitude: 7000, wind: Wind(speed: 1, directionFrom: 5), courseFrom: 309, headingFrom: 286, estimatedDistanceToNextWaypoint: 3.3, estimatedGroundSpeed: 136, estimatedTimeReached: 1.5, computedFuelBurnToNextWayPoint: 0.2)
-        w5.distanceMode = .standard
-        w5.sequence = 4
-
-        var w6 = WayPoint(name: "KOGD A", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 310, headingFrom: 290, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 137, estimatedTimeReached: 1.75, computedFuelBurnToNextWayPoint: 0.1)
-        w6.distanceMode = .standard
-        w6.sequence = 5
-
-        var w7 = WayPoint(name: "KOGD D", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w7.distanceMode = .standard
-        w7.sequence = 6
-
-        var w8 = WayPoint(name: "VPWBR-US", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w8.distanceMode = .standard
-        w8.sequence = 7
-
-        var w9 = WayPoint(name: "VPCVI", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w9.distanceMode = .standard
-        w9.sequence = 8
-
-        var w10 = WayPoint(name: "KSLC", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w10.distanceMode = .standard
-        w10.sequence = 9
-
-        var w11 = WayPoint(name: "Waypoint 2", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w11.distanceMode = .standard
-        w11.sequence = 10
-
-        var w12 = WayPoint(name: "CRKIT", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w12.distanceMode = .standard
-        w12.sequence = 11
-
-        var w13 = WayPoint(name: "U42", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w13.distanceMode = .standard
-        w13.sequence = 12
-
-        var w14 = WayPoint(name: "VPPTM", location: CLLocation(latitude: 41.195, longitude: -112.01216), altitude: 5500, wind: Wind(speed: 9, directionFrom: 330), courseFrom: 129, headingFrom: 117, estimatedDistanceToNextWaypoint: 3.7, estimatedGroundSpeed: 117, estimatedTimeReached: 3.6, computedFuelBurnToNextWayPoint: 0.7)
-        w14.distanceMode = .standard
-        w14.sequence = 13
-
-        var w15 = WayPoint(name: "KPVU", location: CLLocation(latitude: 40.21916, longitude: -111.7234), altitude: 4497, wind: Wind(speed: 6, directionFrom: 150), courseFrom: 145, headingFrom: 183, estimatedDistanceToNextWaypoint: 1.8, estimatedGroundSpeed: 90, estimatedTimeReached: 1.4, computedFuelBurnToNextWayPoint: 0.3)
-        w15.distanceMode = .standard
-        w15.sequence = 14
+//        buildTestNavLog()
         
-        return [w1, w2, w3, w4, w5, w6, w7, w8, w9,w10, w11, w12, w13, w14, w15]
+        return activeWayPoints
     }
+    
 }

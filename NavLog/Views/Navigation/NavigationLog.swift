@@ -44,5 +44,5 @@ struct NavigationLog: View {
 }
 
 #Preview {
-    NavigationLog(missionLog: .constant(Core.services.navEngine.buildTestNavLog()!.log))
+    NavigationLog(missionLog: .constant(Core.services.navEngine.activeWayPoints ?? []))
 }

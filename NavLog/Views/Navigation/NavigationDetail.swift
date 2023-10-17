@@ -154,6 +154,5 @@ struct MapPins: Identifiable {
 }
 
 #Preview {
-    NavigationDetail(waypoint: .constant(Core.services.navEngine.buildTestNavLog()!.log.first!)
-    )
+    NavigationDetail(waypoint: .constant(Core.services.navEngine.activeWayPoints.first!))
 }

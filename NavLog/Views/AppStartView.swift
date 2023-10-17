@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AppStartView: View {
-    @State var wayPointList: [WayPoint] = Core.services.navEngine.loadWayPoints()
+    @State var wayPointList: [WayPoint] = Core.services.navEngine.activeWayPoints
     @State var altimeterOffset: Double = 4500
     @State var currentAltimeter: Double = 4500
     
@@ -49,6 +49,12 @@ struct AppStartView: View {
                 }
         }
         .onAppear(perform: {
+            
+//            Core.services.navEngine.buildTestNavLog()
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.0, execute: {
+                self.wayPointList = Core.services.navEngine.loadWayPoints()
+            })
+            
             switch Core.services.gpsEngine.locationManger.authorizationStatus {
             case .notDetermined:
                 Core.services.gpsEngine.locationManger.requestAlwaysAuthorization()

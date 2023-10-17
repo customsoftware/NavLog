@@ -19,10 +19,11 @@ struct HeadingMasterView: View {
     var body: some View {
         
         VStack(alignment: .leading, content: {
-            Text(verbatim: wayPointList[activeWayPointIndex].name)
-                .font(.headline)
-                .foregroundStyle(Color(.label))
-            
+            if wayPointList.count > 0 {
+                Text(verbatim: wayPointList[activeWayPointIndex].name)
+                    .font(.headline)
+                    .foregroundStyle(Color(.label))
+            }
             let currentValues = getDisplayValues()
             HeadingNavigationView(
                 controllingWayPoint: $wayPointList[activeWayPointIndex],
