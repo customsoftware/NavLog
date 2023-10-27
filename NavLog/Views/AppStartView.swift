@@ -51,7 +51,7 @@ struct AppStartView: View {
         .onAppear(perform: {
             
 //            Core.services.navEngine.buildTestNavLog()
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 1.0, execute: {
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5.0, execute: {
                 self.wayPointList = Core.services.navEngine.loadWayPoints()
             })
             

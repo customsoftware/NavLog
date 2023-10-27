@@ -11,9 +11,9 @@ import Foundation
 /// This represents wind speeds which affect the aircraft in flight
 struct Wind {
     /// This is how fast the wind is blowing measured in nautical miles per hour
-    var speed: Int
+    var speed: Double
     /// This is the direction the wind is blowing. This is the direction you must face to have it blowing directly into your face.
-    var directionFrom: Int
+    var directionFrom: Double
 }
 
 
