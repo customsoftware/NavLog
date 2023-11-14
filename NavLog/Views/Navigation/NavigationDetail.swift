@@ -39,7 +39,6 @@ struct NavigationDetail: View {
     @State private var lat: Double = 0
     @State private var long: Double = 0
     
-    
     @State private var waypointLocation: CLLocation = CLLocation(latitude: 0, longitude: 0)
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
     @State private var pins: [MapPins] = []
@@ -56,7 +55,7 @@ struct NavigationDetail: View {
                     .padding()
                     .accentColor(Color.blue)
                     .border(Color.blue, width: 3)
-                Text("\(altitude)")
+                Text(self.formatter.string(from: (altitude as NSNumber))!)
                 Divider()
                 HStack(alignment: .top, spacing: nil) {
                     Text("Time").italic()
@@ -98,17 +97,19 @@ struct NavigationDetail: View {
                 }
             })
             
-            Text("Location").italic()
+//            Text("Location").italic()
             HStack(alignment: .top, spacing: nil) {
                 Text("Latitude").italic()
                 TextField("Latidute", text: $latitude)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
+            
             HStack(alignment: .top, spacing: nil) {
                 Text("Longitude").italic()
                 TextField("Longitude", text: $longitude)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
+            
             Map(coordinateRegion: $region,
                 interactionModes: .zoom,
                 showsUserLocation: false,
@@ -121,23 +122,14 @@ struct NavigationDetail: View {
         }
 //        .padding()
         .onAppear(perform: {
-            altitude = Float(waypoint.altitude)
-            course = "\(waypoint.courseFrom)"
-            heading = "\(waypoint.headingFrom)"
-            waypointLocation = waypoint.location
-            windSpeed = "\(waypoint.wind.speed)"
-            windDirection = "\(waypoint.wind.directionFrom)"
-            lat = waypoint.location.coordinate.latitude
-            long = waypoint.location.coordinate.longitude
-            latitude = "\(lat)"
-            longitude = "\(long)"
-            activePin = MapPins(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
-            pins = [activePin]
-            region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.125, longitudeDelta: 0.125))
+            loadViewControls(using: self.waypoint)
         })
         .onDisappear(perform: {
             
         })
+        .onChange(of: waypoint) {
+            loadViewControls(using: waypoint)
+        }
     }
     
     func convertDoubleToString(_ doubleValue: Int) -> String {
@@ -145,6 +137,23 @@ struct NavigationDetail: View {
     }
     func convertIntToString(_ intValue: Int) -> String {
         return formatter.string(from: NSNumber(value: intValue))!
+    }
+    
+    private func loadViewControls(using wayPoint: WayPoint) {
+        altitude = Float(waypoint.altitude)
+        course = "\(waypoint.courseFrom)"
+        heading = "\(waypoint.headingFrom)"
+        waypointLocation = waypoint.location
+        windSpeed = "\(waypoint.wind.speed)"
+        distanceToNext = "\(wayPoint.estimatedDistanceToNextWaypoint)"
+        windDirection = "\(waypoint.wind.directionFrom)"
+        lat = waypoint.location.coordinate.latitude
+        long = waypoint.location.coordinate.longitude
+        latitude = "\(lat)"
+        longitude = "\(long)"
+        activePin = MapPins(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long))
+        pins = [activePin]
+        region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.125, longitudeDelta: 0.125))
     }
 }
 

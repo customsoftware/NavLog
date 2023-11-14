@@ -18,6 +18,7 @@ struct NavLogXML {
 }
 
 struct NavigationPoint {
+    var id: Int = 0
     var name: String
     var latitude: Double
     var longitude: Double

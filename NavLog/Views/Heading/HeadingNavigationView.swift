@@ -35,7 +35,7 @@ struct HeadingNavigationView: View {
                 .cornerRadius(15.0)
                 .foregroundColor(Color(.systemBackground))
             VStack(alignment: .center, content: {
-                Text("\(controllingWayPoint.headingFrom)")
+                Text("\(controllingWayPoint.headingFrom())")
                     .font(.bold(.body)())
                     .frame(minWidth: 280, idealWidth: 300, maxWidth: .infinity, minHeight: 40, idealHeight: 40, maxHeight: 40, alignment: .center)
                     .foregroundColor(Color(.label))
@@ -133,7 +133,7 @@ struct HeadingNavigationView: View {
     func convertDegreeToXOffset(_ width: CGFloat) -> CGFloat {
         var retValue: CGFloat = 0
         
-        let plannedHeading: Double = Double(controllingWayPoint.headingFrom)
+        let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
         let currentHeading: Double = gpsTracker.course
         
         let offset =  currentHeading - plannedHeading

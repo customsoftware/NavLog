@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct AppStartView: View {
-    @State var wayPointList: [WayPoint] = Core.services.navEngine.activeWayPoints
-    @State var altimeterOffset: Double = 4500
-    @State var currentAltimeter: Double = 4500
+//    @State private var wayPointList: [WayPoint] = Core.services.navEngine.activeWayPoints.sorted { w1, w2 in
+//        w1.sequence < w2.sequence
+//    }
+    @State private var altimeterOffset: Double = 4500
+    @State private var currentAltimeter: Double = 4500
     
     var body: some View {
         TabView {
@@ -29,31 +31,49 @@ struct AppStartView: View {
                 print("Started timer")
                 UIApplication.shared.isIdleTimerDisabled = false
             }
-            
-            HeadingMasterView(wayPointList: $wayPointList, altimeterOffset: $altimeterOffset)
+            AircraftPerformanceView()
                 .tabItem {
-                    Label("Map", systemImage: "map.circle")
-                        .foregroundColor(.black)
+                    Label("W&B", systemImage: "scalemass.fill")
                 }
                 .onAppear {
-                    print("Shut off timer")
-                    UIApplication.shared.isIdleTimerDisabled = true
-                }
-            
-            NavigationLog(missionLog: $wayPointList)
+                    UIApplication.shared.isIdleTimerDisabled = false
+                }            
+            AircraftParametersView()
                 .tabItem {
-                    Label("Mission", systemImage: "airplane.circle")
-                }                .onAppear {
+                    Label("Aircraft", systemImage: "airplane.circle")
+                }                
+                .onAppear {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                }
+            NavigationLog()
+                .tabItem {
+                    Label("Log", systemImage: "road.lanes")
+                }
+                .onAppear {
                     print("Started timer")
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
+            
+            
+            //            HeadingMasterView(wayPointList: $wayPointList, altimeterOffset: $altimeterOffset)
+            //                .tabItem {
+            //                    Label("Map", systemImage: "map.circle")
+            //                        .foregroundColor(.black)
+            //                }
+            //                .onAppear {
+            //                    print("Shut off timer")
+            //                    UIApplication.shared.isIdleTimerDisabled = true
+            //                }
         }
         .onAppear(perform: {
             
 //            Core.services.navEngine.buildTestNavLog()
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5.0, execute: {
-                self.wayPointList = Core.services.navEngine.loadWayPoints()
-            })
+//            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2.0, execute: {
+//                self.wayPointList = Core.services.navEngine.loadWayPoints().sorted(by: { w1, w2 in
+//                    w1.sequence < w2.sequence
+//                })
+//                self.fleshOutWayPointList()
+//            })
             
             switch Core.services.gpsEngine.locationManger.authorizationStatus {
             case .notDetermined:

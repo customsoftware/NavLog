@@ -18,7 +18,7 @@ class Core: ObservableObject {
     static func currentDisplayValues(currentLocation: CLLocation?, currentWayPoint: WayPoint?) -> CourseState {
          
         let currentHdg = currentLocation?.course ?? 0
-        let plannedHdg = currentWayPoint?.headingFrom ?? 0
+        let plannedHdg = currentWayPoint?.headingFrom()
         let groundSpeed = currentLocation?.speed ?? 0
         let plannedSpeed = currentWayPoint?.estimatedGroundSpeed ?? 0
         let distance = currentWayPoint?.estimatedDistanceToNextWaypoint ?? 0
@@ -28,7 +28,7 @@ class Core: ObservableObject {
         let actualAltitude = currentLocation?.altitude ?? 0
         
         return CourseState(currentHeading: Int(currentHdg),
-                           plannedHeading: plannedHdg,
+                           plannedHeading: plannedHdg ?? 0,
                            plannedAltitude: Double(plannedAltitude),
                            currentAltitude: actualAltitude,
                            observedGroundSpeed: groundSpeed,

@@ -8,7 +8,7 @@
 import XCTest
 @testable import NavLog
 
-final class WeatherExtractor: XCTestCase {
+final class VisualCrossingWeatherExtractor: XCTestCase {
 
     let urlToTest = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/40.21917,-111.7234/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
     

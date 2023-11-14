@@ -24,7 +24,7 @@ struct WaypointListItem: View {
                     Text("Name")
                     Text(wayPoint.name)
                         .font(.headline)
-                        .frame(width: 100)
+                        .frame(minWidth: 85, maxWidth: 100)
                         
                     //                Text("Loc")
                     //                Map(coordinateRegion:
@@ -43,12 +43,13 @@ struct WaypointListItem: View {
                 .frame(width: 85)
                 VStack(content: {
                     Text("HDG")
-                    Text("\(wayPoint.headingFrom)")
+                    Text("\(wayPoint.headingFrom())")
                         .font(.headline)
                     Text("CRS")
                     Text("\(wayPoint.courseFrom)")
                         .font(.headline)
                 })
+                .frame(width: 85)
                 Spacer()
             }
             .padding(.leading, 10)
@@ -73,9 +74,8 @@ struct WaypointListItem: View {
                 Spacer()
             }
             .padding(.top, 5)
-            .padding(.leading, 10)
+            .padding(.leading, 5)
             Spacer()
-//            Divider().padding(.leading, 10)
         }
     }
     

@@ -10,8 +10,9 @@
 import SwiftUI
 
 struct NavigationLog: View {
-    
-    @Binding var missionLog: [WayPoint]
+    @State private var missionLog: [WayPoint] = Core.services.navEngine.activeWayPoints.sorted { w1, w2 in
+        w1.sequence < w2.sequence
+    }
     
     var body: some View {
         NavigationSplitView {
@@ -25,6 +26,9 @@ struct NavigationLog: View {
             .navigationTitle("Navigation List")
         } detail: {
             Text("Select a waypoint")
+        }
+        .task {
+            
         }
     }
     
@@ -44,5 +48,5 @@ struct NavigationLog: View {
 }
 
 #Preview {
-    NavigationLog(missionLog: .constant(Core.services.navEngine.activeWayPoints ?? []))
+    NavigationLog()
 }

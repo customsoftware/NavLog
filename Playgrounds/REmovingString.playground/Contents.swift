@@ -19,6 +19,4 @@ func stripWeatherStationsFromReport(_ weatherReport: String) -> String {
 
 let resultString = stripWeatherStationsFromReport(aCompleteReport)
 print(resultString)
-
-
 // The intent of this is to remove the stations element from the JSON being sent to me. Another alternative is to just ask that it not be sent in the query I send to the server.

@@ -3,7 +3,7 @@
 //  NavLog
 //
 //  Created by Kenneth Cluff on 8/31/23.
-//
+//  https://www.visualcrossing.com/weather-history/40.7128%2C-74.0060
 
 import Foundation
 import CoreLocation
@@ -13,6 +13,7 @@ class NavigationEngine {
     private (set) var activeWayPoints: [WayPoint] = []
     private let doGarmin = true
     private let metersToFeetMultiple = 3.28084
+    private let deviationEngine = DeviationFetchEngine()
     
     func runLog() {
         
@@ -25,13 +26,10 @@ class NavigationEngine {
     }
     
     
-    // https://www.visualcrossing.com/weather-history/40.7128%2C-74.0060
-    
     func buildTestNavLog() {
-        let parser: ParserProtocol
+        var parser: ParserProtocol
         let fileName: String
         let fileID: String
-        
         if doGarmin {
             parser = ParserFactory.getNavLogParser(.garmin) { aLog in
                 self.activeLog = aLog
@@ -40,7 +38,9 @@ class NavigationEngine {
                     self.loadIntoWayPoint(navPoint, sequence)
                     sequence += 1
                 }
-             }
+                
+                self.fleshOutWayPoints()
+            }
             fileName = "GarminPlan"
             fileID = "fpl"
         } else {
@@ -53,38 +53,102 @@ class NavigationEngine {
                     sequence += 1
                 }
                 
+                self.fleshOutWayPoints()
             })
             fileName = "DynonPlan"
             fileID = "gpx"
-         }
+        }
         guard let sourceFile = Bundle.main.path(forResource: fileName, ofType: fileID) else { return }
         if let xmlData = FileManager().contents(atPath: sourceFile) {
             parser.parseData(xmlData)
         }
     }
     
-    
     fileprivate func getWeatherForWayPoints(latitude: Double, longitude: Double) async throws -> Wind {
         var retValue = Wind(speed: 0, directionFrom: 0)
-        let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
-        guard let url = URL(string: weatherString) else { return retValue}
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let weatherReport = try JSONDecoder().decode(WeatherReport.self, from: data)
-        retValue = Wind(speed: weatherReport.currentConditions.windspeed, directionFrom: weatherReport.currentConditions.winddir)
+//        let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
+//        guard let url = URL(string: weatherString) else { return retValue}
+//        
+//        
+//        
+//        let (data, _) = try URLSession.shared.data(from: url)
+//        let weatherReport = try JSONDecoder().decode(WeatherReport.self, from: data)
+//        retValue = Wind(speed: weatherReport.currentConditions.windspeed, directionFrom: weatherReport.currentConditions.winddir)
         return retValue
     }
     
-    
+    private func fleshOutWayPoints() {
+        for var aWayPoint in activeWayPoints {
+            // The rule here is to determine course to waypoint b from waypoint a
+            let nextSequence : Int = aWayPoint.sequence + 1
+            let currentSequence: Int = aWayPoint.sequence
+            
+            // Get wind at location
+            //            DispatchQueue.global().async {
+            //                var wayPoint = self.activeWayPoints.first { wp in
+            //                    wp.sequence == currentSequence
+            //                }
+            //
+            //                guard let aLocation = wayPoint?.location else { return }
+            //                if let wind = try? self.getWeatherForWayPoints(latitude: aLocation.coordinate.latitude, longitude: aLocation.coordinate.longitude) {
+            //                    self.activeWayPoints[currentSequence].wind = wind
+            //                }
+            //            }
+             
+            
+            guard let nextWayPoint = self.activeWayPoints.first(where: { wp in
+                wp.sequence == nextSequence
+            }) else { return }
+            
+            // Get course from current to next
+            let results = aWayPoint.computeCourseToWayPoint(nextWayPoint)
+            aWayPoint.courseFrom = results.0
+            aWayPoint.estimatedDistanceToNextWaypoint = results.1
+            
+            let _ = deviationEngine.getMagneticDeviationForLocation(atLat: self.activeWayPoints[currentSequence].location.coordinate.latitude, andLong: self.activeWayPoints[currentSequence].location.coordinate.longitude)
+                .sink { errors in
+                    switch errors {
+                    case .finished:()
+                    case .failure(let decError):
+                        print("There was an error getting the declination: \(decError.localizedDescription)")
+                    }
+                } receiveValue: { results in
+                    if let newDeclination = results.result.first?.declination {
+                        self.activeWayPoints[currentSequence].magneticDeviation = newDeclination
+                    }
+                }
+            
+//            Task {
+//                self.activeWayPoints[currentSequence].getMagneticDeviationForLocation()
+//             }
+//            print("Computed: \(results.0), Stored: \(aWayPoint.courseFrom), Index: \(currentSequence), Deviation: \(self.activeWayPoints[currentSequence].magneticDeviation)")
+//            try? self.activeWayPoints[currentSequence].getMagneticDeviationForLocation { result in
+//         
+//                self.activeWayPoints[currentSequence].magneticDeviation = result
+//                let doubleCourseFrom = Double(self.activeWayPoints[currentSequence].courseFrom)
+//                let modifiedCourseFrom = doubleCourseFrom - result
+//                let intCourseFrom = Int(modifiedCourseFrom)
+//                self.activeWayPoints[currentSequence].headingFrom = intCourseFrom
+//                print("Deviation complete: \(currentSequence), Course: \(self.activeWayPoints[currentSequence].courseFrom), Heading: \(self.activeWayPoints[currentSequence].headingFrom)")
+//            }
+            //            aWayPoint.courseFrom = Int(courseFrom)
+//            // -- Caveat to this is wind is surface wind. Still working to get wind at altitude
+//            // Once course has been computed, determine wind adjusted course
+//            // Once wind adjusted course has been set, adjust for magnetic variation for that location
+//            guard let index = wayPointList.firstIndex(of: aWayPoint) else { return }
+//            wayPointList[index] = aWayPoint
+//            print("Computed: \(courseFrom), Altered: \(aWayPoint.courseFrom), Index: \(index), Stored: \(wayPointList[index].courseFrom)")
+            
+            self.activeWayPoints[currentSequence] = aWayPoint
+       }
+    }
     
     fileprivate func loadIntoWayPoint(_ logEntry: NavigationPoint, _ index: Int) {
         let aLocation = CLLocation(latitude: logEntry.latitude, longitude: logEntry.longitude)
         let theAltitude = Int(logEntry.elevation * metersToFeetMultiple)
-        Task {
-            let wind = try? await getWeatherForWayPoints(latitude: aLocation.coordinate.latitude, longitude: aLocation.coordinate.longitude)
-            var aWayPoint = WayPoint(name: logEntry.name, location: aLocation, altitude: theAltitude, wind: wind ?? Wind(speed: 0, directionFrom: 0), courseFrom: 0, headingFrom: 0, estimatedDistanceToNextWaypoint: 0, estimatedGroundSpeed: 0, estimatedTimeReached: 0, computedFuelBurnToNextWayPoint: 0)
-            aWayPoint.sequence = index
-            activeWayPoints.append(aWayPoint)
-        }
+        var aWayPoint = WayPoint(name: logEntry.name, location: aLocation, altitude: theAltitude, wind: Wind(speed: 0, directionFrom: 0), courseFrom: 0, estimatedDistanceToNextWaypoint: 0, estimatedGroundSpeed: 0, estimatedTimeReached: 0, computedFuelBurnToNextWayPoint: 0)
+        aWayPoint.sequence = index
+        activeWayPoints.append(aWayPoint)
     }
     
     func loadWayPoints() -> [WayPoint] {

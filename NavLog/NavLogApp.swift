@@ -24,6 +24,7 @@ struct NavLogApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
+        /// Here is where we load the data into the app...
         Core.services.navEngine.buildTestNavLog()
         
         return true

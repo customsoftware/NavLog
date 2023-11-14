@@ -16,6 +16,7 @@ class GarminParser: NSObject, ParserProtocol {
     var navLog: NavLogXML = NavLogXML(title: "", nameSpace: "")
     var routeNameEncountered = false
     var routePoint = 0
+    var routeIndex = 0
     
     var lastSeenName = ""
     var navPoint: NavigationPoint?
@@ -86,6 +87,8 @@ class GarminParser: NSObject, ParserProtocol {
                 navPoint?.pointType = string
             } else if lastSeenName == "elevation" {
                 navP.elevation = (string as NSString).doubleValue
+                navP.id = routeIndex
+                routeIndex += 1
                 navLog.navPoints.append(navP)
                 navPoint = nil
             }
