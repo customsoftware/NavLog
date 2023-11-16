@@ -142,7 +142,7 @@ struct NavigationDetail: View {
     private func loadViewControls(using wayPoint: WayPoint) {
         altitude = Float(waypoint.altitude)
         course = "\(waypoint.courseFrom)"
-        heading = "\(waypoint.headingFrom)"
+        heading = "\(waypoint.headingFrom())"
         waypointLocation = waypoint.location
         windSpeed = "\(waypoint.wind.speed)"
         distanceToNext = "\(wayPoint.estimatedDistanceToNextWaypoint)"

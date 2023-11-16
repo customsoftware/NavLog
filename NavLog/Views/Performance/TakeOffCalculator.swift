@@ -14,7 +14,6 @@ class TakeOffCalculator {
     func calculateTakeOffWith(tempIsFarenheit: Bool, acftWeight: Double, environment: Environment) -> Double {
         
         let airportElevation = environment.elevation
-        let tempF = environment.temp
         
         var workingTemp = environment.temp
         if !tempIsFarenheit {

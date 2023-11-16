@@ -63,6 +63,7 @@
 		90B93FDA2B0445CA00E163A7 /* CardinalTakeOff.json in Resources */ = {isa = PBXBuildFile; fileRef = 90B93FD92B0445CA00E163A7 /* CardinalTakeOff.json */; };
 		90B93FDC2B044B6F00E163A7 /* TakeOffCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B93FDB2B044B6F00E163A7 /* TakeOffCalculator.swift */; };
 		90B93FDE2B04FF4600E163A7 /* ProfiileEncodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B93FDD2B04FF4600E163A7 /* ProfiileEncodeTests.swift */; };
+		90C3A3592B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3A3582B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift */; };
 		90C5B0B92AE0508D0032E355 /* WeatherDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C5B0B82AE0508D0032E355 /* WeatherDataModels.swift */; };
 		90CE24D12A99776A00552366 /* TestAircraft.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D02A99776A00552366 /* TestAircraft.json */; };
 		90CE24D32A99787800552366 /* TestNavLog.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D22A99787800552366 /* TestNavLog.json */; };
@@ -144,6 +145,7 @@
 		90B93FD92B0445CA00E163A7 /* CardinalTakeOff.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CardinalTakeOff.json; sourceTree = "<group>"; };
 		90B93FDB2B044B6F00E163A7 /* TakeOffCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeOffCalculator.swift; sourceTree = "<group>"; };
 		90B93FDD2B04FF4600E163A7 /* ProfiileEncodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfiileEncodeTests.swift; sourceTree = "<group>"; };
+		90C3A3582B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingSummarySwiftUIView.swift; sourceTree = "<group>"; };
 		90C5B0B82AE0508D0032E355 /* WeatherDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModels.swift; sourceTree = "<group>"; };
 		90CE24CE2A99747400552366 /* Waypoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Waypoint.json; sourceTree = "<group>"; };
 		90CE24D02A99776A00552366 /* TestAircraft.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestAircraft.json; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */,
 				90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */,
 				904321D52AA61A4600F10D77 /* SliderBarView.swift */,
+				90C3A3582B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift */,
 			);
 			path = Heading;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				90980CE82B02E03600F0E5F0 /* AircraftPerformanceView.swift in Sources */,
 				90980CEA2B02E51900F0E5F0 /* ScreenModels.swift in Sources */,
 				906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */,
+				90C3A3592B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift in Sources */,
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
 				90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */,

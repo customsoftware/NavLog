@@ -65,7 +65,7 @@ class NavigationEngine {
     }
     
     fileprivate func getWeatherForWayPoints(latitude: Double, longitude: Double) async throws -> Wind {
-        var retValue = Wind(speed: 0, directionFrom: 0)
+        let retValue = Wind(speed: 0, directionFrom: 0)
 //        let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
 //        guard let url = URL(string: weatherString) else { return retValue}
 //        

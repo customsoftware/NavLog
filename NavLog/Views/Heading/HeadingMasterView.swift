@@ -18,41 +18,39 @@ struct HeadingMasterView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, content: {
-                if wayPointList.count > 0 {
-                    Text(verbatim: wayPointList[activeWayPointIndex].name)
-                        .font(.headline)
-                        .foregroundStyle(Color(.label))
-                }
-                let currentValues = getDisplayValues()
-                HeadingNavigationView(
-                    controllingWayPoint: $wayPointList[activeWayPointIndex],
-                    altimeterRange: 1000,
-                    plannedAltimeter: .constant(currentValues.plannedAltitude),
-                    altOffset: .constant(25.0),
-                    speedRange: 100,
-                    plannedSpeed: .constant(currentValues.plannedGroundSpeed),
-                    gpsIsActive: $gpsIsRunning,
-                    timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
-                    fuelRemaining: $fuelTimeRemaining)
-                .padding(.bottom, 20)
-                
-//                WaypointListItem(wayPoint: $wayPointList[activeWayPointIndex])
-//                    .padding(.top, 10)
-                
-                HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $wayPointList[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: wayPointList.count, gpsIsRunning: $gpsIsRunning)
-
-                NavigationLink {
-                    NavigationLog()
-                } label: {
-                    Text("Review Navigation Log")
-                }
-                .padding(.leading, 9)
-                .buttonStyle(.bordered)
-                Spacer()
-            })
-            .padding()
-            .background(Color(.systemGray6))
+                VStack(alignment: .leading, content: {
+                    if wayPointList.count > 0 {
+                        Text(verbatim: wayPointList[activeWayPointIndex].name)
+                            .font(.headline)
+                            .foregroundStyle(Color(.label))
+                    }
+                    let currentValues = getDisplayValues()
+                    HeadingNavigationView(
+                        controllingWayPoint: $wayPointList[activeWayPointIndex],
+                        altimeterRange: 1000,
+                        plannedAltimeter: .constant(currentValues.plannedAltitude),
+                        altOffset: .constant(25.0),
+                        speedRange: 100,
+                        plannedSpeed: .constant(currentValues.plannedGroundSpeed),
+                        gpsIsActive: $gpsIsRunning,
+                        timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
+                        fuelRemaining: $fuelTimeRemaining)
+                    .padding(.bottom, 15)
+                    HeadingSummarySwiftUIView(activeWayPoint: wayPointList[activeWayPointIndex])
+                        .padding(.bottom, 5)
+                    HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $wayPointList[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: wayPointList.count, gpsIsRunning: $gpsIsRunning)
+                    
+                    NavigationLink {
+                        NavigationLog()
+                    } label: {
+                        Text("Review Navigation Log")
+                    }
+                    .padding(.leading, 9)
+                    .buttonStyle(.bordered)
+                    Spacer()
+                })
+                .padding()
+                .background(Color(.systemGray6))
             Spacer()
         }
     }

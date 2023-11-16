@@ -56,7 +56,7 @@ struct SliderBarView: View {
     
     /// GPS gives values in meters, we need to convert to the selected metric - default feet
     func computeDisplayValueInRange() -> CGFloat {
-        guard let aLocation = Core.services.gpsEngine.currentLocation else { return 0 }
+        guard let _ = Core.services.gpsEngine.currentLocation else { return 0 }
         
         var workingValue: Double = 0
         switch mode {
