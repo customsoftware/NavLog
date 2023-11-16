@@ -27,7 +27,7 @@ struct TextEntryFieldView: View {
             }
             TextField(promptText, value: $textValue, formatter: formatter)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.numberPad)
+                .keyboardType(.numbersAndPunctuation)
         }
     }
 }

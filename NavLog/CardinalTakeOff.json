@@ -1,0 +1,41 @@
+{
+  "takeoff": [
+    {
+      "weight": 1900,
+      "roll": 455
+    },
+    {
+      "weight": 2200,
+      "roll": 630
+    },
+    {
+      "weight": 2350,
+      "roll": 738
+    }
+  ],
+  "multipliers": [
+      { "elevation": 0, "multiple": 1 },
+      { "elevation": 2500, "multiple": 1.1893 },
+      { "elevation": 5000, "multiple": 1.204 },
+      { "elevation": 7500, "multiple": 1.2149 }
+  ],
+  "multipliers50": [
+      { "elevation": 0, "multiple": 2.08 },
+      { "elevation": 2500, "multiple": 1.978 },
+      { "elevation": 5000, "multiple": 1.879 },
+      { "elevation": 7500, "multiple": 1.896 }
+  ],
+  "temperatureBand": 20,
+  "temperatureDeltaRate": 0.1,
+  "windrates": [
+      { "wind": 10, "weight": 1900, "multiple": 0.6649, "for50": false },
+      { "wind": 10, "weight": 1900, "multiple": 0.7355, "for50": true },
+      { "wind": 20, "weight": 1900, "multiple": 0.3926, "for50": false },
+      { "wind": 20, "weight": 1900, "multiple": 0.5043, "for50": true },
+      { "wind": 10, "weight": 2200, "multiple": 0.6871, "for50": false },
+      { "wind": 10, "weight": 2200, "multiple": 0.7495, "for50": true },
+      { "wind": 20, "weight": 2200, "multiple": 0.4286, "for50": false },
+      { "wind": 20, "weight": 2200, "multiple": 0.5291, "for50": true }
+  ]
+}
+

@@ -155,6 +155,19 @@ struct NavigationDetail: View {
         pins = [activePin]
         region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.125, longitudeDelta: 0.125))
     }
+    
+    func computeClimb() {
+        // This takes current altitude and altitude of the next waypoint. It then takes Vy value and computes time to altitude. Then it computes horizontal distance using ground speed.
+        // It then creates a "climbing Waypoint and inserts it between the previous and active waypoint.
+        // Once it is injected, the following waypoint is amended to account for this one's impact on distant traveled.
+    }
+
+    
+    func computeDescent() {
+        // This takes current altitude and altitude of the next waypoint. It then takes standard descent value and computes time to altitude. Then it computes horizontal distance using ground speed.
+        // It then creates a "descending Waypoint and inserts it between the previous and active waypoint.
+        // Once it is injected, the following waypoint is amended to account for this one's impact on distant traveled.
+    }
 }
 
 struct MapPins: Identifiable {

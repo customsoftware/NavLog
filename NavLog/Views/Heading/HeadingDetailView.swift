@@ -48,10 +48,10 @@ struct HeadingDetailView: View {
                     .buttonStyle(.bordered)
                 }
             }
-//            TextField("Enter Altitude", text: $manualAltitude)
-//                .textFieldStyle(.roundedBorder)
-//                .keyboardType(.numberPad)
-                
+            
+            TextField("Enter Altitude", text: $manualAltitude)
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.numberPad)
             
             Button("Sync Altitude") {
                 guard let newAlt = Double(manualAltitude) else { return }
@@ -61,6 +61,7 @@ struct HeadingDetailView: View {
         })
         .padding(.leading, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
         Spacer()
+        
     }
     
     func syncGPSAltitude(_ newAltitude: Double) {

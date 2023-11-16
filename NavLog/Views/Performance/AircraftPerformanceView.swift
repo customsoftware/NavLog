@@ -9,6 +9,9 @@ import SwiftUI
 
 struct AircraftPerformanceView: View {
     @State var viewModel = AircraftPerformanceViewModel()
+    @State var missionPerformance = PerformanceResults()
+    @State var temperatureInDegreesC: Bool = false
+    @State var buttonText: String = "Change to C"
     
     private let textWidth: CGFloat = 180.0
     
@@ -24,20 +27,45 @@ struct AircraftPerformanceView: View {
                 Section(header: Text("Airport")) {
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.environment.elevation)
                     TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.environment.runwayLength)
-                }
+                    TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.environment.runwayDirection)
+               }
                 
                 Section(header: Text("Weather")) {
                     TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", textValue: $viewModel.environment.pressure)
-                    TextEntryFieldView(formatter: formatter, captionText: "Temperature", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.environment.temp)
-   
+                    if temperatureInDegreesC {
+                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.environment.temp)
+                    } else {
+                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - F", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.environment.temp)
+                    }
+                    Button(buttonText) {
+                        temperatureInDegreesC = !temperatureInDegreesC
+                        if temperatureInDegreesC {
+                            // Convert to celsius
+                            viewModel.environment.temp = StandardTempCalculator.convertFtoC(viewModel.environment.temp)
+                            buttonText = "Change to F"
+                        } else {
+                            // Convert to farenheit
+                            buttonText = "Change to C"
+                            viewModel.environment.temp = StandardTempCalculator.convertCtoF(viewModel.environment.temp)
+                        }
+                    }
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.environment.windDirection)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.environment.windSpeed)
                 }
                 
                 Section(header: Text("Mission Load")) {
-                    WeightEntryView(missionData: $viewModel.mission)
+                    TextEntryFieldView(formatter: formatter, captionText: "Pilot", textWidth: textWidth, promptText: "Pilot", textValue: $viewModel.mission.pilotSeat)
+                    TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", textValue: $viewModel.mission.fuel)
+                    TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", textValue: $viewModel.mission.backSeat)
+                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", textValue: $viewModel.mission.cargo)
                 }
                 
                 Section("Results", content: {
-                    TakeOffPerformanceView(results: viewModel.missionPerformance)
+                    TakeOffPerformanceView(performance: missionPerformance)
+                        .onAppear(perform: {
+                            viewModel.loadProfile(with: "Something for now")
+                        })
                 })
             })
             .toolbar(content: {
@@ -46,9 +74,20 @@ struct AircraftPerformanceView: View {
                     Button {
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         viewModel.computePerformance()
+                        missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
+                        missionPerformance.isUnderGross = viewModel.isInWeightLimits()
+                        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight() - viewModel.momentModel.maxWeight)
+                        missionPerformance.pressureAltitude = viewModel.computePressureAltitude()
+                        missionPerformance.densityAltitude = viewModel.computeDensityAltitude(for: missionPerformance.pressureAltitude, tempIsCelsius: temperatureInDegreesC)
+                        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC)
+                        missionPerformance.computedTakeOffRoll = runwayCalculations.0
+                        missionPerformance.computedOver50Roll = runwayCalculations.1
                         
                     } label: { Text("Calculate") }
                 }
+            })
+            .onAppear(perform: {
+                viewModel.loadProfile(with: "Something for now")
             })
             .navigationTitle("Weight & Balance")
         })
@@ -57,53 +96,4 @@ struct AircraftPerformanceView: View {
 
 #Preview {
     AircraftPerformanceView()
-}
-
-class AircraftPerformanceViewModel: ObservableObject {
-    @Published var environment: Environment = Environment()
-    @Published var mission: MissionData = MissionData()
-    @Published var missionPerformance: PerformanceResults = PerformanceResults()
-    
-    let momentModel: MomentDatum = MomentDatum()
-    
-    func computePerformance() {
-        environment.save()
-        computeWeightLimits()
-        computeCGLimits()
-    }
-    
-    private func computeWeightLimits() {
-        // Add up the weight
-        var missionWeight = computeTotalWeight()
-        missionPerformance.isUnderGross = missionWeight <= momentModel.maxWeight
-    }
-    
-    private func computeCGLimits() {
-        let fuelMoment: Double = momentModel.fuelMoment * mission.fuel * momentModel.fuelWeight
-        let frontMoment: Double = momentModel.frontMoment * mission.copilotSeat + mission.pilotSeat
-        let backMoment: Double = momentModel.backMoment * mission.backSeat
-        let cargoMoment: Double = momentModel.cargoMoment * mission.cargo
-        let acftMoment: Double = 170
-        let oilMoment: Double = 0.7
-        let totalMoment: Double = (fuelMoment + frontMoment + backMoment + cargoMoment + acftMoment + oilMoment)
-        let weight = computeTotalWeight()
-        
-        // Compute moment of weight using min arm
-        let weightLimitArm = momentModel.minArm * weight
-        
-        // Compare value to totalMoment... if less than, we're good
-        missionPerformance.cgIsInLimits = weightLimitArm >= totalMoment
-    }
-    
-    private func computeTotalWeight() -> Double {
-        return momentModel.emptyWeight + mission.cargo + mission.fuel * momentModel.fuelWeight + mission.copilotSeat + mission.pilotSeat + mission.backSeat
-    }
-}
-
-
-struct PerformanceResults {
-    var isUnderGross: Bool = false
-    var cgIsInLimits: Bool = false
-    var computedTakeOffRoll: Double = 1400
-    var computedOver50Roll: Double = 2100
 }
