@@ -82,7 +82,6 @@ struct TimeToLocationCalculator {
     }
 }
 
-
 enum DistanceCalculatorError: Error {
     case invalidMode
 }

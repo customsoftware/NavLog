@@ -15,6 +15,7 @@ struct Environment {
     var runwayDirection: Double = 13
     var windDirection: Double = 0
     var windSpeed: Double = 0
+    var inCelsiusMode: Bool = false
     
     private let defaults: UserDefaults
     
@@ -34,7 +35,8 @@ struct Environment {
         windDirection = keyValue.0 ? 0 : keyValue.1
         keyValue = testIfKeyValueNotPresent("kWindSpeed")
         windSpeed = keyValue.0 ? 0 : keyValue.1
-    }
+        inCelsiusMode = defaults.bool(forKey: "kCelsiusMode")
+   }
     
     func save() {
         defaults.setValue(elevation, forKey: "kElevation")
@@ -44,7 +46,8 @@ struct Environment {
         defaults.setValue(runwayDirection, forKey: "kRunwayDirection")
         defaults.setValue(windDirection, forKey: "kWindDirection")
         defaults.setValue(windSpeed, forKey: "kWindSpeed")
-   }
+        defaults.setValue(inCelsiusMode, forKey: "kCelsiusMode")
+  }
     
     
     private func testIfKeyValueNotPresent(_ keyName: String) -> (Bool, Double) {

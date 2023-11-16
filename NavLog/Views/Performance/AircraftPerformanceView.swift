@@ -48,6 +48,7 @@ struct AircraftPerformanceView: View {
                             buttonText = "Change to C"
                             viewModel.environment.temp = StandardTempCalculator.convertCtoF(viewModel.environment.temp)
                         }
+                        viewModel.environment.inCelsiusMode = temperatureInDegreesC
                     }
                     TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.environment.windDirection)
                     TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.environment.windSpeed)
@@ -65,6 +66,7 @@ struct AircraftPerformanceView: View {
                     TakeOffPerformanceView(performance: missionPerformance)
                         .onAppear(perform: {
                             viewModel.loadProfile(with: "Something for now")
+                            temperatureInDegreesC = viewModel.environment.inCelsiusMode
                         })
                 })
             })

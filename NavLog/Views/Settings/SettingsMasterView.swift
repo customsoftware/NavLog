@@ -21,7 +21,7 @@ struct SettingsMasterView: View {
                 Text("Legal")
                 
             }
-            .navigationTitle("Application Settings")
+            .navigationTitle("Settings")
         }
     }
 }
