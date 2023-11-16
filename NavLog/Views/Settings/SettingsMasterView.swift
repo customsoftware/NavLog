@@ -18,7 +18,10 @@ struct SettingsMasterView: View {
                     Text("W&B Key Properties")
                 }
                 Text("Performance")
+                Text("Legal")
+                
             }
+            .navigationTitle("Application Settings")
         }
     }
 }

@@ -35,13 +35,13 @@ struct HeadingMasterView: View {
                     gpsIsActive: $gpsIsRunning,
                     timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
                     fuelRemaining: $fuelTimeRemaining)
+                .padding(.bottom, 20)
                 
-                WaypointListItem(wayPoint: $wayPointList[activeWayPointIndex])
-                    .padding(.top, 10)
+//                WaypointListItem(wayPoint: $wayPointList[activeWayPointIndex])
+//                    .padding(.top, 10)
                 
                 HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $wayPointList[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: wayPointList.count, gpsIsRunning: $gpsIsRunning)
-                
-                // Do something here
+
                 NavigationLink {
                     NavigationLog()
                 } label: {
@@ -49,12 +49,12 @@ struct HeadingMasterView: View {
                 }
                 .padding(.leading, 9)
                 .buttonStyle(.bordered)
-                
+                Spacer()
             })
             .padding()
             .background(Color(.systemGray6))
+            Spacer()
         }
-
     }
         
     

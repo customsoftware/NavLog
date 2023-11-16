@@ -13,8 +13,8 @@ struct Environment {
     var temp: Double = 51
     var runwayLength: Double = 5000
     var runwayDirection: Double = 13
-    var windDirection: Double = 140
-    var windSpeed: Double = 4
+    var windDirection: Double = 0
+    var windSpeed: Double = 0
     
     private let defaults: UserDefaults
     
@@ -31,9 +31,9 @@ struct Environment {
         keyValue = testIfKeyValueNotPresent("kRunwayDirection")
         runwayDirection = keyValue.0 ? 13 : keyValue.1
         keyValue = testIfKeyValueNotPresent("kWindDirection")
-        windDirection = keyValue.0 ? 140 : keyValue.1
+        windDirection = keyValue.0 ? 0 : keyValue.1
         keyValue = testIfKeyValueNotPresent("kWindSpeed")
-        windSpeed = keyValue.0 ? 4 : keyValue.1
+        windSpeed = keyValue.0 ? 0 : keyValue.1
     }
     
     func save() {
