@@ -11,9 +11,14 @@ import CoreLocation
 
 class Core: ObservableObject {
     static let services = Core()
+    
     @Published var gpsEngine = GPSObserver()
     let navEngine = NavigationEngine()
+    let calc = TakeOffCalculator()
     
+    init() {
+        calc.loadProfile()
+    }
     
     static func currentDisplayValues(currentLocation: CLLocation?, currentWayPoint: WayPoint?) -> CourseState {
          

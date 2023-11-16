@@ -242,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				906EF5012B06687900A4E6C9 /* SettingsMasterView.swift */,
+				90872D142B039E2900349152 /* AircraftParametersView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -270,13 +271,12 @@
 			isa = PBXGroup;
 			children = (
 				90980CE72B02E03600F0E5F0 /* AircraftPerformanceView.swift */,
+				906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */,
 				90227FFC2B06986B007879AB /* Performance Models */,
-				90872D142B039E2900349152 /* AircraftParametersView.swift */,
 				906EF9152B03BB8E0004DC4C /* TextEntryFIeldView.swift */,
 				906EF9172B03CDCD0004DC4C /* WeightEntryView.swift */,
 				906EF91B2B03D3EC0004DC4C /* TakeOffPerformanceView.swift */,
 				90B93FDB2B044B6F00E163A7 /* TakeOffCalculator.swift */,
-				906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */,
 			);
 			path = Performance;
 			sourceTree = "<group>";
@@ -703,6 +703,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -746,6 +747,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

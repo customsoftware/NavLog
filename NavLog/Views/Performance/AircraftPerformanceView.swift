@@ -28,7 +28,7 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.environment.elevation)
                     TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.environment.runwayLength)
                     TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.environment.runwayDirection)
-               }
+                }
                 
                 Section(header: Text("Weather")) {
                     TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", textValue: $viewModel.environment.pressure)
@@ -58,17 +58,21 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Pilot", textWidth: textWidth, promptText: "Pilot", textValue: $viewModel.mission.pilotSeat)
                     TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
                     TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", textValue: $viewModel.mission.fuel)
-                    if (viewModel.calc.performanceModel?.seatCount ?? 4) > 4 {
+                    // If there are more than four seats, we show the middle seats
+                    if (Core.services.calc.performanceModel?.seatCount ?? 3) > 4 {
                         TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", textValue: $viewModel.mission.middleSeat)
                     }
-                    TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", textValue: $viewModel.mission.backSeat)
+                    // If there are more than two seats, we show the back seat
+                    if (Core.services.calc.performanceModel?.seatCount ?? 1) > 2 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", textValue: $viewModel.mission.backSeat)
+                    }
+                    
                     TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", textValue: $viewModel.mission.cargo)
                 }
                 
                 Section("Results", content: {
                     TakeOffPerformanceView(performance: missionPerformance)
                         .onAppear(perform: {
-                            viewModel.loadProfile(with: "Something for now")
                             temperatureInDegreesC = viewModel.environment.inCelsiusMode
                         })
                 })
@@ -78,7 +82,8 @@ struct AircraftPerformanceView: View {
                     Spacer()
                     Button {
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        viewModel.computePerformance()
+                        viewModel.environment.save()
+                        // I want all this done in the missionPerformance object, but it works for now.
                         missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
                         missionPerformance.isUnderGross = viewModel.isInWeightLimits()
                         missionPerformance.overWeightAmount = (viewModel.computeTotalWeight() - viewModel.momentModel.maxWeight)
@@ -90,9 +95,6 @@ struct AircraftPerformanceView: View {
                         
                     } label: { Text("Calculate") }
                 }
-            })
-            .onAppear(perform: {
-                viewModel.loadProfile(with: "Something for now")
             })
             .navigationTitle("Weight & Balance")
         })

@@ -12,15 +12,9 @@ import Combine
 class AircraftPerformanceViewModel: ObservableObject {
     @Published var environment: Environment = Environment()
     @Published var mission: MissionData = MissionData()
-    let calc = TakeOffCalculator()
     
     private let standardBaroPressure: Double = 29.92
-    
-    var momentModel: MomentDatum = MomentDatum()
-    
-    func computePerformance() {
-        environment.save()
-    }
+    private(set) var momentModel: MomentDatum = MomentDatum()
     
     func isInWeightLimits() -> Bool {
         // Add up the weight
@@ -71,17 +65,13 @@ class AircraftPerformanceViewModel: ObservableObject {
         return densityAltitude
     }
     
-    func loadProfile(with name: String) {
-        calc.loadProfile()
-    }
-    
     func calculateRequiredRunwayLength(tempIsFarenheit: Bool) -> (Double, Double) {
         
         // Get the standard take off length first
-        let toLength = calc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
+        let toLength = Core.services.calc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
         
         // This formula needs the preceding 'toLength' parameter to work
-        let to50Length = calc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
+        let to50Length = Core.services.calc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
         return (toLength, to50Length)
     }
 }
