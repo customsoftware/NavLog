@@ -65,13 +65,3 @@ struct WeightEntryView: View {
 #Preview {
     WeightEntryView(missionData: .constant(MissionData()), formatter: NumberFormatter())
 }
-
-
-struct MissionData {
-    var pilotSeat: Double = 150
-    var copilotSeat: Double = 0
-    var middleSeat: Double = 0
-    var backSeat: Double = 0
-    var cargo: Double = 80
-    var fuel: Double = 48
-}

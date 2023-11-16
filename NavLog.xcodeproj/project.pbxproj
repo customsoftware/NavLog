@@ -10,6 +10,9 @@
 		90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */; };
 		90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */; };
 		90227FFB2B066F80007879AB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90227FFA2B066F80007879AB /* Launch Screen.storyboard */; };
+		90227FFE2B069890007879AB /* PerformanceProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFD2B069890007879AB /* PerformanceProfile.swift */; };
+		902280002B0698E8007879AB /* PerformanceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFF2B0698E8007879AB /* PerformanceResults.swift */; };
+		902280022B06994C007879AB /* MomentDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902280012B06994C007879AB /* MomentDatum.swift */; };
 		904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904321D52AA61A4600F10D77 /* SliderBarView.swift */; };
 		904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A67152ACB558200FDC4E9 /* NavigationDetail.swift */; };
 		9056512B2AF05712005076BE /* FetchMagneticDeviation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */; };
@@ -82,6 +85,9 @@
 		90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEngine.swift; sourceTree = "<group>"; };
 		90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogSummary.swift; sourceTree = "<group>"; };
 		90227FFA2B066F80007879AB /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		90227FFD2B069890007879AB /* PerformanceProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceProfile.swift; sourceTree = "<group>"; };
+		90227FFF2B0698E8007879AB /* PerformanceResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceResults.swift; sourceTree = "<group>"; };
+		902280012B06994C007879AB /* MomentDatum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentDatum.swift; sourceTree = "<group>"; };
 		904321D52AA61A4600F10D77 /* SliderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarView.swift; sourceTree = "<group>"; };
 		904A67152ACB558200FDC4E9 /* NavigationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDetail.swift; sourceTree = "<group>"; };
 		9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMagneticDeviation.swift; sourceTree = "<group>"; };
@@ -166,6 +172,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90227FFC2B06986B007879AB /* Performance Models */ = {
+			isa = PBXGroup;
+			children = (
+				90980CE92B02E51900F0E5F0 /* ScreenModels.swift */,
+				90227FFD2B069890007879AB /* PerformanceProfile.swift */,
+				90227FFF2B0698E8007879AB /* PerformanceResults.swift */,
+				902280012B06994C007879AB /* MomentDatum.swift */,
+			);
+			path = "Performance Models";
+			sourceTree = "<group>";
+		};
 		904A67142ACB556600FDC4E9 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,7 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				90980CE72B02E03600F0E5F0 /* AircraftPerformanceView.swift */,
-				90980CE92B02E51900F0E5F0 /* ScreenModels.swift */,
+				90227FFC2B06986B007879AB /* Performance Models */,
 				90872D142B039E2900349152 /* AircraftParametersView.swift */,
 				906EF9152B03BB8E0004DC4C /* TextEntryFIeldView.swift */,
 				906EF9172B03CDCD0004DC4C /* WeightEntryView.swift */,
@@ -474,6 +491,7 @@
 			files = (
 				90B93FDC2B044B6F00E163A7 /* TakeOffCalculator.swift in Sources */,
 				9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */,
+				90227FFE2B069890007879AB /* PerformanceProfile.swift in Sources */,
 				906EF9162B03BB8E0004DC4C /* TextEntryFIeldView.swift in Sources */,
 				90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */,
 				90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */,
@@ -502,6 +520,7 @@
 				906EF5022B06687900A4E6C9 /* SettingsMasterView.swift in Sources */,
 				90980CE32B02B28B00F0E5F0 /* Declination.swift in Sources */,
 				9058F1602A9901C800C7CE81 /* GPSObserver.swift in Sources */,
+				902280002B0698E8007879AB /* PerformanceResults.swift in Sources */,
 				9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */,
 				90872D152B039E2900349152 /* AircraftParametersView.swift in Sources */,
 				90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */,
@@ -514,6 +533,7 @@
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
 				908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */,
+				902280022B06994C007879AB /* MomentDatum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

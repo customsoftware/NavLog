@@ -29,6 +29,9 @@ struct AircraftParametersView: View {
                 
                 TextEntryFieldView(formatter: formatter, captionText: "Aircraft Moment", textWidth: textWidth, promptText: "Aircraft Moment", textValue: $viewModelController.momentData.aircraftArm)
             })
+            .onAppear(perform: {
+                viewModelController.loadProfile()
+            })
             
             Section("Fuel", content: {
                 TextEntryFieldView(formatter: formatter, captionText: "Max Fuel Gallons", textWidth: textWidth, promptText: "Enter Max Fuel Gallons", isBold: true, textValue: $viewModelController.momentData.maxFuelGallons)
@@ -36,7 +39,7 @@ struct AircraftParametersView: View {
                 TextEntryFieldView(formatter: formatter, captionText: "Max Fuel Arm", textWidth: textWidth, promptText: "Max Fuel Moment", isBold: true, textValue: $viewModelController.momentData.fuelMoment)
             })
             
-            Section("Cargo and Pax", content: {
+            Section(header: Text("Cargo and Pax")) {
                 
                 TextEntryFieldView(formatter: formatter, captionText: "Oil Weight", textWidth: textWidth, promptText: "Oil Weight", textValue: $viewModelController.momentData.oilWeight)
                 
@@ -46,9 +49,12 @@ struct AircraftParametersView: View {
                 
                 TextEntryFieldView(formatter: formatter, captionText: "Front Seat Arm", textWidth: textWidth, promptText: "Front Seat Moment", isBold: true, textValue: $viewModelController.momentData.frontMoment)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Max Weight", textWidth: textWidth, promptText: "EMid Seat Max Weight", textValue: .constant(0.0))
-                
-                TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Arm", textWidth: textWidth, promptText: "Mid Seat Moment", isBold: true, textValue: .constant(0.0))
+                // If more than four seats show
+                if (viewModelController.performance?.seatCount ?? 2) > 4 {
+                    TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Max Weight", textWidth: textWidth, promptText: "EMid Seat Max Weight", textValue: .constant(0.0))
+                    
+                    TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Arm", textWidth: textWidth, promptText: "Mid Seat Moment", isBold: true, textValue: .constant(0.0))
+                }
                 
                 TextEntryFieldView(formatter: formatter, captionText: "Back Seat Max Weight", textWidth: textWidth, promptText: "Back Seat Max Weight", textValue: $viewModelController.momentData.maxBackWeight)
                 
@@ -57,7 +63,7 @@ struct AircraftParametersView: View {
                 TextEntryFieldView(formatter: formatter, captionText: "Cargo Max Weight", textWidth: textWidth, promptText: "Cargo Max Weight", textValue: $viewModelController.momentData.maxCargoWeight)
                 
                 TextEntryFieldView(formatter: formatter, captionText: "Cargo Arm", textWidth: textWidth, promptText: "Cargo Moment", isBold: true, textValue: $viewModelController.momentData.cargoMoment)
-            })
+            }
         }
         .toolbar(content: {
             HStack {
@@ -89,12 +95,23 @@ class AircraftParametersViewModel : ObservableObject {
     @Published var cargoArm: Double?
     @Published var isUnderGross: Bool = false
     @Published var cgIsInLimits = true
-    
-    var maxArm: Double?
-    var minArm: Double?
+    private(set) var performance: PerformanceProfile?
     
     init(momentData: MomentDatum) {
         self.momentData = momentData
+    }
+    
+    func loadProfile() {
+        // This will change as the app evolves, right now it hard codes to a file
+        guard let perfProfilePath = Bundle.main.path(forResource: "CardinalTakeOff", ofType: "json")
+        else { return }
+        do {
+            let perfJSON = try String(contentsOfFile: perfProfilePath).data(using: .utf8)
+            let performanceProfile = try JSONDecoder().decode(PerformanceProfile.self, from: perfJSON!)
+            self.performance = performanceProfile
+        } catch {
+            print("Reading the file didn't work. Error: \(error.localizedDescription)")
+        }
     }
 }
 

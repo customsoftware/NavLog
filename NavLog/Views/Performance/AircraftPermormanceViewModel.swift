@@ -35,12 +35,13 @@ class AircraftPerformanceViewModel: ObservableObject {
     func computeCGLimits() -> Bool {
         let fuelMoment: Double = momentModel.fuelArm * (mission.fuel * momentModel.fuelWeight)
         let frontMoment: Double = momentModel.frontArm * (mission.copilotSeat + mission.pilotSeat)
+        let middleMoment: Double = momentModel.backArm * mission.middleSeat
         let backMoment: Double = momentModel.backArm * mission.backSeat
         let cargoMoment: Double = momentModel.cargoArm * mission.cargo
         let oilMoment: Double = momentModel.oilArm * momentModel.oilWeight
         let acftMoment: Double = momentModel.aircraftArm * momentModel.emptyWeight
         
-        let totalMoment: Double = (fuelMoment + frontMoment + backMoment + cargoMoment + acftMoment + oilMoment)
+        let totalMoment: Double = (fuelMoment + frontMoment + middleMoment + backMoment + cargoMoment + acftMoment + oilMoment)
       
         // Compute moment of weight using min arm
         let weightLimitArm = momentModel.aircraftArm * computeTotalWeight()
