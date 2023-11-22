@@ -70,6 +70,8 @@
 		90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */; };
 		90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */; };
 		90D55EAF2AA3F01400AAC1D7 /* HeadingNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */; };
+		90E2F9EE2B0C050A00E85227 /* ImportNavLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2F9ED2B0C050A00E85227 /* ImportNavLogView.swift */; };
+		90E2F9F02B0C07A200E85227 /* GarminImportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +155,8 @@
 		90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingDetailView.swift; sourceTree = "<group>"; };
 		90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingMasterView.swift; sourceTree = "<group>"; };
 		90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingNavigationView.swift; sourceTree = "<group>"; };
+		90E2F9ED2B0C050A00E85227 /* ImportNavLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportNavLogView.swift; sourceTree = "<group>"; };
+		90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminImportType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,7 @@
 			children = (
 				9058F16A2A9932D600C7CE81 /* NavigationLog.swift */,
 				904A67152ACB558200FDC4E9 /* NavigationDetail.swift */,
+				90E2F9ED2B0C050A00E85227 /* ImportNavLogView.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -221,6 +226,7 @@
 				90B2B9C72A9FE6C90083F8D5 /* Constants.swift */,
 				90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */,
 				906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */,
+				90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -503,6 +509,7 @@
 				908A23CD2AA2925700F1C3A7 /* Core.swift in Sources */,
 				9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */,
 				90B864292ADB2754009D18E5 /* GarminParser.swift in Sources */,
+				90E2F9EE2B0C050A00E85227 /* ImportNavLogView.swift in Sources */,
 				9058F16B2A9932D600C7CE81 /* NavigationLog.swift in Sources */,
 				90B8642B2ADB27DE009D18E5 /* ParserObjects.swift in Sources */,
 				90980CE52B02B28B00F0E5F0 /* DataFetchEngine.swift in Sources */,
@@ -535,6 +542,7 @@
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
 				90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
+				90E2F9F02B0C07A200E85227 /* GarminImportType.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
 				908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */,
 				902280022B06994C007879AB /* MomentDatum.swift in Sources */,

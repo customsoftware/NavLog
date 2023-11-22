@@ -6,10 +6,13 @@
 //
 
 // This is the view used to enter the navigation log waypoints. In a future release it could accept a pre-planned mission via exported file from FlyQ or ForeFlight.
+// https://stackoverflow.com/questions/57024263/how-to-navigate-to-a-new-view-from-navigationbar-button-click-in-swiftui
 
 import SwiftUI
 
 struct NavigationLog: View {
+    @State var showingImportView: Bool = false
+    
     @State private var missionLog: [WayPoint] = Core.services.navEngine.activeWayPoints.sorted { w1, w2 in
         w1.sequence < w2.sequence
     }
@@ -23,6 +26,16 @@ struct NavigationLog: View {
                 }
             }
             .navigationTitle("Navigation Log Details")
+            .toolbar{
+                Button( action: { },
+                        label: {
+                    NavigationLink {
+                        ImportNavLogView()
+                    } label: {
+                        Text("Import")
+                    }
+                })
+            }
     }
 }
 
