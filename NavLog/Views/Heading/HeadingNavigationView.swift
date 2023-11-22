@@ -60,10 +60,7 @@ struct HeadingNavigationView: View {
                             Text(" ")
                         }
                         
-                        SliderBarView(topTitle: $altimeterTitle,
-                                      range: $altimeterRange,
-                                      center: $plannedAltimeter, 
-                                      mode: .constant(SliderMode.altitude))
+                        SliderBarView(currentValue: gpsTracker.altitude, range: altimeterRange, center: plannedAltimeter, mode: .altitude)
                     }
                     Spacer()
                     VStack(alignment: .leading) {
@@ -76,10 +73,8 @@ struct HeadingNavigationView: View {
                         } else {
                             Text(" ")
                         }
-                        SliderBarView(topTitle: $speedTitle,
-                                      range: $speedRange,
-                                      center: $plannedSpeed, 
-                                      mode: .constant(SliderMode.groundSpeed))
+                        
+                        SliderBarView(currentValue: gpsTracker.speed, range: speedRange, center: plannedSpeed, mode: .groundSpeed)
                     }
                 }
                 .padding(.leading, 30)
