@@ -25,7 +25,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
             guard let aLocation = currentLocation else { return }
             speed = aLocation.speed
             altitude = aLocation.ellipsoidalAltitude
-            course = aLocation.course
+            course = aLocation.course < 0 ? abs(aLocation.course) : aLocation.course
             latitude = aLocation.coordinate.latitude
             longitude = aLocation.coordinate.longitude
         }

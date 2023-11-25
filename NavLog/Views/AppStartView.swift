@@ -37,6 +37,18 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = true
                 }
 
+            DGSwiftUIView()
+                .tabItem {
+                    Label("DG", systemImage: "sun.max.circle.fill")
+                        .frame(width: 22, height: 22, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .fixedSize()
+                        .foregroundColor(.black)
+                }
+                .onAppear{
+                    print("Shut off timer")
+                    UIApplication.shared.isIdleTimerDisabled = true
+                }
+            
 //            NavigationLog()
 //                .tabItem {
 //                    Label("Log", systemImage: "road.lanes")

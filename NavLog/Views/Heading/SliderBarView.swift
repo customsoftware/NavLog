@@ -69,7 +69,7 @@ struct SliderBarView: View {
     /// - Parameters
     /// - None
     /// A negative return value moves the caret up. A positive value moves it down. This way the app can tell if you are higher/faster or
-    /// lower/slower than the desired value, which is the center
+    /// tlower/slower than the desired value, which is the center
     func computeDisplayValueInRange() -> CGFloat {
         
         var workingValue: Double = 0

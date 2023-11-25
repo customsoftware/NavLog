@@ -18,7 +18,11 @@ struct SettingsMasterView: View {
                     Text("W&B Key Properties")
                 }
                 Text("Performance")
-                Text("Legal")
+                NavigationLink {
+                    LegalSwiftUIView()
+                } label: {
+                    Text("Legal")
+                }
                 
             }
             .navigationTitle("Settings")
@@ -29,3 +33,6 @@ struct SettingsMasterView: View {
 #Preview {
     SettingsMasterView()
 }
+
+
+

@@ -115,8 +115,16 @@ class NavigationEngine {
                 } receiveValue: { results in
                     if let newDeclination = results.result.first?.declination {
                         self.activeWayPoints[currentSequence].magneticDeviation = newDeclination
+                        self.activeWayPoints[currentSequence].courseFrom = Int(Double(self.activeWayPoints[currentSequence].courseFrom) + newDeclination)
                     }
                 }
+            
+            // Get ground speed. Use stored aircraft values.
+            // Compute time from take off to cruise altitude
+            // Compute time to descend from cruise to pattern at destination
+            // If total flight time is less than time to altitude, use climb speed.
+            // Compute distance flown to descend to pattern from cruise altitude divided by descent feet per minute
+            
             
 //            Task {
 //                self.activeWayPoints[currentSequence].getMagneticDeviationForLocation()
