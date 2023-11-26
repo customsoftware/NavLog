@@ -15,6 +15,9 @@
 		902280022B06994C007879AB /* MomentDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902280012B06994C007879AB /* MomentDatum.swift */; };
 		904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904321D52AA61A4600F10D77 /* SliderBarView.swift */; };
 		904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A67152ACB558200FDC4E9 /* NavigationDetail.swift */; };
+		904B2EEF2B1233D600F526D7 /* AircraftOrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */; };
+		904B2EF12B124B2B00F526D7 /* EmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EF02B124B2B00F526D7 /* EmailController.swift */; };
+		904B2EF32B12687D00F526D7 /* AttitudeEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */; };
 		9056512B2AF05712005076BE /* FetchMagneticDeviation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */; };
 		9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1562A98E7A400C7CE81 /* WayPoint.swift */; };
 		9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1582A98ECB100C7CE81 /* Aircraft.swift */; };
@@ -95,6 +98,9 @@
 		902280012B06994C007879AB /* MomentDatum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentDatum.swift; sourceTree = "<group>"; };
 		904321D52AA61A4600F10D77 /* SliderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarView.swift; sourceTree = "<group>"; };
 		904A67152ACB558200FDC4E9 /* NavigationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDetail.swift; sourceTree = "<group>"; };
+		904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftOrientationManager.swift; sourceTree = "<group>"; };
+		904B2EF02B124B2B00F526D7 /* EmailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailController.swift; sourceTree = "<group>"; };
+		904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttitudeEvaluationTests.swift; sourceTree = "<group>"; };
 		9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMagneticDeviation.swift; sourceTree = "<group>"; };
 		9058F1562A98E7A400C7CE81 /* WayPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
 		9058F1582A98ECB100C7CE81 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
@@ -231,6 +237,7 @@
 				90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */,
 				906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */,
 				90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */,
+				904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -265,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				909375A82B115D150033691D /* DGSwiftUIView.swift */,
+				904B2EF02B124B2B00F526D7 /* EmailController.swift */,
 			);
 			path = DG;
 			sourceTree = "<group>";
@@ -362,6 +370,7 @@
 				905F091E2AEC38050067A56F /* TomorrowWeatherExtractor.swift */,
 				9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */,
 				90B93FDD2B04FF4600E163A7 /* ProfiileEncodeTests.swift */,
+				904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */,
 			);
 			path = NavLogTests;
 			sourceTree = "<group>";
@@ -533,6 +542,7 @@
 				90B864272ADB2697009D18E5 /* DynonParser.swift in Sources */,
 				9058F1592A98ECB100C7CE81 /* Aircraft.swift in Sources */,
 				904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */,
+				904B2EEF2B1233D600F526D7 /* AircraftOrientationManager.swift in Sources */,
 				904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */,
 				90D55EAF2AA3F01400AAC1D7 /* HeadingNavigationView.swift in Sources */,
 				9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */,
@@ -551,6 +561,7 @@
 				90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */,
 				90980CE82B02E03600F0E5F0 /* AircraftPerformanceView.swift in Sources */,
 				90980CEA2B02E51900F0E5F0 /* ScreenModels.swift in Sources */,
+				904B2EF12B124B2B00F526D7 /* EmailController.swift in Sources */,
 				906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */,
 				90C3A3592B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift in Sources */,
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
@@ -571,6 +582,7 @@
 			files = (
 				90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */,
 				90B8642F2ADB33AA009D18E5 /* ParserTesting.swift in Sources */,
+				904B2EF32B12687D00F526D7 /* AttitudeEvaluationTests.swift in Sources */,
 				907D91782ADF4397000206E3 /* VisualCrossingWeatherExtractor.swift in Sources */,
 				90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */,
 				905F091F2AEC38050067A56F /* TomorrowWeatherExtractor.swift in Sources */,

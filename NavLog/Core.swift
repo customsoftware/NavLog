@@ -15,6 +15,7 @@ class Core: ObservableObject {
     @Published var gpsEngine = GPSObserver()
     let navEngine = NavigationEngine()
     let calc = TakeOffCalculator()
+    let orientation = AircraftOrientationManager()
     
     init() {
         calc.loadProfile()
