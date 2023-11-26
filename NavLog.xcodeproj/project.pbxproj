@@ -72,6 +72,7 @@
 		90C5B0B92AE0508D0032E355 /* WeatherDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C5B0B82AE0508D0032E355 /* WeatherDataModels.swift */; };
 		90CE24D12A99776A00552366 /* TestAircraft.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D02A99776A00552366 /* TestAircraft.json */; };
 		90CE24D32A99787800552366 /* TestNavLog.json in Resources */ = {isa = PBXBuildFile; fileRef = 90CE24D22A99787800552366 /* TestNavLog.json */; };
+		90D53A1C2B12CA4D00ED34EB /* MotionCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D53A1B2B12CA4D00ED34EB /* MotionCapture.swift */; };
 		90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */; };
 		90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */; };
 		90D55EAF2AA3F01400AAC1D7 /* HeadingNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */; };
@@ -162,6 +163,7 @@
 		90CE24CE2A99747400552366 /* Waypoint.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Waypoint.json; sourceTree = "<group>"; };
 		90CE24D02A99776A00552366 /* TestAircraft.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestAircraft.json; sourceTree = "<group>"; };
 		90CE24D22A99787800552366 /* TestNavLog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TestNavLog.json; sourceTree = "<group>"; };
+		90D53A1B2B12CA4D00ED34EB /* MotionCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionCapture.swift; sourceTree = "<group>"; };
 		90D55EAA2AA3E6D900AAC1D7 /* HeadingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingDetailView.swift; sourceTree = "<group>"; };
 		90D55EAC2AA3EEE000AAC1D7 /* HeadingMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingMasterView.swift; sourceTree = "<group>"; };
 		90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingNavigationView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				90B8642A2ADB27DE009D18E5 /* ParserObjects.swift */,
 				90B8642C2ADB2881009D18E5 /* ParseEngine.swift */,
 				90C5B0B82AE0508D0032E355 /* WeatherDataModels.swift */,
+				90D53A1B2B12CA4D00ED34EB /* MotionCapture.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
 				90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
+				90D53A1C2B12CA4D00ED34EB /* MotionCapture.swift in Sources */,
 				90E2F9F02B0C07A200E85227 /* GarminImportType.swift in Sources */,
 				909375AB2B1167410033691D /* LegalSwiftUIView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
