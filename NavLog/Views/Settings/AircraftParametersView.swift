@@ -50,14 +50,14 @@ struct AircraftParametersView: View {
                 TextEntryFieldView(formatter: formatter, captionText: "Front Seat Arm", textWidth: textWidth, promptText: "Front Seat Moment", isBold: true, textValue: $viewModelController.momentData.frontMoment)
                 
                 // If more than four seats show the middle row
-                if (Core.services.calc.performanceModel?.seatCount ?? 4) > 4 {
+                if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 4) > 4 {
                     TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Max Weight", textWidth: textWidth, promptText: "EMid Seat Max Weight", textValue: .constant(0.0))
                     
                     TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Arm", textWidth: textWidth, promptText: "Mid Seat Moment", isBold: true, textValue: .constant(0.0))
                 }
                 
                 // If more than two seats show the back row
-                if (Core.services.calc.performanceModel?.seatCount ?? 2) > 2 {
+                if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 2) > 2 {
                     TextEntryFieldView(formatter: formatter, captionText: "Back Seat Max Weight", textWidth: textWidth, promptText: "Back Seat Max Weight", textValue: $viewModelController.momentData.maxBackWeight)
                     
                     TextEntryFieldView(formatter: formatter, captionText: "Back Seat Arm", textWidth: textWidth, promptText: "Back Seat Moment", isBold: true, textValue: $viewModelController.momentData.backMoment)

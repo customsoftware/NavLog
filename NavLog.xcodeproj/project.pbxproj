@@ -30,6 +30,7 @@
 		9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */; };
 		9058F1782A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */; };
 		9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */; };
+		905D53852B14F86D0053E209 /* HSISwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905D53842B14F86D0053E209 /* HSISwiftUIView.swift */; };
 		905F091F2AEC38050067A56F /* TomorrowWeatherExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905F091E2AEC38050067A56F /* TomorrowWeatherExtractor.swift */; };
 		906EF4FD2B0572FA00A4E6C9 /* StandardTempCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */; };
 		906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */; };
@@ -54,6 +55,7 @@
 		90A258512A96C27300B40DAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258502A96C27300B40DAD /* Assets.xcassets */; };
 		90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258532A96C27300B40DAD /* Preview Assets.xcassets */; };
 		90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */; };
+		90AD6FCB2B1A7B4E002866F8 /* LandingCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AD6FCA2B1A7B4E002866F8 /* LandingCalculator.swift */; };
 		90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */; };
 		90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C72A9FE6C90083F8D5 /* Constants.swift */; };
 		90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */; };
@@ -114,6 +116,7 @@
 		9058F1702A994C1700C7CE81 /* AircraftMetaItemStringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemStringView.swift; sourceTree = "<group>"; };
 		9058F1762A994FAA00C7CE81 /* AircraftMetaItemFloatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemFloatView.swift; sourceTree = "<group>"; };
 		9058F1772A994FAA00C7CE81 /* AircraftMetaItemIntView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftMetaItemIntView.swift; sourceTree = "<group>"; };
+		905D53842B14F86D0053E209 /* HSISwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSISwiftUIView.swift; sourceTree = "<group>"; };
 		905F091E2AEC38050067A56F /* TomorrowWeatherExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TomorrowWeatherExtractor.swift; sourceTree = "<group>"; };
 		906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTempCalculator.swift; sourceTree = "<group>"; };
 		906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPermormanceViewModel.swift; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 		90A258562A96C27300B40DAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90A2585B2A96C27300B40DAD /* NavLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2585F2A96C27300B40DAD /* NavLogDistanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogDistanceTests.swift; sourceTree = "<group>"; };
+		90AD6FCA2B1A7B4E002866F8 /* LandingCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingCalculator.swift; sourceTree = "<group>"; };
 		90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
 		90B2B9C72A9FE6C90083F8D5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavLogTimeTests.swift; sourceTree = "<group>"; };
@@ -276,6 +280,7 @@
 			children = (
 				909375A82B115D150033691D /* DGSwiftUIView.swift */,
 				904B2EF02B124B2B00F526D7 /* EmailController.swift */,
+				905D53842B14F86D0053E209 /* HSISwiftUIView.swift */,
 			);
 			path = DG;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				906EF9172B03CDCD0004DC4C /* WeightEntryView.swift */,
 				906EF91B2B03D3EC0004DC4C /* TakeOffPerformanceView.swift */,
 				90B93FDB2B044B6F00E163A7 /* TakeOffCalculator.swift */,
+				90AD6FCA2B1A7B4E002866F8 /* LandingCalculator.swift */,
 			);
 			path = Performance;
 			sourceTree = "<group>";
@@ -525,6 +531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90B93FDC2B044B6F00E163A7 /* TakeOffCalculator.swift in Sources */,
+				90AD6FCB2B1A7B4E002866F8 /* LandingCalculator.swift in Sources */,
 				9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */,
 				90227FFE2B069890007879AB /* PerformanceProfile.swift in Sources */,
 				906EF9162B03BB8E0004DC4C /* TextEntryFIeldView.swift in Sources */,
@@ -573,6 +580,7 @@
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				90D53A1C2B12CA4D00ED34EB /* MotionCapture.swift in Sources */,
 				90E2F9F02B0C07A200E85227 /* GarminImportType.swift in Sources */,
+				905D53852B14F86D0053E209 /* HSISwiftUIView.swift in Sources */,
 				909375AB2B1167410033691D /* LegalSwiftUIView.swift in Sources */,
 				9058F1692A9932B600C7CE81 /* WaypointListItem.swift in Sources */,
 				908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */,

@@ -38,6 +38,9 @@ struct TakeOffPerformanceView: View {
             Text("Density Altitude: \(Int(performance?.densityAltitude ?? 0))")
             Text("Take off roll: \(Int(performance?.computedTakeOffRoll ?? 0))")
             Text("Over 50' roll: \(Int(performance?.computedOver50Roll ?? 0))")
+            Divider()
+            Text("Landing roll: \(performance?.computedLandingRoll ?? 0)")
+            Text("Landing over 50': \(performance?.computedLandingOver50Roll ?? 0)")
         })
     }
 }

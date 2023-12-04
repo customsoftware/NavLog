@@ -68,10 +68,10 @@ class AircraftPerformanceViewModel: ObservableObject {
     func calculateRequiredRunwayLength(tempIsFarenheit: Bool) -> (Double, Double) {
         
         // Get the standard take off length first
-        let toLength = Core.services.calc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
+        let toLength = Core.services.takeOffCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
         
         // This formula needs the preceding 'toLength' parameter to work
-        let to50Length = Core.services.calc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
+        let to50Length = Core.services.takeOffCalc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
         return (toLength, to50Length)
     }
 }

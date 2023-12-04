@@ -76,7 +76,11 @@ class TakeOffCalculator {
         }
     }
     
-    private func returnClosestTakeOff(with acftWeight: Double) -> TakeOffWeight? {
+}
+
+fileprivate extension TakeOffCalculator {
+    
+    func returnClosestTakeOff(with acftWeight: Double) -> TakeOffWeight? {
         var retValue: TakeOffWeight?
         var weightDelta: Double = acftWeight
         guard let model = performanceModel else { return retValue }
@@ -92,7 +96,7 @@ class TakeOffCalculator {
         return retValue
     }
     
-    private func getNextTakeOffWeight(_ toWeight: TakeOffWeight) -> TakeOffWeight {
+    func getNextTakeOffWeight(_ toWeight: TakeOffWeight) -> TakeOffWeight {
         let retValue = toWeight
         guard let model = performanceModel else { return retValue }
         
@@ -104,7 +108,7 @@ class TakeOffCalculator {
         return found
     }
     
-    private func returnClosestElevation(to airportElevation: Double) -> [Multiple] {
+    func returnClosestElevation(to airportElevation: Double) -> [Multiple] {
         var retValue: [Multiple] = []
         var elevationDelta: Double = airportElevation
         
@@ -121,7 +125,7 @@ class TakeOffCalculator {
         return retValue
     }
     
-    private func returnClosest50Elevation(to airportElevation: Double) -> [Multiple] {
+    func returnClosest50Elevation(to airportElevation: Double) -> [Multiple] {
         var retValue: [Multiple] = []
         var elevationDelta: Double = airportElevation
         
@@ -138,7 +142,7 @@ class TakeOffCalculator {
         return retValue
     }
     
-    private func adjustRunwayLength(originalLength: Double, multipliers: [Multiple]) -> Double {
+    func adjustRunwayLength(originalLength: Double, multipliers: [Multiple]) -> Double {
         var newLength = originalLength
         
         multipliers.forEach { aMultiple in
@@ -147,7 +151,7 @@ class TakeOffCalculator {
         return round(newLength)
     }
     
-    private func adjustRunwayLengthToAltitude(_ newRunwayLength: Double, originalRoll: Double, baseElevation: Double, airportElevation: Double) -> Double {
+    func adjustRunwayLengthToAltitude(_ newRunwayLength: Double, originalRoll: Double, baseElevation: Double, airportElevation: Double) -> Double {
         let deltaLength = newRunwayLength - originalRoll
         let deltaElevation = (airportElevation - baseElevation)
         
@@ -161,7 +165,7 @@ class TakeOffCalculator {
         return round(adjustmentToBaseElevation + newRunwayLength)
     }
     
-    private func adjustRunwayLengthToTemperature(_ runwayLength: Double, airportElevation: Double, currentTemperatureF: Double) -> Double {
+    func adjustRunwayLengthToTemperature(_ runwayLength: Double, airportElevation: Double, currentTemperatureF: Double) -> Double {
         var newRunwayLength = runwayLength
         // Get standard temperature for absolute elevation
         let standardTempC = StandardTempCalculator.computeStandardTempForAltitude(airportElevation)
@@ -184,7 +188,7 @@ class TakeOffCalculator {
         return round(newRunwayLength)
     }
     
-    private func adjustRunwayLengthForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
+    func adjustRunwayLengthForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
         var newRunwayLength = calculatedRunway
         
         // Compute the relative wind
@@ -205,7 +209,7 @@ class TakeOffCalculator {
         
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = deg2rad(relativeWindDirection)
+        let radWind = TrigTool.deg2rad(relativeWindDirection)
         
         let cosOfWind = cos(radWind)
         
@@ -224,7 +228,7 @@ class TakeOffCalculator {
         return newRunwayLength
     }
     
-    private func adjustRunwayLengthOver50ForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
+    func adjustRunwayLengthOver50ForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
         var newRunwayLength = calculatedRunway
         
         // Compute the relative wind
@@ -245,7 +249,7 @@ class TakeOffCalculator {
         
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = deg2rad(relativeWindDirection)
+        let radWind = TrigTool.deg2rad(relativeWindDirection)
         
         let cosOfWind = cos(radWind)
         
@@ -263,16 +267,9 @@ class TakeOffCalculator {
         
         return newRunwayLength
     }
+
     
-    private func deg2rad(_ number: Double) -> Double {
-        return number * .pi / 180
-    }
-    
-    private func rad2deg(_ number: Double) -> Double {
-        return number * 180 / .pi
-    }
-    
-    private func getBestMatchingWind(for windSpeed: Double, aircraftWeight: Double, over50: Bool) -> WindMultiples? {
+    func getBestMatchingWind(for windSpeed: Double, aircraftWeight: Double, over50: Bool) -> WindMultiples? {
         var retValue: WindMultiples?
         guard let performance = performanceModel else { return retValue }
         
@@ -319,5 +316,16 @@ class TakeOffCalculator {
         }
         
         return retValue
+    }
+}
+
+struct TrigTool {
+    
+    static func deg2rad(_ number: Double) -> Double {
+        return number * .pi / 180
+    }
+    
+    static func rad2deg(_ number: Double) -> Double {
+        return number * 180 / .pi
     }
 }

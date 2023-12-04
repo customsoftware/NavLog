@@ -16,4 +16,6 @@ struct PerformanceResults {
     var densityAltitude: Double = 0
     var computedTakeOffRoll: Double = 1400
     var computedOver50Roll: Double = 2100
+    var computedLandingRoll: Int = 400
+    var computedLandingOver50Roll: Int = 1135
 }

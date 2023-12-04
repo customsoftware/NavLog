@@ -58,12 +58,13 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Pilot", textWidth: textWidth, promptText: "Pilot", textValue: $viewModel.mission.pilotSeat)
                     TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
                     TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", textValue: $viewModel.mission.fuel)
+                        
                     // If there are more than four seats, we show the middle seats
-                    if (Core.services.calc.performanceModel?.seatCount ?? 3) > 4 {
+                    if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 3) > 4 {
                         TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", textValue: $viewModel.mission.middleSeat)
                     }
                     // If there are more than two seats, we show the back seat
-                    if (Core.services.calc.performanceModel?.seatCount ?? 1) > 2 {
+                    if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 1) > 2 {
                         TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", textValue: $viewModel.mission.backSeat)
                     }
                     
@@ -92,6 +93,9 @@ struct AircraftPerformanceView: View {
                         let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC)
                         missionPerformance.computedTakeOffRoll = runwayCalculations.0
                         missionPerformance.computedOver50Roll = runwayCalculations.1
+                        let landingCalculations = Core.services.landingCalc.calculatedRequiredLandingRoll(Int(missionPerformance.densityAltitude), viewModel.environment)
+                        missionPerformance.computedLandingRoll = landingCalculations.0
+                        missionPerformance.computedLandingOver50Roll = landingCalculations.1
                         
                     } label: { Text("Calculate") }
                 }

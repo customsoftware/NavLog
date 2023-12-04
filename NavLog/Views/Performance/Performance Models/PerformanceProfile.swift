@@ -18,6 +18,7 @@ struct PerformanceProfile: Codable {
     var temperatureDeltaRate: Double
     var windrates: [WindMultiples]
     var seatCount: Double
+    var landingProfile: Landing
 }
 
 
@@ -44,4 +45,14 @@ struct WindMultiples: Codable {
 struct Multiple: Codable {
     var elevation: Double
     var multiple: Double
+}
+
+struct Landing: Codable {
+    var baseRunwayRoll: Double = 400
+    var divider = 2500
+    var loRatio = 0.008
+    var hiRatio = 0.01
+    var over50Ratio: Double = 2.841
+    var windIndex: Double = 4
+    var windRate: Double = 0.1
 }

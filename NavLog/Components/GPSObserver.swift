@@ -35,6 +35,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var course: Double = 0
     @Published var latitude: Double = 0
     @Published var longitude: Double = 0
+    @Published var heading: Double = 0
     
     override init() {
         super.init()
@@ -89,6 +90,12 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         resolvePermissions(manager)
     }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        heading = newHeading.trueHeading
+    }
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.last
