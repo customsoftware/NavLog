@@ -37,7 +37,7 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = true
                 }
 
-            DGSwiftUIView()
+            InstrumentView()
                 .tabItem {
                     Label("DG", systemImage: "sun.max.circle.fill")
                         .frame(width: 22, height: 22, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
