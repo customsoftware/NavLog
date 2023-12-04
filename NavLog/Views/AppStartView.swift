@@ -37,26 +37,15 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = true
                 }
 
-            InstrumentView()
+            NavigationLog()
                 .tabItem {
-                    Label("DG", systemImage: "sun.max.circle.fill")
-                        .frame(width: 22, height: 22, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        .fixedSize()
-                        .foregroundColor(.black)
+                    Label("Log", systemImage: "road.lanes")
                 }
-                .onAppear{
-                    print("Shut off timer")
-                    UIApplication.shared.isIdleTimerDisabled = true
+                .onAppear {
+                    print("Started timer")
+                    UIApplication.shared.isIdleTimerDisabled = false
                 }
             
-//            NavigationLog()
-//                .tabItem {
-//                    Label("Log", systemImage: "road.lanes")
-//                }
-//                .onAppear {
-//                    print("Started timer")
-//                    UIApplication.shared.isIdleTimerDisabled = false
-//                }
             SettingsMasterView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape")
