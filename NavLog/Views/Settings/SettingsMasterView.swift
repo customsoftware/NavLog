@@ -11,13 +11,24 @@ struct SettingsMasterView: View {
     var body: some View {
         NavigationStack {
             List {
-                Text("Aircraft")
+                NavigationLink {
+                    AircraftStatsView()
+                } label: {
+                    Text("Aircraft")
+                }
+                
                 NavigationLink {
                     AircraftParametersView()
                 } label: {
                     Text("W&B Key Properties")
                 }
-                Text("Performance")
+                
+                NavigationLink {
+                    PerformanceSwiftUIView()
+                } label: {
+                    Text("Performance")
+                }
+                
                 NavigationLink {
                     LegalSwiftUIView()
                 } label: {

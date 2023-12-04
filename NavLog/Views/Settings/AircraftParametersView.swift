@@ -98,7 +98,7 @@ class AircraftParametersViewModel : ObservableObject {
     @Published var cargoArm: Double?
     @Published var isUnderGross: Bool = false
     @Published var cgIsInLimits = true
-    private(set) var performance: PerformanceProfile?
+//    private(set) var performance: PerformanceProfile?
     
     init(momentData: MomentDatum) {
         self.momentData = momentData
@@ -111,7 +111,7 @@ class AircraftParametersViewModel : ObservableObject {
         do {
             let perfJSON = try String(contentsOfFile: perfProfilePath).data(using: .utf8)
             let performanceProfile = try JSONDecoder().decode(PerformanceProfile.self, from: perfJSON!)
-            self.performance = performanceProfile
+//            self.performance = performanceProfile
         } catch {
             print("Reading the file didn't work. Error: \(error.localizedDescription)")
         }
