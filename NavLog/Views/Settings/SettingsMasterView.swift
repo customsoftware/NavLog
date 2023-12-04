@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct SettingsMasterView: View {
+    @State private var isShowingDetail = false
+
+        
+    
     var body: some View {
         NavigationStack {
             List {
-                NavigationLink {
-                    AircraftStatsView()
-                } label: {
-                    Text("Aircraft")
-                }
-                
                 NavigationLink {
                     AircraftParametersView()
                 } label: {
@@ -24,9 +22,17 @@ struct SettingsMasterView: View {
                 }
                 
                 NavigationLink {
+                    AircraftStatsView()
+                } label: {
+                    // This is for landing performance
+                    Text("Landing Performance")
+                }
+                
+                NavigationLink {
                     PerformanceSwiftUIView()
                 } label: {
-                    Text("Performance")
+                    // This is for take off
+                    Text("Take off Performance")
                 }
                 
                 NavigationLink {

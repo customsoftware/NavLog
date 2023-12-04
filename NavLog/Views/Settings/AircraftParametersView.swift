@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AircraftParametersView: View {
-    
+    @SwiftUI.Environment(\.dismiss) var dismiss
     // This manipulates it
     @StateObject var viewModelController = AircraftParametersViewModel(momentData: MomentDatum())
     
@@ -22,6 +22,13 @@ struct AircraftParametersView: View {
     
     var body: some View {
         Form {
+            Section("Aircraft", content: {
+                TextField("Model:", text: $viewModelController.momentData.aircraft)
+                TextField("Engine:", text: $viewModelController.momentData.aircraftEngine)
+                
+                TextEntryFieldView(formatter: formatter, captionText: "Seats:", textWidth: textWidth, promptText: "Enter Number of Seats", textValue: $viewModelController.momentData.seatCount)
+            })
+            
             Section("AC Weights", content: {
                 TextEntryFieldView(formatter: formatter, captionText: "Maximum:", textWidth: textWidth, promptText: "Enter Max Weight", textValue: $viewModelController.momentData.maxWeight)
                 
@@ -50,14 +57,14 @@ struct AircraftParametersView: View {
                 TextEntryFieldView(formatter: formatter, captionText: "Front Seat Arm", textWidth: textWidth, promptText: "Front Seat Moment", isBold: true, textValue: $viewModelController.momentData.frontMoment)
                 
                 // If more than four seats show the middle row
-                if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 4) > 4 {
+                if (viewModelController.momentData.seatCount) > 4 {
                     TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Max Weight", textWidth: textWidth, promptText: "EMid Seat Max Weight", textValue: .constant(0.0))
                     
                     TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Arm", textWidth: textWidth, promptText: "Mid Seat Moment", isBold: true, textValue: .constant(0.0))
                 }
                 
                 // If more than two seats show the back row
-                if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 2) > 2 {
+                if (viewModelController.momentData.seatCount) > 2 {
                     TextEntryFieldView(formatter: formatter, captionText: "Back Seat Max Weight", textWidth: textWidth, promptText: "Back Seat Max Weight", textValue: $viewModelController.momentData.maxBackWeight)
                     
                     TextEntryFieldView(formatter: formatter, captionText: "Back Seat Arm", textWidth: textWidth, promptText: "Back Seat Moment", isBold: true, textValue: $viewModelController.momentData.backMoment)
@@ -74,6 +81,7 @@ struct AircraftParametersView: View {
                 Button {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     viewModelController.momentData.save()
+                    dismiss()
                 } label: { Text("Save") }
             }
         })

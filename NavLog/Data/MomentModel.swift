@@ -8,26 +8,29 @@
 import Foundation
 
 struct MomentModel: Codable {
-    var maxWeight: Double = 2350.0
-    var emptyWeight: Double = 1480.0
-    var aircraftArm: Double = 0.11464
-    var oilMoment: Double = 0.7
-    var oilWeight: Double = 15.0
+    var aircraft: String = ""
+    var aircraftEngine: String = ""
+    var seatCount: Double = 0
+    var maxWeight: Double = 0
+    var emptyWeight: Double = 0
+    var aircraftArm: Double = 0
+    var oilMoment: Double = 0
+    var oilWeight: Double = 0
     // Front seat
-    var maxFrontWeight: Double = 400.0
-    var frontMoment: Double = 37.5
+    var maxFrontWeight: Double = 0
+    var frontMoment: Double = 0
     // Middle seat
     var maxMiddleWeight: Double = 0.0
     var middleMoment: Double = 0.0
     // Back seat
-    var maxBackWeight: Double = 400.0
-    var backMoment: Double = 54.0
+    var maxBackWeight: Double = 0
+    var backMoment: Double = 0
     // Cargo
-    var maxCargoWeight: Double = 120.0
-    var cargoMoment: Double = 19.5
+    var maxCargoWeight: Double = 0
+    var cargoMoment: Double = 0
     // Fuel
-    var maxFuelGallons: Double = 48.0
-    var fuelMoment: Double = 32.7
+    var maxFuelGallons: Double = 0
+    var fuelMoment: Double = 0
     // AuxFuel
     var auxMaxFuelGallons: Double = 0
     var auxFuelMoment: Double = 0

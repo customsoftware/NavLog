@@ -8,6 +8,9 @@
 import Foundation
 
 struct MomentDatum {
+    var aircraft: String = ""
+    var aircraftEngine: String = ""
+    var seatCount: Double = 0
     var maxWeight: Double = 0
     var emptyWeight: Double = 0
     var aircraftArm: Double = 0
@@ -81,6 +84,11 @@ struct MomentDatum {
         defaults.setValue(maxWeight, forKey: "kMaxWeight")
         defaults.setValue(emptyWeight, forKey: "kEmptyWeight")
         defaults.setValue(aircraftArm, forKey: "kAircraftMoment")
+        defaults.setValue(seatCount, forKey: "kSeatCount")
+        
+        // Aircraft
+        defaults.setValue(aircraft, forKey: "kAircraft")
+        defaults.setValue(aircraftEngine, forKey: "kAircraftEngine")
         
         // Oil
         defaults.setValue(oilMoment, forKey: "kOilMoment")
@@ -118,6 +126,11 @@ struct MomentDatum {
         maxWeight = defaults.double(forKey: "kMaxWeight")
         emptyWeight = defaults.double(forKey: "kEmptyWeight")
         aircraftArm = defaults.double(forKey: "kAircraftMoment")
+        seatCount = defaults.double(forKey: "kSeatCount")
+        
+        // Aircraft
+        aircraft = (defaults.object(forKey: "kAircraft") as? String) ?? ""
+        aircraftEngine = (defaults.object(forKey: "kAircraftEngine") as? String) ?? ""
         
         // Oil
         oilMoment = defaults.double(forKey: "kOilMoment")
