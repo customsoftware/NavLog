@@ -77,76 +77,75 @@ struct MomentDatum {
     ///
     func save() {
         defaults.setValue(true, forKey: "kMomentDataLoaded")
+        
         defaults.setValue(maxWeight, forKey: "kMaxWeight")
         defaults.setValue(emptyWeight, forKey: "kEmptyWeight")
         defaults.setValue(aircraftArm, forKey: "kAircraftMoment")
         
+        // Oil
         defaults.setValue(oilMoment, forKey: "kOilMoment")
         defaults.setValue(oilWeight, forKey: "kOilWeight")
         
+        // Front
         defaults.setValue(maxFrontWeight, forKey: "kMaxFrontWeight")
         defaults.setValue(frontMoment, forKey: "kFrontArm")
         
+        // Middle
         defaults.setValue(maxMiddleWeight, forKey: "kMaxMiddleWeight")
         defaults.setValue(middleMoment, forKey: "kMiddleArm")
         
+        // Back
         defaults.setValue(maxBackWeight, forKey: "kMaxBackWeight")
         defaults.setValue(backMoment, forKey: "kBackArm")
         
+        // Fuel
         defaults.setValue(maxFuelGallons, forKey: "kMaxFuelGallons")
         defaults.setValue(fuelMoment, forKey: "kFuelArm")
         
+        // Aux Fuel
+        defaults.setValue(auxMaxFuelGallons, forKey: "kAuxMaxFuelGallons")
+        defaults.setValue(auxFuelMoment, forKey: "kAuxFuelArm")
+        
+        // Cargo
         defaults.setValue(maxCargoWeight, forKey: "kMaxCargoWeight")
         defaults.setValue(cargoMoment, forKey: "kCargoArm")
+        
+        // Cleanup
         defaults.synchronize()
     }
     
     private mutating func read() {
-        var keyValue = testIfKeyValueNotPresent("kMaxWeight")
-        maxWeight = keyValue.0 ? 2350 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kEmptyWeight")
-        emptyWeight = keyValue.0 ? 1483 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kAircraftMoment")
-        aircraftArm = keyValue.0 ? 0.11464 : keyValue.1
+        maxWeight = defaults.double(forKey: "kMaxWeight")
+        emptyWeight = defaults.double(forKey: "kEmptyWeight")
+        aircraftArm = defaults.double(forKey: "kAircraftMoment")
         
-        keyValue = testIfKeyValueNotPresent("kOilMoment")
-        oilMoment = keyValue.0 ? 0.7 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kOilWeight")
-        oilWeight = keyValue.0 ? 15 : keyValue.1
+        // Oil
+        oilMoment = defaults.double(forKey: "kOilMoment")
+        oilWeight = defaults.double(forKey: "kOilWeight")
         
-        keyValue = testIfKeyValueNotPresent("kMaxFrontWeight")
-        maxFrontWeight = keyValue.0 ? 400 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kFrontArm")
-        frontMoment = keyValue.0 ? 37.5 : keyValue.1
+        // Front
+        maxFrontWeight = defaults.double(forKey: "kMaxFrontWeight")
+        frontMoment = defaults.double(forKey: "kFrontArm")
         
-        maxMiddleWeight = keyValue.0 ? 400 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kMaxMiddleWeight")
-        middleMoment = keyValue.0 ? 400 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kMiddleArm")
+        // Middle
+        maxMiddleWeight = defaults.double(forKey: "kMaxMiddleWeight")
+        middleMoment = defaults.double(forKey: "kMiddleArm")
         
-        keyValue = testIfKeyValueNotPresent("kMaxBackWeight")
-        maxBackWeight = keyValue.0 ? 400 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kBackArm")
-        backMoment = keyValue.0 ? 54.0 : keyValue.1
+        // Back
+        maxBackWeight = defaults.double(forKey: "kMaxBackWeight")
+        backMoment = defaults.double(forKey: "kBackArm")
         
-        keyValue = testIfKeyValueNotPresent("kMaxFuelGallons")
-        maxFuelGallons = keyValue.0 ? 48 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kFuelArm")
-        fuelMoment = keyValue.0 ? 32.7 : keyValue.1
+        // Fuel
+        maxFuelGallons = defaults.double(forKey: "kMaxFuelGallons")
+        fuelMoment = defaults.double(forKey: "kFuelArm")
         
-        keyValue = testIfKeyValueNotPresent("kMaxCargoWeight")
-        maxCargoWeight = keyValue.0 ? 120 : keyValue.1
-        keyValue = testIfKeyValueNotPresent("kCargoArm")
-        cargoMoment = keyValue.0 ? 19.5 : keyValue.1
-    }
-    
-    private func testIfKeyValueNotPresent(_ keyName: String) -> (Bool, Double) {
-        var isNotStored: Bool = true
-        let keyValue = defaults.double(forKey: keyName)
-        if keyValue > 0 {
-            isNotStored = false
-        }
-        return (isNotStored, keyValue)
+        // Aux Fuel
+        auxMaxFuelGallons = defaults.double(forKey: "kAuxMaxFuelGallons")
+        auxFuelMoment = defaults.double(forKey: "kAuxFuelArm")
+        
+        // Cargo
+        maxCargoWeight = defaults.double(forKey: "kMaxCargoWeight")
+        cargoMoment = defaults.double(forKey: "kCargoArm")
     }
     
     private mutating func loadFromJSON() throws {
