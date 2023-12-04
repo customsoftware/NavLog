@@ -14,19 +14,19 @@ class Core: ObservableObject {
     
     @Published var gpsEngine = GPSObserver()
     let navEngine = NavigationEngine()
-    let takeOffCalc = TakeOffCalculator()
-    let landingCalc = LandingCalculator()
+//    let takeOffCalc = TakeOffCalculator()
+//    let landingCalc = LandingCalculator()
     let orientation = AircraftOrientationManager()
     var canComputeTakeoff: Bool = false
     var canComputeLanding: Bool = false
     
     init() {
-        takeOffCalc.loadProfile()
-        if let performanceModel = takeOffCalc.performanceModel {
-            landingCalc.configureWith(landingProfile: performanceModel.landingProfile)
-            canComputeLanding = true
-            canComputeTakeoff = true
-       }
+//        takeOffCalc.loadProfile()
+//        if let performanceModel = takeOffCalc.performanceModel {
+//            landingCalc.configureWith(landingProfile: performanceModel.landingProfile)
+//            canComputeLanding = true
+//            canComputeTakeoff = true
+//       }
     }
     
     static func currentDisplayValues(currentLocation: CLLocation?, currentWayPoint: WayPoint?) -> CourseState {

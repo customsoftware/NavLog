@@ -12,6 +12,8 @@ import Combine
 class AircraftPerformanceViewModel: ObservableObject {
     @Published var environment: Environment = Environment()
     @Published var mission: MissionData = MissionData()
+    private var toCalc: TakeOffCalculator?
+    private var landingCalc: LandingCalculator?
     
     private let standardBaroPressure: Double = 29.92
     private(set) var momentModel: MomentDatum = MomentDatum()
@@ -48,30 +50,35 @@ class AircraftPerformanceViewModel: ObservableObject {
         return momentModel.emptyWeight + mission.cargo + (mission.fuel * momentModel.fuelWeight) + mission.copilotSeat + mission.pilotSeat + mission.backSeat + momentModel.oilWeight
     }
     
-    func computePressureAltitude() -> Double {
-        let pressureDelta = (standardBaroPressure - environment.pressure) * 1000
-        return environment.elevation + pressureDelta
-    }
-    
-    func computeDensityAltitude(for pressureAlt: Double, tempIsCelsius: Bool) -> Double {
-        // PA + (120 x (OAT – ISA))
-        var workingTemp = environment.temp
-        if !tempIsCelsius {
-            workingTemp = StandardTempCalculator.convertFtoC(environment.temp)
-        }
-        
-        let densityDelta = (workingTemp - StandardTempCalculator.computeStandardTempForAltitude(environment.elevation))
-        let densityAltitude = pressureAlt + (120 * densityDelta)
-        return densityAltitude
-    }
-    
     func calculateRequiredRunwayLength(tempIsFarenheit: Bool) -> (Double, Double) {
         
+        if toCalc == nil {
+            toCalc = TakeOffCalculator()
+            toCalc?.loadProfile()
+        }
+        
         // Get the standard take off length first
-        let toLength = Core.services.takeOffCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
+        guard let toCalc = self.toCalc else { return (0,0) }
+            
+        let toLength = toCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
         
         // This formula needs the preceding 'toLength' parameter to work
-        let to50Length = Core.services.takeOffCalc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
+        let to50Length = toCalc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
+        
         return (toLength, to50Length)
+    }
+    
+    func calculateRequiredLandingLength() -> (Int, Int) {
+        
+        if landingCalc == nil {
+            landingCalc = LandingCalculator()
+            landingCalc?.landingProfile = toCalc?.performanceModel?.landingProfile
+        }
+        
+        guard let landingCalc = landingCalc,
+              let _ = landingCalc.landingProfile else { return (0,0) }
+        
+        let landingRoll = landingCalc.calculatedRequiredLandingRoll(environment)
+        return (Int(landingRoll.0), Int(landingRoll.1))
     }
 }

@@ -15,21 +15,21 @@ class LandingCalculator {
         self.landingProfile = landingProfile
     }
     
-    func calculatedRequiredLandingRoll(_ densityAlt: Int, _ environment: Environment) -> (Int, Int)  {
+    func calculatedRequiredLandingRoll(_ environment: Environment) -> (Double, Double)  {
         
         guard let landingProfile = self.landingProfile else { return (0, 0) }
         
-        var toLength = Int(landingProfile.baseRunwayRoll)
-        var to50Length = Int(Double(toLength) * landingProfile.over50Ratio)
+        var toLength = landingProfile.baseRunwayRoll
+        var to50Length = toLength * landingProfile.over50Ratio
         
         var underAdd: Double = 0
         var overAdd: Double = 0
         
-        if densityAlt <= landingProfile.divider {
-            underAdd = Double(densityAlt) * landingProfile.loRatio
+        if Int(environment.densityAltitude) <= landingProfile.divider {
+            underAdd = environment.densityAltitude * landingProfile.loRatio
         } else {
             underAdd = Double(landingProfile.divider) * landingProfile.loRatio
-            overAdd = Double(densityAlt - landingProfile.divider) * landingProfile.hiRatio
+            overAdd = (environment.densityAltitude - Double(landingProfile.divider)) * landingProfile.hiRatio
         }
         
         let baseLength = landingProfile.baseRunwayRoll + (underAdd + overAdd)
@@ -48,8 +48,8 @@ class LandingCalculator {
         parallelWind = round(parallelWind * 100)/100
         let windModifier = (parallelWind / landingProfile.windIndex) * landingProfile.windRate
         
-        toLength = Int(baseLength - (baseLength * windModifier))
-        to50Length = Int(_50Length - (baseLength * windModifier))
+        toLength = baseLength - (baseLength * windModifier)
+        to50Length = _50Length - (baseLength * windModifier)
         return (toLength, to50Length)
     }
 }

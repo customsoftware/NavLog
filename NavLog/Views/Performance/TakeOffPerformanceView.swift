@@ -9,22 +9,23 @@ import SwiftUI
 import Combine
 
 struct TakeOffPerformanceView: View {
-   var performance: PerformanceResults?
+    var performance: PerformanceResults
+    var environment: Environment
     
     var body: some View {
         VStack (alignment: .leading, content: {
             
-            if performance?.isUnderGross ?? false {
-                Text("Under Max Gross by: \(abs(Int(performance?.overWeightAmount ?? 0))) lbs.")
+            if performance.isUnderGross {
+                Text("Under Max Gross by: \(abs(Int(performance.overWeightAmount))) lbs.")
                     .foregroundStyle(.primary)
                     .bold()
             } else {
-                Text("Over Gross: \(Int(performance?.overWeightAmount ?? 0)) lbs.")
+                Text("Over Gross: \(Int(performance.overWeightAmount)) lbs.")
                     .foregroundStyle(.red)
                     .bold()
             }
             
-            if performance?.cgIsInLimits ?? false {
+            if performance.cgIsInLimits {
                 Text("Within CG Limits")
                     .foregroundStyle(.primary)
                     .bold()
@@ -34,17 +35,18 @@ struct TakeOffPerformanceView: View {
                     .bold()
             }
             
-            Text("Pressure Altitude: \(Int(performance?.pressureAltitude ?? 0))")
-            Text("Density Altitude: \(Int(performance?.densityAltitude ?? 0))")
-            Text("Take off roll: \(Int(performance?.computedTakeOffRoll ?? 0))")
-            Text("Over 50' roll: \(Int(performance?.computedOver50Roll ?? 0))")
+            Text("Pressure Altitude: \(Int(environment.pressureAltitude))")
+            Text("Density Altitude: \(Int(environment.densityAltitude))")
             Divider()
-            Text("Landing roll: \(performance?.computedLandingRoll ?? 0)")
-            Text("Landing over 50': \(performance?.computedLandingOver50Roll ?? 0)")
+            Text("Take off roll: \(Int(performance.computedTakeOffRoll))")
+            Text("Over 50' roll: \(Int(performance.computedOver50Roll))")
+            Divider()
+            Text("Landing roll: \(performance.computedLandingRoll)")
+            Text("Landing over 50': \(performance.computedLandingOver50Roll)")
         })
     }
 }
 
 #Preview {
-    TakeOffPerformanceView()
+    TakeOffPerformanceView(performance: PerformanceResults(), environment: Environment())
 }

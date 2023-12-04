@@ -81,10 +81,12 @@ class TakeOffCalculator {
 fileprivate extension TakeOffCalculator {
     
     func returnClosestTakeOff(with acftWeight: Double) -> TakeOffWeight? {
+        
+        guard let profile = performanceModel else { return nil }
+        
         var retValue: TakeOffWeight?
         var weightDelta: Double = acftWeight
-        guard let model = performanceModel else { return retValue }
-        let array : [TakeOffWeight] = model.takeoff
+        let array : [TakeOffWeight] = profile.takeoff
         _ = array.map({ aTOWeight in
             let newDelta = abs(aTOWeight.weight - acftWeight)
             if newDelta < weightDelta {
@@ -98,9 +100,9 @@ fileprivate extension TakeOffCalculator {
     
     func getNextTakeOffWeight(_ toWeight: TakeOffWeight) -> TakeOffWeight {
         let retValue = toWeight
-        guard let model = performanceModel else { return retValue }
+        guard let performanceModel = self.performanceModel else { return retValue }
         
-        let array : [TakeOffWeight] = model.takeoff
+        let array : [TakeOffWeight] = performanceModel.takeoff
         let foundValue = array.first(where: { aMap in
             aMap.weight > toWeight.weight
         })
@@ -110,10 +112,12 @@ fileprivate extension TakeOffCalculator {
     
     func returnClosestElevation(to airportElevation: Double) -> [Multiple] {
         var retValue: [Multiple] = []
+        
+        guard let performanceModel = self.performanceModel else { return retValue }
+        
         var elevationDelta: Double = airportElevation
         
-        guard let model = performanceModel else { return retValue }
-        let multipliers: [Multiple] = model.multipliers
+        let multipliers: [Multiple] = performanceModel.multipliers
         _ = multipliers.map({ aMultiple in
             let newDelta = abs(aMultiple.elevation - airportElevation)
             if newDelta < elevationDelta {
@@ -127,10 +131,11 @@ fileprivate extension TakeOffCalculator {
     
     func returnClosest50Elevation(to airportElevation: Double) -> [Multiple] {
         var retValue: [Multiple] = []
+        guard let performanceModel = self.performanceModel else { return retValue }
+        
         var elevationDelta: Double = airportElevation
         
-        guard let model = performanceModel else { return retValue }
-        let multipliers: [Multiple] = model.multipliers50
+        let multipliers: [Multiple] = performanceModel.multipliers50
         _ = multipliers.map({ aMultiple in
             let newDelta = abs(aMultiple.elevation - airportElevation)
             if newDelta <= elevationDelta {
@@ -167,6 +172,8 @@ fileprivate extension TakeOffCalculator {
     
     func adjustRunwayLengthToTemperature(_ runwayLength: Double, airportElevation: Double, currentTemperatureF: Double) -> Double {
         var newRunwayLength = runwayLength
+        guard let performanceModel = self.performanceModel else { return newRunwayLength }
+        
         // Get standard temperature for absolute elevation
         let standardTempC = StandardTempCalculator.computeStandardTempForAltitude(airportElevation)
         // Convert it to farenheit
@@ -175,15 +182,12 @@ fileprivate extension TakeOffCalculator {
         // Get delta from standard temp to current temp
         let deltaTemp = currentTemperatureF - standardTempF
         
-        if let band = performanceModel?.temperatureBand,
-           let rate = performanceModel?.temperatureDeltaRate {
-            // Get multiplier fraction
-            let deltaFraction = deltaTemp/band
-            // Get change rate
-            let deltaRate = 1 + (deltaFraction * rate)
-            // Adjust runwayLength
-            newRunwayLength = newRunwayLength * deltaRate
-        }
+        // Get multiplier fraction
+        let deltaFraction = deltaTemp/performanceModel.temperatureBand
+        // Get change rate
+        let deltaRate = 1 + (deltaFraction * performanceModel.temperatureDeltaRate)
+        // Adjust runwayLength
+        newRunwayLength = newRunwayLength * deltaRate
         
         return round(newRunwayLength)
     }
@@ -271,15 +275,15 @@ fileprivate extension TakeOffCalculator {
     
     func getBestMatchingWind(for windSpeed: Double, aircraftWeight: Double, over50: Bool) -> WindMultiples? {
         var retValue: WindMultiples?
-        guard let performance = performanceModel else { return retValue }
-        
         var windDelta: Double = 100
         var weightDelta: Double = 2000
+        
+        guard let performanceModel = self.performanceModel else { return retValue }
         
         var matches: [WindMultiples] = []
         // Find the best wind delta
         var foundWindMatch: WindMultiples?
-        performance.windrates.forEach({ windMultiple in
+        performanceModel.windrates.forEach({ windMultiple in
             if windMultiple.wind <= windDelta {
                 windDelta = abs(windSpeed - windMultiple.wind)
                 foundWindMatch = windMultiple
@@ -288,7 +292,7 @@ fileprivate extension TakeOffCalculator {
         
         // Get the rest of the matches
         if let aMatch = foundWindMatch {
-            performance.windrates.forEach({ windMultiple in
+            performanceModel.windrates.forEach({ windMultiple in
                 if aMatch.wind == windMultiple.wind {
                     matches.append(windMultiple)
                 }

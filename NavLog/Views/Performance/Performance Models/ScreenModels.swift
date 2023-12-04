@@ -8,14 +8,31 @@
 import Foundation
 
 struct Environment {
+    private let standardBaroPressure: Double = 29.92
+    
     var elevation: Double = 1
-    var pressure: Double = 29.92
-    var temp: Double = 59
+    var pressure: Double = 29.92 {
+        didSet {
+            updatePressure()
+            updateDensityAlt()
+        }
+    }
+    var temp: Double = 59 {
+        didSet {
+            updateDensityAlt()
+        }
+    }
+    var pressureAltitude: Double = 0
+    var densityAltitude: Double = 0
     var runwayLength: Double = 0
     var runwayDirection: Double = 0
     var windDirection: Double = 0
     var windSpeed: Double = 0
-    var inCelsiusMode: Bool = false
+    var inCelsiusMode: Bool = false {
+        didSet {
+            updateDensityAlt()
+        }
+    }
     
     private let defaults: UserDefaults
     
@@ -38,7 +55,10 @@ struct Environment {
         inCelsiusMode = defaults.bool(forKey: "kCelsiusMode")
    }
     
-    func save() {
+    mutating func save() {
+        updatePressure()
+        updateDensityAlt()
+        
         defaults.setValue(elevation, forKey: "kElevation")
         defaults.setValue(pressure, forKey: "kPresure")
         defaults.setValue(temp, forKey: "kTemp")
@@ -48,6 +68,22 @@ struct Environment {
         defaults.setValue(windSpeed, forKey: "kWindSpeed")
         defaults.setValue(inCelsiusMode, forKey: "kCelsiusMode")
   }
+    
+    mutating private func updatePressure() {
+        let pressureDelta = (standardBaroPressure - pressure) * 1000
+        pressureAltitude = elevation + pressureDelta
+    }
+    
+    mutating private func updateDensityAlt() {
+        // PA + (120 x (OAT – ISA))
+        var workingTemp = temp
+        if !inCelsiusMode {
+            workingTemp = StandardTempCalculator.convertFtoC(temp)
+        }
+        
+        let densityDelta = (workingTemp - StandardTempCalculator.computeStandardTempForAltitude(elevation))
+        densityAltitude = pressureAltitude + (120 * densityDelta)
+    }
     
     
     private func testIfKeyValueNotPresent(_ keyName: String) -> (Bool, Double) {

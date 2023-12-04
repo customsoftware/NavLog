@@ -60,11 +60,11 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", textValue: $viewModel.mission.fuel)
                         
                     // If there are more than four seats, we show the middle seats
-                    if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 3) > 4 {
+                    if viewModel.momentModel.seatCount > 4 {
                         TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", textValue: $viewModel.mission.middleSeat)
                     }
                     // If there are more than two seats, we show the back seat
-                    if (Core.services.takeOffCalc.performanceModel?.seatCount ?? 1) > 2 {
+                    if viewModel.momentModel.seatCount > 2 {
                         TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", textValue: $viewModel.mission.backSeat)
                     }
                     
@@ -72,7 +72,7 @@ struct AircraftPerformanceView: View {
                 }
                 
                 Section("Results", content: {
-                    TakeOffPerformanceView(performance: missionPerformance)
+                    TakeOffPerformanceView(performance: missionPerformance, environment: viewModel.environment)
                         .onAppear(perform: {
                             temperatureInDegreesC = viewModel.environment.inCelsiusMode
                         })
@@ -88,12 +88,12 @@ struct AircraftPerformanceView: View {
                         missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
                         missionPerformance.isUnderGross = viewModel.isInWeightLimits()
                         missionPerformance.overWeightAmount = (viewModel.computeTotalWeight() - viewModel.momentModel.maxWeight)
-                        missionPerformance.pressureAltitude = viewModel.computePressureAltitude()
-                        missionPerformance.densityAltitude = viewModel.computeDensityAltitude(for: missionPerformance.pressureAltitude, tempIsCelsius: temperatureInDegreesC)
+                        
                         let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC)
                         missionPerformance.computedTakeOffRoll = runwayCalculations.0
                         missionPerformance.computedOver50Roll = runwayCalculations.1
-                        let landingCalculations = Core.services.landingCalc.calculatedRequiredLandingRoll(Int(missionPerformance.densityAltitude), viewModel.environment)
+                        
+                        let landingCalculations = viewModel.calculateRequiredLandingLength()
                         missionPerformance.computedLandingRoll = landingCalculations.0
                         missionPerformance.computedLandingOver50Roll = landingCalculations.1
                         
