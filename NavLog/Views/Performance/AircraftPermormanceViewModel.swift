@@ -45,7 +45,7 @@ class AircraftPerformanceViewModel: ObservableObject {
     }
     
     func computeTotalWeight() -> Double {
-        return momentModel.emptyWeight + mission.cargo + mission.fuel * momentModel.fuelWeight + mission.copilotSeat + mission.pilotSeat + mission.backSeat + momentModel.oilWeight
+        return momentModel.emptyWeight + mission.cargo + (mission.fuel * momentModel.fuelWeight) + mission.copilotSeat + mission.pilotSeat + mission.backSeat + momentModel.oilWeight
     }
     
     func computePressureAltitude() -> Double {
