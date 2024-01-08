@@ -126,6 +126,10 @@ fileprivate extension TakeOffCalculator {
             }
         })
         
+        // If we're at zero-zero, just use sea leavel
+        if retValue.count == 0 {
+            retValue.append(performanceModel.multipliers[0])
+        }
         return retValue
     }
     

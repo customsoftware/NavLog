@@ -84,6 +84,10 @@
 		90D55EAF2AA3F01400AAC1D7 /* HeadingNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */; };
 		90E2F9EE2B0C050A00E85227 /* ImportNavLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2F9ED2B0C050A00E85227 /* ImportNavLogView.swift */; };
 		90E2F9F02B0C07A200E85227 /* GarminImportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */; };
+		90EC51E82B48648D002C8C20 /* METARExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC51E72B48648D002C8C20 /* METARExtractorTests.swift */; };
+		90EC51EA2B486BB5002C8C20 /* METARData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC51E92B486BB5002C8C20 /* METARData.swift */; };
+		90EC52282B4C38DB002C8C20 /* ComplexMetarParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */; };
+		90EC522A2B4C3C30002C8C20 /* TextEntryFieldStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC52292B4C3C30002C8C20 /* TextEntryFieldStringView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +185,10 @@
 		90D55EAE2AA3F01400AAC1D7 /* HeadingNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingNavigationView.swift; sourceTree = "<group>"; };
 		90E2F9ED2B0C050A00E85227 /* ImportNavLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportNavLogView.swift; sourceTree = "<group>"; };
 		90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminImportType.swift; sourceTree = "<group>"; };
+		90EC51E72B48648D002C8C20 /* METARExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = METARExtractorTests.swift; sourceTree = "<group>"; };
+		90EC51E92B486BB5002C8C20 /* METARData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = METARData.swift; sourceTree = "<group>"; };
+		90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexMetarParser.swift; sourceTree = "<group>"; };
+		90EC52292B4C3C30002C8C20 /* TextEntryFieldStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryFieldStringView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +248,7 @@
 				90C5B0B82AE0508D0032E355 /* WeatherDataModels.swift */,
 				90D53A1B2B12CA4D00ED34EB /* MotionCapture.swift */,
 				9068650A2B1E0FB60077D18F /* MomentModel.swift */,
+				90EC51E92B486BB5002C8C20 /* METARData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -254,6 +263,7 @@
 				906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */,
 				90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */,
 				904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */,
+				90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -326,6 +336,7 @@
 				906EF91B2B03D3EC0004DC4C /* TakeOffPerformanceView.swift */,
 				90B93FDB2B044B6F00E163A7 /* TakeOffCalculator.swift */,
 				90AD6FCA2B1A7B4E002866F8 /* LandingCalculator.swift */,
+				90EC52292B4C3C30002C8C20 /* TextEntryFieldStringView.swift */,
 			);
 			path = Performance;
 			sourceTree = "<group>";
@@ -392,6 +403,7 @@
 				9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */,
 				90B93FDD2B04FF4600E163A7 /* ProfiileEncodeTests.swift */,
 				904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */,
+				90EC51E72B48648D002C8C20 /* METARExtractorTests.swift */,
 			);
 			path = NavLogTests;
 			sourceTree = "<group>";
@@ -546,9 +558,11 @@
 			files = (
 				90B93FDC2B044B6F00E163A7 /* TakeOffCalculator.swift in Sources */,
 				90AD6FCB2B1A7B4E002866F8 /* LandingCalculator.swift in Sources */,
+				90EC52282B4C38DB002C8C20 /* ComplexMetarParser.swift in Sources */,
 				9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */,
 				90227FFE2B069890007879AB /* PerformanceProfile.swift in Sources */,
 				906EF9162B03BB8E0004DC4C /* TextEntryFIeldView.swift in Sources */,
+				90EC51EA2B486BB5002C8C20 /* METARData.swift in Sources */,
 				90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */,
 				90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */,
 				909375A92B115D150033691D /* DGSwiftUIView.swift in Sources */,
@@ -592,6 +606,7 @@
 				90C3A3592B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift in Sources */,
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
+				90EC522A2B4C3C30002C8C20 /* TextEntryFieldStringView.swift in Sources */,
 				90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				90D53A1C2B12CA4D00ED34EB /* MotionCapture.swift in Sources */,
@@ -616,6 +631,7 @@
 				905F091F2AEC38050067A56F /* TomorrowWeatherExtractor.swift in Sources */,
 				90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */,
 				9056512B2AF05712005076BE /* FetchMagneticDeviation.swift in Sources */,
+				90EC51E82B48648D002C8C20 /* METARExtractorTests.swift in Sources */,
 				90B93FDE2B04FF4600E163A7 /* ProfiileEncodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

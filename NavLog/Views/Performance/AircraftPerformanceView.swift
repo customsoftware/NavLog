@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import Combine
 
 struct AircraftPerformanceView: View {
     @State var viewModel = AircraftPerformanceViewModel()
     @State var missionPerformance = PerformanceResults()
     @State var temperatureInDegreesC: Bool = false
     @State var buttonText: String = "Change to C"
+    @StateObject private var complexParser = ComplexMetarParser()
+    @State private var theWeather: AirportWeather? {
+        didSet {
+            guard let weather = theWeather else { 
+                resetValues()
+                return }
+           setValues(weather)
+        }
+    }
     
     private let textWidth: CGFloat = 180.0
     
@@ -25,6 +35,7 @@ struct AircraftPerformanceView: View {
         NavigationView( content: {
             Form( content: {
                 Section(header: Text("Airport")) {
+                    TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.environment.airportCode)
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.environment.elevation)
                     TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.environment.runwayLength)
                     TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.environment.runwayDirection)
@@ -80,6 +91,17 @@ struct AircraftPerformanceView: View {
             })
             .toolbar(content: {
                 HStack {
+                    Button {
+                        guard viewModel.environment.airportCode.count > 2
+                        else { return }
+                        // Load the results into the view controls
+                        Task {
+                            _ = try! await complexParser.fetchWeatherData(for: [viewModel.environment.airportCode])
+                            theWeather = complexParser.weather.first
+                        }
+                    } label: {
+                        Text("Update WX")
+                    }
                     Spacer()
                     Button {
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -102,6 +124,40 @@ struct AircraftPerformanceView: View {
             })
             .navigationTitle("Weight & Balance")
         })
+    }
+    
+    private func setValues(_ weather: AirportWeather) {
+        viewModel.environment.airportCode = weather.icaoId
+        if let aTemp = weather.temp {
+            temperatureInDegreesC = true
+            viewModel.environment.temp = aTemp
+        }
+        if let _ = weather.altim {
+            viewModel.environment.pressure = weather.altimeterSetting
+        }
+        
+        if let _ = weather.elev {
+            viewModel.environment.elevation = round(weather.elevation!)
+        }
+        if let speed = weather.windSpeed {
+            viewModel.environment.windSpeed = (speed as NSString).doubleValue
+        } else {
+            viewModel.environment.windSpeed = 0
+        }
+        if let direction = weather.windDirection {
+            viewModel.environment.windDirection = (direction as NSString).doubleValue
+        } else {
+            viewModel.environment.windDirection = 0
+        }
+    }
+    
+    private func resetValues() {
+        viewModel.environment.airportCode = ""
+        viewModel.environment.temp = 0
+        viewModel.environment.pressure = 0
+        viewModel.environment.elevation = 0
+        viewModel.environment.windSpeed = 0
+        viewModel.environment.windDirection = 0
     }
 }
 

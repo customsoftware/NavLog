@@ -10,6 +10,7 @@ import Foundation
 struct Environment {
     private let standardBaroPressure: Double = 29.92
     
+    var airportCode: String = ""
     var elevation: Double = 1
     var pressure: Double = 29.92 {
         didSet {
