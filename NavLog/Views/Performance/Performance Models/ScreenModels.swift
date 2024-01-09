@@ -39,6 +39,7 @@ struct Environment {
     
     init() {
         defaults = UserDefaults()
+        airportCode = defaults.string(forKey: "kAirportCode") ?? ""
         var keyValue = testIfKeyValueNotPresent("kElevation")
         elevation = keyValue.0 ? 1 : keyValue.1
         keyValue = testIfKeyValueNotPresent("kPresure")
@@ -60,6 +61,7 @@ struct Environment {
         updatePressure()
         updateDensityAlt()
         
+        defaults.setValue(airportCode, forKey: "kAirportCode")
         defaults.setValue(elevation, forKey: "kElevation")
         defaults.setValue(pressure, forKey: "kPresure")
         defaults.setValue(temp, forKey: "kTemp")
@@ -105,4 +107,35 @@ struct MissionData {
     var backSeat: Double = 0
     var cargo: Double = 0
     var fuel: Double = 0
+    
+    init() {
+        let defaults = UserDefaults.standard
+        pilotSeat = defaults.double(forKey: MissionDataKeys.pilot.rawValue)
+        copilotSeat = defaults.double(forKey: MissionDataKeys.coPilot.rawValue)
+        middleSeat = defaults.double(forKey: MissionDataKeys.middleSeat.rawValue)
+        backSeat = defaults.double(forKey: MissionDataKeys.backSeat.rawValue)
+        cargo = defaults.double(forKey: MissionDataKeys.cargoWeight.rawValue)
+        fuel = defaults.double(forKey: MissionDataKeys.fuelLoad.rawValue)
+    }
+    
+    
+    func save() {
+        let defaults = UserDefaults.standard
+        defaults.setValue(pilotSeat, forKey: MissionDataKeys.pilot.rawValue)
+        defaults.setValue(copilotSeat, forKey: MissionDataKeys.coPilot.rawValue)
+        defaults.setValue(middleSeat, forKey: MissionDataKeys.middleSeat.rawValue)
+        defaults.setValue(backSeat, forKey: MissionDataKeys.backSeat.rawValue)
+        defaults.setValue(cargo, forKey: MissionDataKeys.cargoWeight.rawValue)
+        defaults.setValue(fuel, forKey: MissionDataKeys.fuelLoad.rawValue)
+        defaults.synchronize()
+    }
+}
+
+enum MissionDataKeys: String, CaseIterable {
+    case pilot = "kPilotKey"
+    case coPilot = "kCoPilotKey"
+    case middleSeat = "kMiddleKey"
+    case backSeat = "kBackKey"
+    case cargoWeight = "kCargoKey"
+    case fuelLoad = "kFuelKey"
 }

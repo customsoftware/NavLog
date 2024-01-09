@@ -13,6 +13,7 @@
 		90227FFE2B069890007879AB /* PerformanceProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFD2B069890007879AB /* PerformanceProfile.swift */; };
 		902280002B0698E8007879AB /* PerformanceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFF2B0698E8007879AB /* PerformanceResults.swift */; };
 		902280022B06994C007879AB /* MomentDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902280012B06994C007879AB /* MomentDatum.swift */; };
+		90244FCE2B4DAD8C00A75C1E /* RunwayChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */; };
 		904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904321D52AA61A4600F10D77 /* SliderBarView.swift */; };
 		904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A67152ACB558200FDC4E9 /* NavigationDetail.swift */; };
 		904B2EEF2B1233D600F526D7 /* AircraftOrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */; };
@@ -110,6 +111,7 @@
 		90227FFD2B069890007879AB /* PerformanceProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceProfile.swift; sourceTree = "<group>"; };
 		90227FFF2B0698E8007879AB /* PerformanceResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceResults.swift; sourceTree = "<group>"; };
 		902280012B06994C007879AB /* MomentDatum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentDatum.swift; sourceTree = "<group>"; };
+		90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunwayChooser.swift; sourceTree = "<group>"; };
 		904321D52AA61A4600F10D77 /* SliderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarView.swift; sourceTree = "<group>"; };
 		904A67152ACB558200FDC4E9 /* NavigationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDetail.swift; sourceTree = "<group>"; };
 		904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftOrientationManager.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */,
 				90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */,
 				90EC522D2B4CCF08002C8C20 /* AirportParser.swift */,
+				90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90B93FDC2B044B6F00E163A7 /* TakeOffCalculator.swift in Sources */,
+				90244FCE2B4DAD8C00A75C1E /* RunwayChooser.swift in Sources */,
 				90EC522C2B4CC15D002C8C20 /* AirportData.swift in Sources */,
 				90AD6FCB2B1A7B4E002866F8 /* LandingCalculator.swift in Sources */,
 				90EC52282B4C38DB002C8C20 /* ComplexMetarParser.swift in Sources */,
