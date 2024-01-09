@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -88,6 +88,9 @@
 		90EC51EA2B486BB5002C8C20 /* METARData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC51E92B486BB5002C8C20 /* METARData.swift */; };
 		90EC52282B4C38DB002C8C20 /* ComplexMetarParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */; };
 		90EC522A2B4C3C30002C8C20 /* TextEntryFieldStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC52292B4C3C30002C8C20 /* TextEntryFieldStringView.swift */; };
+		90EC522C2B4CC15D002C8C20 /* AirportData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC522B2B4CC15D002C8C20 /* AirportData.swift */; };
+		90EC522E2B4CCF08002C8C20 /* AirportParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC522D2B4CCF08002C8C20 /* AirportParser.swift */; };
+		90EC52302B4CD4A7002C8C20 /* AirportParseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EC522F2B4CD4A7002C8C20 /* AirportParseTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +192,9 @@
 		90EC51E92B486BB5002C8C20 /* METARData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = METARData.swift; sourceTree = "<group>"; };
 		90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexMetarParser.swift; sourceTree = "<group>"; };
 		90EC52292B4C3C30002C8C20 /* TextEntryFieldStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryFieldStringView.swift; sourceTree = "<group>"; };
+		90EC522B2B4CC15D002C8C20 /* AirportData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportData.swift; sourceTree = "<group>"; };
+		90EC522D2B4CCF08002C8C20 /* AirportParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportParser.swift; sourceTree = "<group>"; };
+		90EC522F2B4CD4A7002C8C20 /* AirportParseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportParseTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +255,7 @@
 				90D53A1B2B12CA4D00ED34EB /* MotionCapture.swift */,
 				9068650A2B1E0FB60077D18F /* MomentModel.swift */,
 				90EC51E92B486BB5002C8C20 /* METARData.swift */,
+				90EC522B2B4CC15D002C8C20 /* AirportData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -264,6 +271,7 @@
 				90E2F9EF2B0C07A200E85227 /* GarminImportType.swift */,
 				904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */,
 				90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */,
+				90EC522D2B4CCF08002C8C20 /* AirportParser.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -404,6 +412,7 @@
 				90B93FDD2B04FF4600E163A7 /* ProfiileEncodeTests.swift */,
 				904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */,
 				90EC51E72B48648D002C8C20 /* METARExtractorTests.swift */,
+				90EC522F2B4CD4A7002C8C20 /* AirportParseTest.swift */,
 			);
 			path = NavLogTests;
 			sourceTree = "<group>";
@@ -506,7 +515,7 @@
 				};
 			};
 			buildConfigurationList = 90A258422A96C27000B40DAD /* Build configuration list for PBXProject "NavLog" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -557,6 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90B93FDC2B044B6F00E163A7 /* TakeOffCalculator.swift in Sources */,
+				90EC522C2B4CC15D002C8C20 /* AirportData.swift in Sources */,
 				90AD6FCB2B1A7B4E002866F8 /* LandingCalculator.swift in Sources */,
 				90EC52282B4C38DB002C8C20 /* ComplexMetarParser.swift in Sources */,
 				9058F15B2A98EDC000C7CE81 /* NavLog.swift in Sources */,
@@ -565,6 +575,7 @@
 				90EC51EA2B486BB5002C8C20 /* METARData.swift in Sources */,
 				90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */,
 				90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */,
+				90EC522E2B4CCF08002C8C20 /* AirportParser.swift in Sources */,
 				909375A92B115D150033691D /* DGSwiftUIView.swift in Sources */,
 				90980CE42B02B28B00F0E5F0 /* DeviationEngine.swift in Sources */,
 				9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */,
@@ -631,6 +642,7 @@
 				905F091F2AEC38050067A56F /* TomorrowWeatherExtractor.swift in Sources */,
 				90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */,
 				9056512B2AF05712005076BE /* FetchMagneticDeviation.swift in Sources */,
+				90EC52302B4CD4A7002C8C20 /* AirportParseTest.swift in Sources */,
 				90EC51E82B48648D002C8C20 /* METARExtractorTests.swift in Sources */,
 				90B93FDE2B04FF4600E163A7 /* ProfiileEncodeTests.swift in Sources */,
 			);
@@ -699,7 +711,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -756,7 +768,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -790,7 +802,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -834,7 +846,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -863,7 +875,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4MAEKVPSTZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.customsoftware.NavLogTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -883,7 +895,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4MAEKVPSTZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.customsoftware.NavLogTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

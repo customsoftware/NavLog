@@ -23,7 +23,7 @@ class ComplexMetarParser: ObservableObject {
         guard airportList.isEmpty == false else { throw HTTPError.badURL }
         
         let reportTime = getTime()
-        let queryString = ParseTestData.baseQueryString.replacingOccurrences(of: "<<airportString>>", with: airportList).replacingOccurrences(of: "<<zuluDateString>>", with: reportTime)
+        let queryString = ParseTestData.baseQueryString.replacingOccurrences(of: ParseTestData.airportSpaceHolder, with: airportList).replacingOccurrences(of: ParseTestData.zuluTimeSpaceHolder, with: reportTime)
         
         // Query the API
         guard let url = URL(string: queryString) else { throw HTTPError.badURL }
@@ -70,7 +70,7 @@ class ComplexMetarParser: ObservableObject {
             var index = 0
             
             list.forEach { anAirport in
-                retValue = fixAirportCode(anAirport)
+                retValue = AirportComposer.fixAirportCode(anAirport)
                 if index < counterIndex {
                     retValue = retValue + ","
                     index += 1
@@ -78,21 +78,10 @@ class ComplexMetarParser: ObservableObject {
             }
             
         } else {
-            retValue = fixAirportCode(list.first!)
+            retValue = AirportComposer.fixAirportCode(list.first!)
         }
         
         return retValue
-    }
-    
-    private func fixAirportCode(_ code: String) -> String {
-        var airport = code
-        
-        if airport.first?.uppercased() != "K",
-           airport.count == 3 {
-            airport = "K" + airport
-        }
-        
-        return airport
     }
     
     private func getTime() -> String {
@@ -158,7 +147,22 @@ class ComplexMetarParser: ObservableObject {
 
 struct ParseTestData {
     static let baseQueryString: String = "https://aviationweather.gov/api/data/metar?ids=<<airportString>>&format=json&date=<<zuluDateString>>"
+    static let airportSpaceHolder: String = "<<airportString>>"
+    static let zuluTimeSpaceHolder: String = "<<zuluDateString>>"
     static let testSingleAirportString: String = "KPVU"
     static let testMultipleAirportString: String = "KPVU,KSLC,KFOM,KLAX,KTIX"
     static let testTimeString: String = "20240106_170000Z"
+}
+
+struct AirportComposer {
+    static func fixAirportCode(_ code: String) -> String {
+        var airport = code
+        
+        if airport.first?.uppercased() != "K",
+           airport.count == 3 {
+            airport = "K" + airport
+        }
+        
+        return airport
+    }
 }

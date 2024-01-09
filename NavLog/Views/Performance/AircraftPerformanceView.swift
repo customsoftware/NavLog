@@ -14,6 +14,7 @@ struct AircraftPerformanceView: View {
     @State var temperatureInDegreesC: Bool = false
     @State var buttonText: String = "Change to C"
     @StateObject private var complexParser = ComplexMetarParser()
+    @StateObject private var airportParser = AirportParser()
     @State private var theWeather: AirportWeather? {
         didSet {
             guard let weather = theWeather else { 
@@ -98,6 +99,23 @@ struct AircraftPerformanceView: View {
                         Task {
                             _ = try! await complexParser.fetchWeatherData(for: [viewModel.environment.airportCode])
                             theWeather = complexParser.weather.first
+                            
+                            _ = try! await airportParser.fetchAirportData(for: viewModel.environment.airportCode)
+                            let runways = airportParser.runways
+                            if runways.count > 1 {
+                                let bestAlignment = chooseFrom(the: runways, wind: viewModel.environment.windDirection)
+                                
+                                viewModel.environment.runwayDirection = bestAlignment.1
+                                viewModel.environment.runwayLength = Double(bestAlignment.0.runwayLength)
+                                
+                            } else if runways.count == 1 {
+                                let theRunway = runways.first!
+                                viewModel.environment.runwayLength = Double(theRunway.runwayLength)
+                                let axis = theRunway.getRunwayAxis()
+                                viewModel.environment.runwayDirection = chooseTheRunway(axis.0, axis.1, wind: viewModel.environment.windDirection)
+                            } else {
+                                print("There's nothing to choose")
+                            }
                         }
                     } label: {
                         Text("Update WX")
@@ -126,6 +144,61 @@ struct AircraftPerformanceView: View {
         })
     }
     
+    
+    private func chooseFrom(the runways: [Runway], wind: Double) -> (Runway, Double) {
+        
+        var runwayDirections: [Double: Runway] = [:]
+        _ = runways.map { aRunway in
+            if aRunway.id.contains("/") {
+                let axise = aRunway.getRunwayAxis()
+                runwayDirections[Double(axise.0)] = aRunway
+                runwayDirections[Double(axise.1)] = aRunway
+            }
+        }
+        
+        var candidates: [Double: Runway] = [:]
+        
+        // This gets rid of the runways which have a tailwind component
+        runwayDirections.keys.forEach({ aDirection in
+            let runwayDirection = (aDirection * 10)
+            if runwayDirection - wind < 90 {
+                candidates[aDirection] = runwayDirections[aDirection]!
+            }
+        })
+        
+        // Get the best match of the remaining runways
+        var matchDirection = candidates.first!.key * 10
+        var matchRunway = candidates.first!.value
+        
+        candidates.keys.forEach { aDirection in
+            let runwayDirection = (aDirection * 10)
+            let aCandidate = candidates[aDirection]
+            if abs(matchDirection - wind) > abs(runwayDirection - wind) {
+                matchDirection = runwayDirection
+                matchRunway = aCandidate!
+            }
+        }
+        
+        return (matchRunway, (matchDirection/10))
+    }
+    
+    private func chooseTheRunway(_ runwayOne: Int, _ runwayTwo: Int, wind: Double) -> Double {
+        var retValue: Double = 0
+        let runway1 = runwayOne * 10
+        let runway2 = runwayTwo * 10
+        
+        let runDelta1 = Double(runway1) - wind
+        let runDelta2 = Double(runway2) - wind
+        
+        if runDelta1 < runDelta2 {
+            retValue = Double(runwayOne)
+        } else {
+            retValue = Double(runwayTwo)
+        }
+        
+        return retValue
+    }
+    
     private func setValues(_ weather: AirportWeather) {
         viewModel.environment.airportCode = weather.icaoId
         if let aTemp = weather.temp {
@@ -152,12 +225,13 @@ struct AircraftPerformanceView: View {
     }
     
     private func resetValues() {
-        viewModel.environment.airportCode = ""
         viewModel.environment.temp = 0
         viewModel.environment.pressure = 0
         viewModel.environment.elevation = 0
         viewModel.environment.windSpeed = 0
         viewModel.environment.windDirection = 0
+        viewModel.environment.runwayDirection = 0
+        viewModel.environment.runwayLength = 0
     }
 }
 
