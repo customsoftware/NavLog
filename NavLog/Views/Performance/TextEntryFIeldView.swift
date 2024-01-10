@@ -45,7 +45,7 @@ struct TextEntryFieldView: View {
         guard isValid else {
             return .red
         }
-        return .black
+        return Color.basicText
     }
 }
 
