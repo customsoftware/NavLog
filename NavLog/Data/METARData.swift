@@ -74,10 +74,10 @@ protocol VariableWindSpeed {
 struct AiportWindSpeedString: Codable, VariableWindSpeed {
     var icaoId: String
     var metar_id: Int
-    var wspd: String
+    var wspd: String?
     var windSpeed: String {
         get {
-            return wspd
+            return wspd ?? ""
         }
     }
 }
@@ -85,10 +85,10 @@ struct AiportWindSpeedString: Codable, VariableWindSpeed {
 struct AiportWindSpeedInt: Codable, VariableWindSpeed {
     var icaoId: String
     var metar_id: Int
-    var wspd: Int
+    var wspd: Int?
     var windSpeed: String {
         get {
-            return "\(wspd)"
+            return "\(wspd ?? 0)"
         }
     }
 }
@@ -101,10 +101,10 @@ protocol VariableWindDirection {
 struct AiportWindDirectionString: Codable, VariableWindDirection {
     var icaoId: String
     var metar_id: Int
-    var wdir: String
+    var wdir: String?
     var windDirection: String {
         get {
-            return wdir
+            return wdir ?? ""
         }
     }
 }
@@ -112,10 +112,10 @@ struct AiportWindDirectionString: Codable, VariableWindDirection {
 struct AiportWindDirectionInt: Codable, VariableWindDirection {
     var icaoId: String
     var metar_id: Int
-    var wdir: Int
+    var wdir: Int?
     var windDirection: String {
         get {
-            return "\(wdir)"
+            return "\(wdir ?? 0)"
         }
     }
 }

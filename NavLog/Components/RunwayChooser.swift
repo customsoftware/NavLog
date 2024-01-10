@@ -17,7 +17,7 @@ class RunwayChooser: ObservableObject {
     /// - Returns:
     ///     - A Tuple, containing the selected runway and the direction of that runway which should be used.
     ///  This method relies solely upon wind speed to make the determination.
-    func chooseFrom(the runways: [Runway], wind: Double) -> (Runway, Double) {
+    func chooseFrom(the runways: [Runway], wind: Double) -> (Runway?, Double?) {
         runwayDirections.removeAll()
         _ = runways.map { aRunway in
             if aRunway.id.contains("/") {
@@ -38,6 +38,7 @@ class RunwayChooser: ObservableObject {
         })
         
         // Get the best match of the remaining runways
+        guard candidates.count > 0 else { return (nil, nil) }
         var matchDirection = candidates.first!.key * 10
         var matchRunway = candidates.first!.value
         

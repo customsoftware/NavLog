@@ -121,7 +121,7 @@ class ComplexMetarParser: ObservableObject {
                 let parsedString = try JSONDecoder().decode(AiportWindDirectionString.self, from: jsonData)
                 retValue = parsedString
             } catch {
-                print("This error matters")
+                print("This error matters for wind")
             }
         }
         return retValue
@@ -137,7 +137,7 @@ class ComplexMetarParser: ObservableObject {
                 let parsedString = try JSONDecoder().decode(AiportWindSpeedString.self, from: jsonData)
                 retValue = parsedString
             } catch {
-                print("This error matters")
+                print("This error matters for speed")
             }
         }
         return retValue

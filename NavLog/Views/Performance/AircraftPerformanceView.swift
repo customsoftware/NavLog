@@ -41,10 +41,14 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.environment.airportCode)
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.environment.elevation)
                     TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.environment.runwayLength)
-                    Picker("Runway Direction", selection: $viewModel.environment.runwayDirection) {
-                        ForEach(Array(runwayChooser.runwayDirections.keys), id: \.self) {
-                            Text("\(Int($0))")
+                    if runwayChooser.runwayDirections.count > 0 {
+                        Picker("Runway Direction", selection: $viewModel.environment.runwayDirection) {
+                            ForEach(Array(runwayChooser.runwayDirections.keys), id: \.self) {
+                                Text("\(Int($0))")
+                            }
                         }
+                    } else {
+                        TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.environment.runwayDirection)
                     }
                 }
                 
@@ -112,10 +116,11 @@ struct AircraftPerformanceView: View {
                             let runways = airportParser.runways
                             if runways.count > 1 {
                                 let bestAlignment = runwayChooser.chooseFrom(the: runways, wind: viewModel.environment.windDirection)
-
-                                viewModel.environment.runwayDirection = bestAlignment.1
-                                viewModel.environment.runwayLength = Double(bestAlignment.0.runwayLength)
-                                
+                                if let direction = bestAlignment.1,
+                                   let aRunway = bestAlignment.0 {
+                                    viewModel.environment.runwayDirection = direction
+                                    viewModel.environment.runwayLength = Double(aRunway.runwayLength)
+                                }
                             } else if runways.count == 1 {
                                 let theRunway = runways.first!
                                 viewModel.environment.runwayLength = Double(theRunway.runwayLength)
