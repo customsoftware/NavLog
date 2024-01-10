@@ -7,7 +7,8 @@
 
 import Foundation
 
-class RunwayChooser {
+class RunwayChooser: ObservableObject {
+    @Published var runwayDirections: [Double: Runway] = [:]
     
     /// Where there are multiple runways to choose from, use this method.
     /// - Parameters:
@@ -16,8 +17,8 @@ class RunwayChooser {
     /// - Returns:
     ///     - A Tuple, containing the selected runway and the direction of that runway which should be used.
     ///  This method relies solely upon wind speed to make the determination.
-    static func chooseFrom(the runways: [Runway], wind: Double) -> (Runway, Double) {
-        var runwayDirections: [Double: Runway] = [:]
+    func chooseFrom(the runways: [Runway], wind: Double) -> (Runway, Double) {
+        runwayDirections.removeAll()
         _ = runways.map { aRunway in
             if aRunway.id.contains("/") {
                 let axise = aRunway.getRunwayAxis()
@@ -27,7 +28,7 @@ class RunwayChooser {
         }
         
         var candidates: [Double: Runway] = [:]
-        
+       
         // This gets rid of the runways which have a tailwind component
         runwayDirections.keys.forEach({ aDirection in
             let runwayDirection = (aDirection * 10)
