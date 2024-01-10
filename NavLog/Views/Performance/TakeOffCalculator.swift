@@ -11,7 +11,7 @@ import Foundation
 class TakeOffCalculator {
     var performanceModel: PerformanceProfile?
     
-    func calculateTakeOffWith(tempIsFarenheit: Bool, acftWeight: Double, environment: Environment) -> Double {
+    func calculateTakeOffWith(tempIsFarenheit: Bool, acftWeight: Double, environment: WeatherEnvironment) -> Double {
         
         let airportElevation = environment.elevation
         
@@ -51,7 +51,7 @@ class TakeOffCalculator {
         return newRunwayLength
     }
     
-    func calculateTakeOffOver50With(environment: Environment, aircraftWeight: Double, calculatedRunwayLength: Double) -> Double {
+    func calculateTakeOffOver50With(environment: WeatherEnvironment, aircraftWeight: Double, calculatedRunwayLength: Double) -> Double {
         var newRunwayLength = calculatedRunwayLength
         let multiple = returnClosest50Elevation(to: environment.elevation)
         
@@ -196,7 +196,7 @@ fileprivate extension TakeOffCalculator {
         return round(newRunwayLength)
     }
     
-    func adjustRunwayLengthForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
+    func adjustRunwayLengthForWind(environment: WeatherEnvironment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
         var newRunwayLength = calculatedRunway
         
         // Compute the relative wind
@@ -236,7 +236,7 @@ fileprivate extension TakeOffCalculator {
         return newRunwayLength
     }
     
-    func adjustRunwayLengthOver50ForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
+    func adjustRunwayLengthOver50ForWind(environment: WeatherEnvironment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
         var newRunwayLength = calculatedRunway
         
         // Compute the relative wind

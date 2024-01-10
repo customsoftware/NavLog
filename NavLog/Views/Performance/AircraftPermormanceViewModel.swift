@@ -10,7 +10,7 @@ import Combine
 
 
 class AircraftPerformanceViewModel: ObservableObject {
-    @Published var environment: Environment = Environment()
+    @Published var weather: WeatherEnvironment = WeatherEnvironment()
     @Published var mission: MissionData = MissionData()
     @Published var momentData: MomentDatum = MomentDatum()
     private var toCalc: TakeOffCalculator?
@@ -61,10 +61,10 @@ class AircraftPerformanceViewModel: ObservableObject {
         // Get the standard take off length first
         guard let toCalc = self.toCalc else { return (0,0) }
             
-        let toLength = toCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: environment)
+        let toLength = toCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: weather)
         
         // This formula needs the preceding 'toLength' parameter to work
-        let to50Length = toCalc.calculateTakeOffOver50With(environment: environment, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
+        let to50Length = toCalc.calculateTakeOffOver50With(environment: weather, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
         
         return (toLength, to50Length)
     }
@@ -79,7 +79,7 @@ class AircraftPerformanceViewModel: ObservableObject {
         guard let landingCalc = landingCalc,
               let _ = landingCalc.landingProfile else { return (0,0) }
         
-        let landingRoll = landingCalc.calculatedRequiredLandingRoll(environment)
+        let landingRoll = landingCalc.calculatedRequiredLandingRoll(weather)
         return (Int(landingRoll.0), Int(landingRoll.1))
     }
 }

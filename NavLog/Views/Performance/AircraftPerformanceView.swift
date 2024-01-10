@@ -10,13 +10,13 @@ import Combine
 
 struct AircraftPerformanceView: View {
     @State private var shouldShowAlert: Bool = false
-    @State var viewModel = AircraftPerformanceViewModel()
+    @StateObject var viewModel = AircraftPerformanceViewModel()
     @State var missionPerformance = PerformanceResults()
     @State var temperatureInDegreesC: Bool = false
     @State var buttonText: String = "Change to C"
     @StateObject private var complexParser = ComplexMetarParser()
     @StateObject private var airportParser = AirportParser()
-    private var runwayChooser = RunwayChooser()
+    @StateObject private var runwayChooser = RunwayChooser()
     @State private var theWeather: AirportWeather? {
         didSet {
             guard let weather = theWeather else { 
@@ -38,42 +38,44 @@ struct AircraftPerformanceView: View {
         NavigationView( content: {
             Form( content: {
                 Section(header: Text("Airport")) {
-                    TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.environment.airportCode)
-                    TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.environment.elevation)
-                    TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.environment.runwayLength)
+                    TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
+                    TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
+                    
+                    TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.weather.runwayLength)
+                    
                     if runwayChooser.runwayDirections.count > 0 {
-                        Picker("Runway Direction", selection: $viewModel.environment.runwayDirection) {
+                        Picker("Runway Direction", selection: $viewModel.weather.runwayDirection) {
                             ForEach(Array(runwayChooser.runwayDirections.keys), id: \.self) {
                                 Text("\(Int($0))")
                             }
                         }
                     } else {
-                        TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.environment.runwayDirection)
+                        TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.weather.runwayDirection)
                     }
                 }
                 
                 Section(header: Text("Weather")) {
-                    TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", textValue: $viewModel.environment.pressure)
+                    TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", textValue: $viewModel.weather.pressure)
                     if temperatureInDegreesC {
-                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.environment.temp)
+                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.weather.temp)
                     } else {
-                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - F", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.environment.temp)
+                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - F", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.weather.temp)
                     }
                     Button(buttonText) {
                         temperatureInDegreesC = !temperatureInDegreesC
                         if temperatureInDegreesC {
                             // Convert to celsius
-                            viewModel.environment.temp = StandardTempCalculator.convertFtoC(viewModel.environment.temp)
+                            viewModel.weather.temp = StandardTempCalculator.convertFtoC(viewModel.weather.temp)
                             buttonText = "Change to F"
                         } else {
                             // Convert to farenheit
                             buttonText = "Change to C"
-                            viewModel.environment.temp = StandardTempCalculator.convertCtoF(viewModel.environment.temp)
+                            viewModel.weather.temp = StandardTempCalculator.convertCtoF(viewModel.weather.temp)
                         }
-                        viewModel.environment.inCelsiusMode = temperatureInDegreesC
+                        viewModel.weather.inCelsiusMode = temperatureInDegreesC
                     }
-                    TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.environment.windDirection)
-                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.environment.windSpeed)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.weather.windDirection)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
                 }
                 
                 Section(header: Text("Mission Load")) {
@@ -96,36 +98,36 @@ struct AircraftPerformanceView: View {
                 }
                 
                 Section("Results", content: {
-                    TakeOffPerformanceView(performance: missionPerformance, environment: viewModel.environment)
+                    TakeOffPerformanceView(performance: missionPerformance, environment: viewModel.weather)
                         .onAppear(perform: {
-                            temperatureInDegreesC = viewModel.environment.inCelsiusMode
+                            temperatureInDegreesC = viewModel.weather.inCelsiusMode
                         })
                 })
             })
             .toolbar(content: {
                 HStack {
                     Button {
-                        guard viewModel.environment.airportCode.count > 2
+                        guard viewModel.weather.airportCode.count > 2
                         else { return }
                         // Load the results into the view controls
                         Task {
-                            _ = try! await complexParser.fetchWeatherData(for: [viewModel.environment.airportCode])
+                            _ = try! await complexParser.fetchWeatherData(for: [viewModel.weather.airportCode])
                             theWeather = complexParser.weather.first
                             
-                            _ = try! await airportParser.fetchAirportData(for: viewModel.environment.airportCode)
+                            _ = try! await airportParser.fetchAirportData(for: viewModel.weather.airportCode)
                             let runways = airportParser.runways
                             if runways.count > 1 {
-                                let bestAlignment = runwayChooser.chooseFrom(the: runways, wind: viewModel.environment.windDirection)
+                                let bestAlignment = runwayChooser.chooseFrom(the: runways, wind: viewModel.weather.windDirection)
                                 if let direction = bestAlignment.1,
                                    let aRunway = bestAlignment.0 {
-                                    viewModel.environment.runwayDirection = direction
-                                    viewModel.environment.runwayLength = Double(aRunway.runwayLength)
+                                    viewModel.weather.runwayDirection = direction
+                                    viewModel.weather.runwayLength = Double(aRunway.runwayLength)
                                 }
                             } else if runways.count == 1 {
                                 let theRunway = runways.first!
-                                viewModel.environment.runwayLength = Double(theRunway.runwayLength)
+                                viewModel.weather.runwayLength = Double(theRunway.runwayLength)
                                 let axis = theRunway.getRunwayAxis()
-                                viewModel.environment.runwayDirection = RunwayChooser.chooseTheRunway(axis.0, axis.1, wind: viewModel.environment.windDirection)
+                                viewModel.weather.runwayDirection = RunwayChooser.chooseTheRunway(axis.0, axis.1, wind: viewModel.weather.windDirection)
                             } else {
                                 print("There's nothing to choose")
                             }
@@ -137,7 +139,7 @@ struct AircraftPerformanceView: View {
                     Button {
                         guard validateForm() else { return }
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        viewModel.environment.save()
+                        viewModel.weather.save()
                         // I want all this done in the missionPerformance object, but it works for now.
                         missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
                         missionPerformance.isUnderGross = viewModel.isInWeightLimits()
@@ -171,38 +173,38 @@ struct AircraftPerformanceView: View {
     }
     
     private func setAirfieldValues(_ weather: AirportWeather) {
-        viewModel.environment.airportCode = weather.icaoId
+        viewModel.weather.airportCode = weather.icaoId
         if let aTemp = weather.temp {
             temperatureInDegreesC = true
-            viewModel.environment.temp = aTemp
+            viewModel.weather.temp = aTemp
         }
         if let _ = weather.altim {
-            viewModel.environment.pressure = weather.altimeterSetting
+            viewModel.weather.pressure = weather.altimeterSetting
         }
         
         if let _ = weather.elev {
-            viewModel.environment.elevation = round(weather.elevation!)
+            viewModel.weather.elevation = round(weather.elevation!)
         }
         if let speed = weather.windSpeed {
-            viewModel.environment.windSpeed = (speed as NSString).doubleValue
+            viewModel.weather.windSpeed = (speed as NSString).doubleValue
         } else {
-            viewModel.environment.windSpeed = 0
+            viewModel.weather.windSpeed = 0
         }
         if let direction = weather.windDirection {
-            viewModel.environment.windDirection = (direction as NSString).doubleValue
+            viewModel.weather.windDirection = (direction as NSString).doubleValue
         } else {
-            viewModel.environment.windDirection = 0
+            viewModel.weather.windDirection = 0
         }
     }
     
     private func resetAirfieldValues() {
-        viewModel.environment.temp = 0
-        viewModel.environment.pressure = 0
-        viewModel.environment.elevation = 0
-        viewModel.environment.windSpeed = 0
-        viewModel.environment.windDirection = 0
-        viewModel.environment.runwayDirection = 0
-        viewModel.environment.runwayLength = 0
+        viewModel.weather.temp = 0
+        viewModel.weather.pressure = 0
+        viewModel.weather.elevation = 0
+        viewModel.weather.windSpeed = 0
+        viewModel.weather.windDirection = 0
+        viewModel.weather.runwayDirection = 0
+        viewModel.weather.runwayLength = 0
     }
 }
 

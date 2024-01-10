@@ -10,7 +10,7 @@ import Combine
 
 struct TakeOffPerformanceView: View {
     var performance: PerformanceResults
-    var environment: Environment
+    var environment: WeatherEnvironment
     
     var body: some View {
         VStack (alignment: .leading, content: {
@@ -48,5 +48,5 @@ struct TakeOffPerformanceView: View {
 }
 
 #Preview {
-    TakeOffPerformanceView(performance: PerformanceResults(), environment: Environment())
+    TakeOffPerformanceView(performance: PerformanceResults(), environment: WeatherEnvironment())
 }

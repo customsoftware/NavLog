@@ -15,7 +15,7 @@ class LandingCalculator {
         self.landingProfile = landingProfile
     }
     
-    func calculatedRequiredLandingRoll(_ environment: Environment) -> (Double, Double)  {
+    func calculatedRequiredLandingRoll(_ environment: WeatherEnvironment) -> (Double, Double)  {
         
         guard let landingProfile = self.landingProfile else { return (0, 0) }
         
