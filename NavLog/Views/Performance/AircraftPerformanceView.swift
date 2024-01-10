@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 
 struct AircraftPerformanceView: View {
+    @State private var shouldShowAlert: Bool = false
     @State var viewModel = AircraftPerformanceViewModel()
     @State var missionPerformance = PerformanceResults()
     @State var temperatureInDegreesC: Bool = false
@@ -69,7 +70,9 @@ struct AircraftPerformanceView: View {
                 Section(header: Text("Mission Load")) {
                     TextEntryFieldView(formatter: formatter, captionText: "Pilot", textWidth: textWidth, promptText: "Pilot", textValue: $viewModel.mission.pilotSeat)
                     TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
-                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", textValue: $viewModel.mission.fuel)
+                    
+                    // We need a way to let the user know if they put more fuel than the tank can hold...
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", testValue: 48.0, textValue: $viewModel.mission.fuel)
                         
                     // If there are more than four seats, we show the middle seats
                     if viewModel.momentModel.seatCount > 4 {
@@ -122,6 +125,7 @@ struct AircraftPerformanceView: View {
                     }
                     Spacer()
                     Button {
+                        guard validateForm() else { return }
                         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         viewModel.environment.save()
                         // I want all this done in the missionPerformance object, but it works for now.
@@ -141,8 +145,19 @@ struct AircraftPerformanceView: View {
                     } label: { Text("Calculate") }
                 }
             })
+            .alert(isPresented: $shouldShowAlert) {
+                // Put alert here
+                Alert(title: Text("You can't load more than \(Int(viewModel.momentData.maxFuelGallons)) gallons."))
+                
+            }
             .navigationTitle("Weight & Balance")
         })
+    }
+    
+    private func validateForm() -> Bool {
+        var retValue: Bool = (viewModel.mission.fuel <= viewModel.momentModel.maxFuelGallons)
+        shouldShowAlert = !retValue
+        return retValue
     }
     
     private func setAirfieldValues(_ weather: AirportWeather) {

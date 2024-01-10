@@ -13,6 +13,8 @@ struct TextEntryFieldView: View {
     var textWidth: CGFloat
     var promptText: String
     var isBold: Bool = false
+    var testValue: Double?
+    @State private var isValid: Bool = true
     @Binding var textValue: Double
     
     var body: some View {
@@ -28,10 +30,25 @@ struct TextEntryFieldView: View {
             TextField(promptText, value: $textValue, formatter: formatter)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .keyboardType(.numbersAndPunctuation)
+                .foregroundColor(titleColor)
         }
+        .onChange(of: textValue) { oldValue, newValue in
+            guard newValue > 0 else { return }
+            if let tValue = testValue {
+                isValid = newValue <= tValue
+            }
+        }
+    }
+    
+    
+    private var titleColor: Color {
+        guard isValid else {
+            return .red
+        }
+        return .black
     }
 }
 
 #Preview {
-    TextEntryFieldView(formatter: NumberFormatter(), captionText: "Test", textWidth: 180.0, promptText: "Prompt", textValue: .constant(230.0))
+    TextEntryFieldView(formatter: NumberFormatter(), captionText: "Test", textWidth: 180.0, promptText: "Prompt", testValue: 48, textValue: .constant(230.0))
 }

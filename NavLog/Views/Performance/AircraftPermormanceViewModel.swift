@@ -12,6 +12,7 @@ import Combine
 class AircraftPerformanceViewModel: ObservableObject {
     @Published var environment: Environment = Environment()
     @Published var mission: MissionData = MissionData()
+    @Published var momentData: MomentDatum = MomentDatum()
     private var toCalc: TakeOffCalculator?
     private var landingCalc: LandingCalculator?
     
