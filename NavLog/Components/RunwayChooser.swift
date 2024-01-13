@@ -19,14 +19,10 @@ class RunwayChooser: ObservableObject {
     ///  This method relies solely upon wind speed to make the determination.
     func chooseFrom(the runways: [Runway], wind: Double) -> (Runway?, Double?) {
         runwayDirections.removeAll()
-        _ = runways.map { aRunway in
-            if aRunway.id.contains("/") {
-                let axise = aRunway.getRunwayAxis()
-                runwayDirections[Double(axise.0)] = aRunway
-                runwayDirections[Double(axise.1)] = aRunway
-            }
-        }
-        
+        _ = runways.map({ aRunway in
+            runwayDirections[Double(aRunway.direction ?? 0)] = aRunway
+        })
+       
         var candidates: [Double: Runway] = [:]
        
         // This gets rid of the runways which have a tailwind component

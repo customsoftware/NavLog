@@ -44,7 +44,9 @@ struct AircraftPerformanceView: View {
                     
                     if runwayChooser.runwayDirections.count > 0 {
                         Picker("Runway Direction", selection: $selectedRunway) {
-                            ForEach(Array(airportParser.runways), id: \.self) {
+                            ForEach(Array(airportParser.runways.sorted(by: { r1, r2 in
+                                r1.direction! < r2.direction!
+                            })), id: \.self) {
                                 Text("\(Int($0.direction!)) - \($0.dimension)").tag($0)
                             }
                         }
