@@ -25,11 +25,7 @@ struct WeatherEnvironment {
     }
     var pressureAltitude: Double = 0
     var densityAltitude: Double = 0
-    var runwayLength: Double = 0 {
-        didSet {
-            print("Runway length changed")
-        }
-    }
+    var runwayLength: Double = 0
     var runwayDirection: Double = 0
     var windDirection: Double = 0
     var windSpeed: Double = 0

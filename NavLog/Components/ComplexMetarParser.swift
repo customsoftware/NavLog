@@ -158,6 +158,8 @@ struct AirportComposer {
     static func fixAirportCode(_ code: String) -> String {
         var airport = code
         
+        airport = airport.replacingOccurrences(of: " ", with: "")
+        
         if airport.first?.uppercased() != "K",
            airport.count == 3 {
             airport = "K" + airport
@@ -166,3 +168,6 @@ struct AirportComposer {
         return airport
     }
 }
+
+
+// https://aviationweather.gov/api/data/metar?ids=KPVU&format=json&date=20240113_170000Z

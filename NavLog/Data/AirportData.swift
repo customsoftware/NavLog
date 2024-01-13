@@ -10,11 +10,12 @@ import Foundation
 
 // https://aviationweather.gov/api/data/airport?ids=KPUC&format=json
 
-struct Runway: Codable {
+struct Runway: Hashable, Codable {
     var id: String
     var dimension: String
     var surface: String
     var alignment: String
+    var direction: Int? = 0
     
     var runwayLength: Int {
         let runwayComponents = dimension.components(separatedBy: "x")
@@ -40,5 +41,22 @@ struct AirportData: Codable {
         case name = "id"
         case iata
         case runways
+    }
+    
+    mutating func setRunways() {
+        guard runways.count > 0 else { return }
+        var runwayHolder: [Runway] = []
+        runways.forEach { runway in
+            guard runway.id.contains("/") else { return }
+            let directions = runway.id.components(separatedBy: "/")
+            guard directions.count == 2 else { return }
+            let firstDirection = directions.first!
+            let lastDirection = directions.last!
+            guard lastDirection != firstDirection else { return }
+            
+            runwayHolder.append(Runway(id: runway.id, dimension: runway.dimension, surface: runway.surface, alignment: runway.alignment, direction: NSString(string: firstDirection).integerValue))
+            runwayHolder.append(Runway(id: runway.id, dimension: runway.dimension, surface: runway.surface, alignment: runway.alignment, direction: NSString(string: lastDirection).integerValue))
+        }
+        runways = runwayHolder
     }
 }

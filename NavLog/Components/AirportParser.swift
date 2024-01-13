@@ -33,7 +33,8 @@ class AirportParser: ObservableObject {
             resultString.removeLast()
             
             let modifiedData = resultString.data(using: .utf8)
-            let airportData = try JSONDecoder().decode(AirportData.self, from: modifiedData!)
+            var airportData = try JSONDecoder().decode(AirportData.self, from: modifiedData!)
+            airportData.setRunways()
             
             runways = airportData.runways
         } catch {
