@@ -25,7 +25,7 @@ struct HeadingSummarySwiftUIView: View {
             VStack(alignment: .leading) {
                 Text("Distance to Next:")
                     .font(.caption2)
-                Text("\(activeWayPoint.distanceToNextWaypoint)")
+                Text("\(Int(activeWayPoint.distanceToNextWaypoint))")
                     .font(.subheadline)
                     .bold()
             }

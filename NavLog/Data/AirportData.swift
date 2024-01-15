@@ -32,7 +32,7 @@ struct Runway: Hashable, Codable {
 }
 
 
-struct AirportData: Codable {
+struct AirportData: Hashable, Codable {
     var name: String?
     var iata: String
     var runways: [Runway]

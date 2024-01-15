@@ -13,6 +13,7 @@ struct TextEntryFieldView: View {
     var textWidth: CGFloat
     var promptText: String
     var isBold: Bool = false
+    var integerOnly: Bool = true
     var testValue: Double?
     @State private var isValid: Bool = true
     @Binding var textValue: Double
@@ -29,7 +30,7 @@ struct TextEntryFieldView: View {
             }
             TextField(promptText, value: $textValue, formatter: formatter)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.numbersAndPunctuation)
+                .keyboardType(integerOnly ? .numberPad : .numbersAndPunctuation)
                 .foregroundColor(titleColor)
         }
         .onChange(of: textValue) { oldValue, newValue in

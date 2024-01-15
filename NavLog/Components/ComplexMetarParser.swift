@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CoreLocation
 
 class ComplexMetarParser: ObservableObject {
     @Published var weather: [AirportWeather] = []
@@ -171,3 +172,4 @@ struct AirportComposer {
 
 
 // https://aviationweather.gov/api/data/metar?ids=KPVU&format=json&date=20240113_170000Z
+// https://aviationweather.gov/data/api/

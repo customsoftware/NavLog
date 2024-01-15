@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CoreLocation
 
 struct AircraftPerformanceView: View {
     @State private var shouldShowAlert: Bool = false
@@ -14,6 +15,9 @@ struct AircraftPerformanceView: View {
     @State private var temperatureInDegreesC: Bool = false
     @State private var buttonText: String = "Change to C"
     @State private var selectedRunway: Runway = Runway(id: "", dimension: "", surface: "", alignment: "", direction: 0)
+    @State private var currentLocation: CLLocation?
+    @State private var nearbyAirports: [AirportData] = [AirportData]()
+    @State private var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
     @StateObject private var viewModel = AircraftPerformanceViewModel()
     @StateObject private var complexParser = ComplexMetarParser()
     @StateObject private var airportParser = AirportParser()
@@ -39,7 +43,17 @@ struct AircraftPerformanceView: View {
         NavigationView( content: {
             Form( content: {
                 Section(header: Text("Airport")) {
-                    TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
+                    if nearbyAirports.count > 0 {
+                        Picker("Nearby Airports", selection: $chosenAirport) {
+                            ForEach(airportParser.airports.sorted(by: { a1, a2 in
+                                a1.name! < a2.name!
+                            }), id: \.self) {
+                                Text($0.name!).tag($0)
+                            }
+                        }
+                    } else {
+                        TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
+                    }
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
                     
                     if runwayChooser.runwayDirections.count > 0 {
@@ -57,9 +71,9 @@ struct AircraftPerformanceView: View {
                 }
                 
                 Section(header: Text("Weather")) {
-                    TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", textValue: $viewModel.weather.pressure)
+                    TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", integerOnly: false, textValue: $viewModel.weather.pressure)
                     if temperatureInDegreesC {
-                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.weather.temp)
+                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", integerOnly: false, textValue: $viewModel.weather.temp)
                     } else {
                         TextEntryFieldView(formatter: formatter, captionText: "Temperature - F", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.weather.temp)
                     }
@@ -109,53 +123,17 @@ struct AircraftPerformanceView: View {
             .toolbar(content: {
                 HStack {
                     Button {
-                        guard viewModel.weather.airportCode.count > 2
-                        else { return }
-                        // Load the results into the view controls
-                        Task {
-                               _ = try! await complexParser.fetchWeatherData(for: [viewModel.weather.airportCode])
-                            theWeather = complexParser.weather.first
-                            
-                            _ = try! await airportParser.fetchAirportData(for: viewModel.weather.airportCode)
-                            let runways = airportParser.runways
-                            if runways.count > 1 {
-                                let bestAlignment = runwayChooser.chooseFrom(the: runways, wind: viewModel.weather.windDirection)
-                                if let direction = bestAlignment.1,
-                                   let aRunway = bestAlignment.0 {
-                                    viewModel.weather.runwayDirection = direction
-                                    viewModel.weather.runwayLength = Double(aRunway.runwayLength)
-                                    selectedRunway = aRunway
-                                }
-                            } else {
-                                print("There's nothing to choose")
-                            }
-                            viewModel.weather.save()
-                        }
+                        hideKeyboard()
+                        findAirportData()
+                        
                     } label: {
                         Text("Update WX")
                     }
                     Spacer()
                     Button {
+                        hideKeyboard()
                         guard validateForm() else { return }
-                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                        if selectedRunway.id != "" {
-                            viewModel.weather.runwayDirection = Double(selectedRunway.direction ?? 0)
-                            viewModel.weather.runwayLength = Double(selectedRunway.runwayLength)
-                        } 
-                        viewModel.weather.save()
-                        // I want all this done in the missionPerformance object, but it works for now.
-                        missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
-                        missionPerformance.isUnderGross = viewModel.isInWeightLimits()
-                        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight() - viewModel.momentModel.maxWeight)
-                        
-                        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC)
-                        missionPerformance.computedTakeOffRoll = runwayCalculations.0
-                        missionPerformance.computedOver50Roll = runwayCalculations.1
-                        
-                        let landingCalculations = viewModel.calculateRequiredLandingLength()
-                        missionPerformance.computedLandingRoll = landingCalculations.0
-                        missionPerformance.computedLandingOver50Roll = landingCalculations.1
-                        viewModel.mission.save()
+                        calculatePerformance()
                         
                     } label: { Text("Calculate") }
                 }
@@ -167,6 +145,101 @@ struct AircraftPerformanceView: View {
             }
             .navigationTitle("Weight & Balance")
         })
+    }
+    
+    private func findAirportData() {
+        if let chosenName = chosenAirport.name,
+           chosenName.count > 2,
+           chosenName != viewModel.weather.airportCode {
+            viewModel.weather.airportCode = chosenName
+        }
+        
+        print("The airport: \(viewModel.weather.airportCode)")
+        print("\(chosenAirport.name ?? "None selected")")
+        print("\(currentLocation != nil ? "There is a location" : "No location set")")
+        guard (viewModel.weather.airportCode.count > 2 || chosenAirport.name!.count > 1),
+              self.currentLocation == nil
+        else {
+        //  Here we could look for airports around us...
+            if let aLocation = currentLocation {
+                getLocalAirports()
+            } else {
+                DispatchQueue.global().async(execute: {
+                    Core.services.gpsEngine.startTrackingLocation()
+                    var x = 0
+                    let now = Date()
+                    // Wait till we get a location
+                    while Core.services.gpsEngine.currentLocation == nil,
+                          Date().timeIntervalSince(now) < 5  {
+                        x += 1
+                    }
+                    currentLocation = Core.services.gpsEngine.currentLocation
+                    Core.services.gpsEngine.stopTrackingLocation()
+                    getLocalAirports()
+                })
+            }
+            return
+        }
+        // Load the results into the view controls
+        Task {
+               _ = try! await complexParser.fetchWeatherData(for: [viewModel.weather.airportCode])
+            theWeather = complexParser.weather.first
+            
+            _ = try! await airportParser.fetchAirportData(for: viewModel.weather.airportCode)
+            let runways = airportParser.runways
+            if runways.count > 1 {
+                let bestAlignment = runwayChooser.chooseFrom(the: runways, wind: viewModel.weather.windDirection)
+                if let direction = bestAlignment.1,
+                   let aRunway = bestAlignment.0 {
+                    viewModel.weather.runwayDirection = direction
+                    viewModel.weather.runwayLength = Double(aRunway.runwayLength)
+                    selectedRunway = aRunway
+                }
+            } else {
+                print("There's nothing to choose")
+            }
+            viewModel.weather.save()
+        }
+    }
+    
+    private func calculatePerformance() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        if selectedRunway.id != "" {
+            viewModel.weather.runwayDirection = Double(selectedRunway.direction ?? 0)
+            viewModel.weather.runwayLength = Double(selectedRunway.runwayLength)
+        }
+        viewModel.weather.save()
+        // I want all this done in the missionPerformance object, but it works for now.
+        missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
+        missionPerformance.isUnderGross = viewModel.isInWeightLimits()
+        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight() - viewModel.momentModel.maxWeight)
+        
+        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC)
+        missionPerformance.computedTakeOffRoll = runwayCalculations.0
+        missionPerformance.computedOver50Roll = runwayCalculations.1
+        
+        let landingCalculations = viewModel.calculateRequiredLandingLength()
+        missionPerformance.computedLandingRoll = landingCalculations.0
+        missionPerformance.computedLandingOver50Roll = landingCalculations.1
+        viewModel.mission.save()
+    }
+    
+    private func getLocalAirports() {
+        guard let aLocation = Core.services.gpsEngine.currentLocation else { return }
+        Task {
+            _ = try! await airportParser.fetchNearbyAirports(for: aLocation)
+            if airportParser.airports.count > 0,
+               airportParser.airports.count < 2 {
+                viewModel.weather.airportCode = airportParser.airports.first!.name ?? "No name"
+                currentLocation = nil
+                findAirportData()
+            } else if airportParser.airports.count > 1 {
+                nearbyAirports = airportParser.airports
+                viewModel.weather.airportCode = airportParser.airports.first!.name ?? "No name"
+                currentLocation = nil
+                findAirportData()
+            }
+        }
     }
     
     private func validateForm() -> Bool {
