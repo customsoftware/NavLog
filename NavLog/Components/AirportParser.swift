@@ -49,11 +49,11 @@ class AirportParser: ObservableObject {
     
     
     @MainActor
-    func fetchNearbyAirports(for location: CLLocation) async throws {
+    func fetchNearbyAirports(for location: CLLocation, closeIn: Bool) async throws {
         airports.removeAll()
         // How big a radius around the airport?
-        let bracketBox = buildBracketBox(using: location)
-        let bracketQuery = baseGeoQueryString.replacingOccurrences(of: airportGeoBoxSpaceHolder, with: bracketBox)
+        let bracketBox: String = buildBracketBox(using: location, closeIn: closeIn)
+        let bracketQuery: String = baseGeoQueryString.replacingOccurrences(of: airportGeoBoxSpaceHolder, with: bracketBox)
         
         // Query the API
         guard let url = URL(string: bracketQuery) else { throw HTTPError.badURL }
@@ -65,6 +65,10 @@ class AirportParser: ObservableObject {
             })
             
             airports = airportList
+            if airports.count == 0,
+               closeIn == true {
+                try await fetchNearbyAirports(for: location, closeIn: false)
+            }
             
         } catch let error {
             print(error.localizedDescription)
@@ -72,12 +76,15 @@ class AirportParser: ObservableObject {
    }
     
     
-    private func buildBracketBox(using location: CLLocation) -> String {
+    private func buildBracketBox(using location: CLLocation, closeIn: Bool = true ) -> String {
         var retValue = ""
         let latRounded = round(location.coordinate.latitude * 100)/100
         let longRounded = round(location.coordinate.longitude * 100)/100
-        retValue = "\(latRounded - 0.5),\(longRounded - 0.5),\(latRounded + 0.5),\(longRounded + 0.5)"
-//        retValue = "\(latRounded - 0.125),\(longRounded - 0.125),\(latRounded + 0.125),\(longRounded + 0.125)"
+        if closeIn {
+            retValue = "\(latRounded - 0.125),\(longRounded - 0.125),\(latRounded + 0.125),\(longRounded + 0.125)"
+        } else {
+            retValue = "\(latRounded - 0.5),\(longRounded - 0.5),\(latRounded + 0.5),\(longRounded + 0.5)"
+        }
         return retValue
     }
 }

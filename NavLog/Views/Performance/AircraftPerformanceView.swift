@@ -227,7 +227,7 @@ struct AircraftPerformanceView: View {
     private func getLocalAirports() {
         guard let aLocation = Core.services.gpsEngine.currentLocation else { return }
         Task {
-            _ = try! await airportParser.fetchNearbyAirports(for: aLocation)
+            _ = try! await airportParser.fetchNearbyAirports(for: aLocation, closeIn: true)
             if airportParser.airports.count > 0,
                airportParser.airports.count < 2 {
                 viewModel.weather.airportCode = airportParser.airports.first!.name ?? "No name"
