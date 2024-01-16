@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MomentDatum {
+struct MomentDatum: Codable, Hashable {
     var aircraft: String = ""
     var aircraftEngine: String = ""
     var seatCount: Double = 0
@@ -35,41 +35,42 @@ struct MomentDatum {
     var auxMaxFuelGallons: Double = 0
     var auxFuelMoment: Double = 0
     
-    lazy var oilArm: Double = {
+    func oilArm() -> Double {
         return oilMoment/oilWeight
-    }()
+    }
     
-    lazy var frontArm: Double = {
+    func frontArm() -> Double {
         return frontMoment/maxFrontWeight
-    }()
+    }
     
-    lazy var backArm: Double = {
+    func backArm() -> Double {
         return backMoment/maxBackWeight
-    }()
+    }
     
-    lazy var cargoArm: Double = {
+    func cargoArm() -> Double {
         return cargoMoment/maxCargoWeight
-    }()
+    }
     
-    lazy var fuelArm: Double = {
+    func fuelArm() -> Double {
         return fuelMoment/(maxFuelGallons * fuelWeight)
-    }()
+    }
     
-    let fuelWeight: Double = 6
+    func auxFuelArm() -> Double {
+        return auxFuelMoment/(auxMaxFuelGallons * fuelWeight)
+    }
     
-    private (set) var defaults: UserDefaults
+    let fuelWeight: Double = 6.01
     
     // We can inject user defaults for testing purposes
-    init(_ usedDefaults: UserDefaults = UserDefaults()) {
-        defaults = usedDefaults
-        if !defaults.bool(forKey: "kMomentDataLoaded") {
-            do {
-                try loadFromJSON()
-            } catch let error {
+    init(_ usedDefaults: UserDefaults = UserDefaults(), from fileName: String) {
+        do {
+            try loadFromJSON(fileName)
+        } catch let error {
+            if !usedDefaults.bool(forKey: "kMomentDataLoaded") {
+                read(using: usedDefaults)
+            } else {
                 print("There was an error loading the moment data: \(error.localizedDescription)")
             }
-        } else {
-            read()
         }
     }
     
@@ -78,7 +79,7 @@ struct MomentDatum {
     /// - Parameters:
     /// - None
     ///
-    func save() {
+    func save(using defaults: UserDefaults) {
         defaults.setValue(true, forKey: "kMomentDataLoaded")
         
         defaults.setValue(maxWeight, forKey: "kMaxWeight")
@@ -122,7 +123,7 @@ struct MomentDatum {
         defaults.synchronize()
     }
     
-    private mutating func read() {
+    private mutating func read(using defaults: UserDefaults) {
         maxWeight = defaults.double(forKey: "kMaxWeight")
         emptyWeight = defaults.double(forKey: "kEmptyWeight")
         aircraftArm = defaults.double(forKey: "kAircraftMoment")
@@ -161,9 +162,9 @@ struct MomentDatum {
         cargoMoment = defaults.double(forKey: "kCargoArm")
     }
     
-    private mutating func loadFromJSON() throws {
+    private mutating func loadFromJSON(_ fileName: String) throws {
         // This will change as the app evolves, right now it hard codes to a file
-        guard let momentPath = Bundle.main.path(forResource: "CardinalMoment", ofType: "json")
+        guard let momentPath = Bundle.main.path(forResource: fileName, ofType: "json")
         else { return }
         do {
             let momentJSONdata = (try String(contentsOfFile: momentPath).data(using: .utf8))
@@ -173,9 +174,12 @@ struct MomentDatum {
             }
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = JSONDecoder.KeyDecodingStrategy.convertFromSnakeCase
-            let aircraftMoment = try decoder.decode(MomentModel.self, from: momentJSON)
+            let aircraftMoment = try decoder.decode(MomentDatum.self, from: momentJSON)
             
             // Here we transfer to the model
+            aircraft = aircraftMoment.aircraft
+            aircraftEngine = aircraftMoment.aircraftEngine
+            seatCount = aircraftMoment.seatCount
             maxWeight = aircraftMoment.maxWeight
             emptyWeight = aircraftMoment.emptyWeight
             aircraftArm = aircraftMoment.aircraftArm
@@ -196,5 +200,36 @@ struct MomentDatum {
             let parseError = MomentErrors.parseError(error.localizedDescription)
             throw parseError
         }
+    }
+}
+
+
+enum MomentErrors: Error, LocalizedError, CustomStringConvertible {
+    case missingData
+    case parseError(String)
+    
+    public var errorDescription: String? {
+        let retValue: String
+        switch self {
+        case .missingData:
+            retValue = NSLocalizedString("Missing file - The source file doesn't exist where the app expects it.", comment: "")
+            
+        case .parseError(let errorString):
+            retValue = NSLocalizedString("There was a parsing error - \(errorString)", comment: "")
+            
+        }
+        return retValue
+    }
+
+    public var description: String {
+        let retValue: String
+        switch self {
+        case .missingData:
+            retValue = "The source file is missing"
+            
+        case .parseError(let error):
+            retValue = "There was a parsing error - \(error)"
+        }
+        return retValue
     }
 }

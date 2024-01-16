@@ -12,46 +12,62 @@ import Combine
 class AircraftPerformanceViewModel: ObservableObject {
     @Published var weather: WeatherEnvironment = WeatherEnvironment()
     @Published var mission: MissionData = MissionData()
-    @Published var momentData: MomentDatum = MomentDatum()
     private var toCalc: TakeOffCalculator?
     private var landingCalc: LandingCalculator?
-    
     private let standardBaroPressure: Double = 29.92
-    private(set) var momentModel: MomentDatum = MomentDatum()
     
-    func isInWeightLimits() -> Bool {
+    func isInWeightLimits(using momentData: MomentDatum) -> Bool {
         // Add up the weight
-        var isInLimits = momentModel.maxWeight >= computeTotalWeight()
+        var isInLimits = momentData.maxWeight >= computeTotalWeight(with: momentData)
         if isInLimits {
-            isInLimits = mission.cargo <= momentModel.maxCargoWeight
+            isInLimits = mission.cargo <= momentData.maxCargoWeight
         }
         
         return isInLimits
     }
     
-    func computeCGLimits() -> Bool {
-        let fuelMoment: Double = momentModel.fuelArm * (mission.fuel * momentModel.fuelWeight)
-        let frontMoment: Double = momentModel.frontArm * (mission.copilotSeat + mission.pilotSeat)
-        let middleMoment: Double = momentModel.backArm * mission.middleSeat
-        let backMoment: Double = momentModel.backArm * mission.backSeat
-        let cargoMoment: Double = momentModel.cargoArm * mission.cargo
-        let oilMoment: Double = momentModel.oilArm * momentModel.oilWeight
-        let acftMoment: Double = momentModel.aircraftArm * momentModel.emptyWeight
+    func computeCGLimits(using momentData: MomentDatum) -> Bool {
+        let fuelMoment: Double = momentData.fuelArm() * (mission.fuel * momentData.fuelWeight)
+        let auxFuelMoment: Double = momentData.auxFuelArm() * (mission.auxFuel * momentData.fuelWeight)
+        let frontMoment: Double = momentData.frontArm() * (mission.copilotSeat + mission.pilotSeat)
+        let middleMoment: Double = momentData.backArm() * mission.middleSeat
+        let backMoment: Double = momentData.backArm() * mission.backSeat
+        let cargoMoment: Double = momentData.cargoArm() * mission.cargo
+        let oilMoment: Double = momentData.oilArm() * momentData.oilWeight
+        let acftMoment: Double = momentData.aircraftArm * momentData.emptyWeight
         
         let totalMoment: Double = (fuelMoment + frontMoment + middleMoment + backMoment + cargoMoment + acftMoment + oilMoment)
       
         // Compute moment of weight using min arm
-        let weightLimitArm = momentModel.aircraftArm * computeTotalWeight()
+        let weightLimitArm = momentData.aircraftArm * computeTotalWeight(with: momentData)
         
         // Compare value to totalMoment... if less than, we're good
         return weightLimitArm >= totalMoment
     }
     
-    func computeTotalWeight() -> Double {
-        return momentModel.emptyWeight + mission.cargo + (mission.fuel * momentModel.fuelWeight) + mission.copilotSeat + mission.pilotSeat + mission.backSeat + momentModel.oilWeight
+    func computeTotalWeight(with momentData: MomentDatum) -> Double {
+        var retValue = 0.0
+        if momentData.seatCount < 3 {
+            // Compute pilot and copilot
+            retValue = momentData.emptyWeight + mission.cargo + mission.copilotSeat + mission.pilotSeat + momentData.oilWeight
+        } else if momentData.seatCount < 5 {
+            // Compute front and back seat
+            retValue = momentData.emptyWeight + mission.cargo + mission.copilotSeat + mission.pilotSeat + mission.backSeat + momentData.oilWeight
+        } else {
+            // Compute all seats
+            retValue = momentData.emptyWeight + mission.cargo + mission.copilotSeat + mission.pilotSeat + mission.middleSeat + mission.backSeat + momentData.oilWeight
+        }
+     
+        retValue = retValue + (mission.fuel * momentData.fuelWeight)
+ 
+        if momentData.auxMaxFuelGallons > 0 {
+            retValue = retValue + (mission.auxFuel * momentData.fuelWeight)
+        }
+        
+        return retValue
     }
     
-    func calculateRequiredRunwayLength(tempIsFarenheit: Bool) -> (Double, Double) {
+    func calculateRequiredRunwayLength(tempIsFarenheit: Bool, using momentData: MomentDatum) -> (Double, Double) {
         
         if toCalc == nil {
             toCalc = TakeOffCalculator()
@@ -61,10 +77,10 @@ class AircraftPerformanceViewModel: ObservableObject {
         // Get the standard take off length first
         guard let toCalc = self.toCalc else { return (0,0) }
             
-        let toLength = toCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(), environment: weather)
+        let toLength = toCalc.calculateTakeOffWith(tempIsFarenheit: tempIsFarenheit, acftWeight: self.computeTotalWeight(with: momentData), environment: weather)
         
         // This formula needs the preceding 'toLength' parameter to work
-        let to50Length = toCalc.calculateTakeOffOver50With(environment: weather, aircraftWeight: self.computeTotalWeight(), calculatedRunwayLength: toLength)
+        let to50Length = toCalc.calculateTakeOffOver50With(environment: weather, aircraftWeight: self.computeTotalWeight(with: momentData), calculatedRunwayLength: toLength)
         
         return (toLength, to50Length)
     }

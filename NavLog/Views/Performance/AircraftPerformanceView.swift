@@ -12,12 +12,13 @@ import CoreLocation
 struct AircraftPerformanceView: View {
     @State private var shouldShowAlert: Bool = false
     @State private var missionPerformance = PerformanceResults()
-    @State private var temperatureInDegreesC: Bool = false
-    @State private var buttonText: String = "Change to C"
+    @State private var temperatureInDegreesC: Bool = true
     @State private var selectedRunway: Runway = Runway(id: "", dimension: "", surface: "", alignment: "", direction: 0)
     @State private var currentLocation: CLLocation?
     @State private var nearbyAirports: [AirportData] = [AirportData]()
     @State private var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
+    @State private var chosenAircraft: MomentDatum = MomentDatum(from: "CardinalMoment")
+    @StateObject private var aircraftManager = AircraftManager()
     @StateObject private var viewModel = AircraftPerformanceViewModel()
     @StateObject private var complexParser = ComplexMetarParser()
     @StateObject private var airportParser = AirportParser()
@@ -42,6 +43,15 @@ struct AircraftPerformanceView: View {
     var body: some View {
         NavigationView( content: {
             Form( content: {
+                
+                Button {
+                    hideKeyboard()
+                    findAirportData()
+                    
+                } label: {
+                    Text("1. Get Airport and Weather")
+                }
+                
                 Section(header: Text("Airport")) {
                     if nearbyAirports.count > 0 {
                         Picker("Nearby Airports", selection: $chosenAirport) {
@@ -55,7 +65,61 @@ struct AircraftPerformanceView: View {
                         TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
                     }
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
+//                    
+//                    if runwayChooser.runwayDirections.count > 0 {
+//                        Picker("Runway Direction", selection: $selectedRunway) {
+//                            ForEach(Array(airportParser.runways.sorted(by: { r1, r2 in
+//                                r1.direction! < r2.direction!
+//                            })), id: \.self) {
+//                                Text("\(Int($0.direction!)) - \($0.dimension)").tag($0)
+//                            }
+//                        }
+//                    } else {
+//                        TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.weather.runwayLength)
+//                        TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.weather.runwayDirection)
+//                    }
+                }
+                
+                Section(header: Text("Weather")) {
+                    TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", integerOnly: false, textValue: $viewModel.weather.pressure)
+                    TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", integerOnly: false, textValue: $viewModel.weather.temp)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.weather.windDirection)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
+                }
+                
+                Picker("2. Choose Aircraft", selection: $chosenAircraft) {
+                    ForEach(aircraftManager.availableAircraft.sorted(by: { r1, r2 in
+                        r1.aircraft < r2.aircraft
+                    }), id: \.self) {
+                        Text("\($0.aircraft)").tag($0)
+                    }
+                }
+                .tint(Color.accentColor)
+                
+                Section(header: Text("Mission Load")) {
+                    TextEntryFieldView(formatter: formatter, captionText: "Pilot", textWidth: textWidth, promptText: "Pilot", textValue: $viewModel.mission.pilotSeat)
+                    TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
                     
+                    // We need a way to let the user know if they put more fuel than the tank can hold...
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", testValue: chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
+                   
+                    if chosenAircraft.auxMaxFuelGallons > 0 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)
+                    }
+                    // If there are more than four seats, we show the middle seats
+                    if chosenAircraft.seatCount > 4 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", testValue: chosenAircraft.maxMiddleWeight, textValue: $viewModel.mission.middleSeat)
+                    }
+                    // If there are more than two seats, we show the back seat
+                    if chosenAircraft.seatCount > 2 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", testValue: chosenAircraft.maxBackWeight, textValue: $viewModel.mission.backSeat)
+                    }
+                    
+                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
+        
+                }
+                
+                Section("Planning", content: {
                     if runwayChooser.runwayDirections.count > 0 {
                         Picker("Runway Direction", selection: $selectedRunway) {
                             ForEach(Array(airportParser.runways.sorted(by: { r1, r2 in
@@ -68,50 +132,13 @@ struct AircraftPerformanceView: View {
                         TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.weather.runwayLength)
                         TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.weather.runwayDirection)
                     }
-                }
-                
-                Section(header: Text("Weather")) {
-                    TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", integerOnly: false, textValue: $viewModel.weather.pressure)
-                    if temperatureInDegreesC {
-                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", integerOnly: false, textValue: $viewModel.weather.temp)
-                    } else {
-                        TextEntryFieldView(formatter: formatter, captionText: "Temperature - F", textWidth: textWidth, promptText: "Temperature", textValue: $viewModel.weather.temp)
-                    }
-                    Button(buttonText) {
-                        temperatureInDegreesC = !temperatureInDegreesC
-                        if temperatureInDegreesC {
-                            // Convert to celsius
-                            viewModel.weather.temp = StandardTempCalculator.convertFtoC(viewModel.weather.temp)
-                            buttonText = "Change to F"
-                        } else {
-                            // Convert to farenheit
-                            buttonText = "Change to C"
-                            viewModel.weather.temp = StandardTempCalculator.convertCtoF(viewModel.weather.temp)
-                        }
-                        viewModel.weather.inCelsiusMode = temperatureInDegreesC
-                    }
-                    TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.weather.windDirection)
-                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
-                }
-                
-                Section(header: Text("Mission Load")) {
-                    TextEntryFieldView(formatter: formatter, captionText: "Pilot", textWidth: textWidth, promptText: "Pilot", textValue: $viewModel.mission.pilotSeat)
-                    TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
-                    
-                    // We need a way to let the user know if they put more fuel than the tank can hold...
-                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", testValue: viewModel.momentModel.maxFuelGallons, textValue: $viewModel.mission.fuel)
+                    Button {
+                        hideKeyboard()
+                        guard validateForm() else { return }
+                        calculatePerformance()
                         
-                    // If there are more than four seats, we show the middle seats
-                    if viewModel.momentModel.seatCount > 4 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", testValue: viewModel.momentModel.maxMiddleWeight, textValue: $viewModel.mission.middleSeat)
-                    }
-                    // If there are more than two seats, we show the back seat
-                    if viewModel.momentModel.seatCount > 2 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", testValue: viewModel.momentModel.maxBackWeight, textValue: $viewModel.mission.backSeat)
-                    }
-                    
-                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: viewModel.momentModel.maxCargoWeight, textValue: $viewModel.mission.cargo)
-                }
+                    } label: { Text("3. Calculate Performance") }
+                })
                 
                 Section("Results", content: {
                     TakeOffPerformanceView(performance: missionPerformance, environment: viewModel.weather)
@@ -120,30 +147,16 @@ struct AircraftPerformanceView: View {
                         })
                 })
             })
-            .toolbar(content: {
-                HStack {
-                    Button {
-                        hideKeyboard()
-                        findAirportData()
-                        
-                    } label: {
-                        Text("Update WX")
-                    }
-                    Spacer()
-                    Button {
-                        hideKeyboard()
-                        guard validateForm() else { return }
-                        calculatePerformance()
-                        
-                    } label: { Text("Calculate") }
-                }
-            })
             .alert(isPresented: $shouldShowAlert) {
                 // Put alert here
-                Alert(title: Text("You can't load more than \(Int(viewModel.momentData.maxFuelGallons)) gallons."))
+                Alert(title: Text("You can't load more than \(Int(chosenAircraft.maxFuelGallons)) gallons."))
                 
             }
             .navigationTitle("Weight & Balance")
+            .onAppear(perform:{
+                viewModel.weather.inCelsiusMode = temperatureInDegreesC
+                aircraftManager.fetchStoredAircraft()
+            })
         })
     }
     
@@ -210,11 +223,11 @@ struct AircraftPerformanceView: View {
         }
         viewModel.weather.save()
         // I want all this done in the missionPerformance object, but it works for now.
-        missionPerformance.cgIsInLimits = viewModel.computeCGLimits()
-        missionPerformance.isUnderGross = viewModel.isInWeightLimits()
-        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight() - viewModel.momentModel.maxWeight)
+        missionPerformance.cgIsInLimits = viewModel.computeCGLimits(using: chosenAircraft)
+        missionPerformance.isUnderGross = viewModel.isInWeightLimits(using: chosenAircraft)
+        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight(with: chosenAircraft) - chosenAircraft.maxWeight)
         
-        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC)
+        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC, using: chosenAircraft)
         missionPerformance.computedTakeOffRoll = runwayCalculations.0
         missionPerformance.computedOver50Roll = runwayCalculations.1
         
@@ -243,7 +256,7 @@ struct AircraftPerformanceView: View {
     }
     
     private func validateForm() -> Bool {
-        let retValue: Bool = (viewModel.mission.fuel <= viewModel.momentModel.maxFuelGallons)
+        let retValue: Bool = (viewModel.mission.fuel <= chosenAircraft.maxFuelGallons)
         shouldShowAlert = !retValue
         return retValue
     }

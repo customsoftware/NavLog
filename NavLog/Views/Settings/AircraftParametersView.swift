@@ -10,7 +10,7 @@ import SwiftUI
 struct AircraftParametersView: View {
     @SwiftUI.Environment(\.dismiss) var dismiss
     // This manipulates it
-    @StateObject var viewModelController = AircraftParametersViewModel(momentData: MomentDatum())
+    @StateObject var viewModelController = AircraftParametersViewModel(momentData: MomentDatum(from: "CardinalMoment"))
     
     private let textWidth: CGFloat = 180.0
     
@@ -80,7 +80,7 @@ struct AircraftParametersView: View {
                 Spacer()
                 Button {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                    viewModelController.momentData.save()
+                    viewModelController.momentData.save(using: UserDefaults.standard)
                     dismiss()
                 } label: { Text("Save") }
             }

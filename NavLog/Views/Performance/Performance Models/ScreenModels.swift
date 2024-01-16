@@ -107,6 +107,7 @@ struct MissionData {
     var backSeat: Double = 0
     var cargo: Double = 0
     var fuel: Double = 0
+    var auxFuel: Double = 0
     
     init() {
         let defaults = UserDefaults.standard
@@ -116,7 +117,8 @@ struct MissionData {
         backSeat = defaults.double(forKey: MissionDataKeys.backSeat.rawValue)
         cargo = defaults.double(forKey: MissionDataKeys.cargoWeight.rawValue)
         fuel = defaults.double(forKey: MissionDataKeys.fuelLoad.rawValue)
-    }
+        auxFuel = defaults.double(forKey: MissionDataKeys.auxƒuelLoad.rawValue)
+  }
     
     
     func save() {
@@ -127,6 +129,7 @@ struct MissionData {
         defaults.setValue(backSeat, forKey: MissionDataKeys.backSeat.rawValue)
         defaults.setValue(cargo, forKey: MissionDataKeys.cargoWeight.rawValue)
         defaults.setValue(fuel, forKey: MissionDataKeys.fuelLoad.rawValue)
+        defaults.setValue(auxFuel, forKey: MissionDataKeys.auxƒuelLoad.rawValue)
         defaults.synchronize()
     }
 }
@@ -138,4 +141,5 @@ enum MissionDataKeys: String, CaseIterable {
     case backSeat = "kBackKey"
     case cargoWeight = "kCargoKey"
     case fuelLoad = "kFuelKey"
+    case auxƒuelLoad = "kAuxFuelKey"
 }

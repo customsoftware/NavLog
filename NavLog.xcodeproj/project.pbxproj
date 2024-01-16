@@ -37,7 +37,6 @@
 		906865022B1E00970077D18F /* PerformanceSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906865012B1E00970077D18F /* PerformanceSwiftUIView.swift */; };
 		906865082B1E03BE0077D18F /* CardinalMoment.json in Resources */ = {isa = PBXBuildFile; fileRef = 906865062B1E03BE0077D18F /* CardinalMoment.json */; };
 		906865092B1E03BE0077D18F /* CardinalLanding.json in Resources */ = {isa = PBXBuildFile; fileRef = 906865072B1E03BE0077D18F /* CardinalLanding.json */; };
-		9068650B2B1E0FB60077D18F /* MomentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9068650A2B1E0FB60077D18F /* MomentModel.swift */; };
 		906EF4FD2B0572FA00A4E6C9 /* StandardTempCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */; };
 		906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */; };
 		906EF5022B06687900A4E6C9 /* SettingsMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF5012B06687900A4E6C9 /* SettingsMasterView.swift */; };
@@ -48,6 +47,10 @@
 		90872D152B039E2900349152 /* AircraftParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90872D142B039E2900349152 /* AircraftParametersView.swift */; };
 		908A23CD2AA2925700F1C3A7 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908A23CC2AA2925700F1C3A7 /* Core.swift */; };
 		908A23CF2AA35B0000F1C3A7 /* AppStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */; };
+		908B95742B56D5F200AE0789 /* AircraftManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908B95732B56D5F200AE0789 /* AircraftManager.swift */; };
+		908B95762B56E7B200AE0789 /* DA40 Moment.json in Resources */ = {isa = PBXBuildFile; fileRef = 908B95752B56E7B200AE0789 /* DA40 Moment.json */; };
+		908B95782B56F89200AE0789 /* Cherokee140Moment.json in Resources */ = {isa = PBXBuildFile; fileRef = 908B95772B56F89200AE0789 /* Cherokee140Moment.json */; };
+		908B957A2B5721DB00AE0789 /* KatanaMoment.json in Resources */ = {isa = PBXBuildFile; fileRef = 908B95792B5721DB00AE0789 /* KatanaMoment.json */; };
 		909375A92B115D150033691D /* DGSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909375A82B115D150033691D /* DGSwiftUIView.swift */; };
 		909375AB2B1167410033691D /* LegalSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909375AA2B1167410033691D /* LegalSwiftUIView.swift */; };
 		90980CDC2B02A3A600F0E5F0 /* libDeclinationLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90980CD92B02A2EF00F0E5F0 /* libDeclinationLib.a */; };
@@ -136,7 +139,6 @@
 		906865012B1E00970077D18F /* PerformanceSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceSwiftUIView.swift; sourceTree = "<group>"; };
 		906865062B1E03BE0077D18F /* CardinalMoment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CardinalMoment.json; sourceTree = "<group>"; };
 		906865072B1E03BE0077D18F /* CardinalLanding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CardinalLanding.json; sourceTree = "<group>"; };
-		9068650A2B1E0FB60077D18F /* MomentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentModel.swift; sourceTree = "<group>"; };
 		906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTempCalculator.swift; sourceTree = "<group>"; };
 		906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPermormanceViewModel.swift; sourceTree = "<group>"; };
 		906EF5012B06687900A4E6C9 /* SettingsMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMasterView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,10 @@
 		90872D142B039E2900349152 /* AircraftParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftParametersView.swift; sourceTree = "<group>"; };
 		908A23CC2AA2925700F1C3A7 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStartView.swift; sourceTree = "<group>"; };
+		908B95732B56D5F200AE0789 /* AircraftManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftManager.swift; sourceTree = "<group>"; };
+		908B95752B56E7B200AE0789 /* DA40 Moment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "DA40 Moment.json"; sourceTree = "<group>"; };
+		908B95772B56F89200AE0789 /* Cherokee140Moment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cherokee140Moment.json; sourceTree = "<group>"; };
+		908B95792B5721DB00AE0789 /* KatanaMoment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KatanaMoment.json; sourceTree = "<group>"; };
 		909375A82B115D150033691D /* DGSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGSwiftUIView.swift; sourceTree = "<group>"; };
 		909375AA2B1167410033691D /* LegalSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalSwiftUIView.swift; sourceTree = "<group>"; };
 		909525BF2AFBEF1600195274 /* libDeclinationLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDeclinationLib.a; path = NavLog/libDeclinationLib.a; sourceTree = "<group>"; };
@@ -257,7 +263,6 @@
 				90B8642C2ADB2881009D18E5 /* ParseEngine.swift */,
 				90C5B0B82AE0508D0032E355 /* WeatherDataModels.swift */,
 				90D53A1B2B12CA4D00ED34EB /* MotionCapture.swift */,
-				9068650A2B1E0FB60077D18F /* MomentModel.swift */,
 				90EC51E92B486BB5002C8C20 /* METARData.swift */,
 				90EC522B2B4CC15D002C8C20 /* AirportData.swift */,
 			);
@@ -277,6 +282,7 @@
 				90EC52272B4C38DB002C8C20 /* ComplexMetarParser.swift */,
 				90EC522D2B4CCF08002C8C20 /* AirportParser.swift */,
 				90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */,
+				908B95732B56D5F200AE0789 /* AircraftManager.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -392,6 +398,9 @@
 				90B93FD92B0445CA00E163A7 /* CardinalTakeOff.json */,
 				906865072B1E03BE0077D18F /* CardinalLanding.json */,
 				906865062B1E03BE0077D18F /* CardinalMoment.json */,
+				908B95752B56E7B200AE0789 /* DA40 Moment.json */,
+				908B95792B5721DB00AE0789 /* KatanaMoment.json */,
+				908B95772B56F89200AE0789 /* Cherokee140Moment.json */,
 				90227FFA2B066F80007879AB /* Launch Screen.storyboard */,
 			);
 			path = NavLog;
@@ -553,7 +562,10 @@
 				90B8641F2AD83FF9009D18E5 /* GarminPlan.fpl in Resources */,
 				90A258512A96C27300B40DAD /* Assets.xcassets in Resources */,
 				90B93FDA2B0445CA00E163A7 /* CardinalTakeOff.json in Resources */,
+				908B95782B56F89200AE0789 /* Cherokee140Moment.json in Resources */,
 				906865082B1E03BE0077D18F /* CardinalMoment.json in Resources */,
+				908B957A2B5721DB00AE0789 /* KatanaMoment.json in Resources */,
+				908B95762B56E7B200AE0789 /* DA40 Moment.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,11 +626,11 @@
 				9058F1602A9901C800C7CE81 /* GPSObserver.swift in Sources */,
 				902280002B0698E8007879AB /* PerformanceResults.swift in Sources */,
 				9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */,
+				908B95742B56D5F200AE0789 /* AircraftManager.swift in Sources */,
 				90872D152B039E2900349152 /* AircraftParametersView.swift in Sources */,
 				90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */,
 				90980CE82B02E03600F0E5F0 /* AircraftPerformanceView.swift in Sources */,
 				90980CEA2B02E51900F0E5F0 /* ScreenModels.swift in Sources */,
-				9068650B2B1E0FB60077D18F /* MomentModel.swift in Sources */,
 				904B2EF12B124B2B00F526D7 /* EmailController.swift in Sources */,
 				906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */,
 				90C3A3592B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift in Sources */,
