@@ -31,10 +31,40 @@ struct TextEntryFieldStringView: View {
             
             TextField(captionText, text: $textValue, prompt: Text(promptText ?? ""))
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .clearButton(text: $textValue)
         }
     }
 }
 
 #Preview {
     TextEntryFieldStringView(captionText: "Test", textWidth: 180.0, promptText: "Prompt", textValue: .constant("Test Value"))
+}
+
+
+fileprivate
+struct ClearButton: ViewModifier {
+    @Binding var text: String
+    
+    func body(content: Content) -> some View {
+        
+        ZStack (alignment: .trailingFirstTextBaseline) {
+            content
+            if !text.isEmpty {
+                Button {
+                    text = ""
+                }
+            label: {
+                Image(systemName: "multiply.circle")
+                    .foregroundColor(.gray)
+            }
+            }
+        }
+    }
+}
+
+fileprivate
+extension View {
+    func clearButton(text: Binding<String>) -> some View {
+        modifier(ClearButton(text: text))
+    }
 }

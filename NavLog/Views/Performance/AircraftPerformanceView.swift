@@ -44,15 +44,15 @@ struct AircraftPerformanceView: View {
         NavigationView( content: {
             Form( content: {
                 
-                Button {
-                    hideKeyboard()
-                    findAirportData()
-                    
-                } label: {
-                    Text("1. Get Airport and Weather")
-                }
-                
                 Section(header: Text("Airport")) {
+                    Button {
+                        hideKeyboard()
+                        findAirportData()
+                        
+                    } label: {
+                        Text("1. Get Airport and Weather")
+                    }
+                    
                     if nearbyAirports.count > 0 {
                         Picker("Nearby Airports", selection: $chosenAirport) {
                             ForEach(airportParser.airports.sorted(by: { a1, a2 in
@@ -64,8 +64,9 @@ struct AircraftPerformanceView: View {
                     } else {
                         TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
                     }
+                    
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
-//                    
+//
 //                    if runwayChooser.runwayDirections.count > 0 {
 //                        Picker("Runway Direction", selection: $selectedRunway) {
 //                            ForEach(Array(airportParser.runways.sorted(by: { r1, r2 in
