@@ -8,6 +8,7 @@
 import Foundation
 
 struct MomentDatum: Codable, Hashable {
+    let id: UUID = UUID()
     var aircraft: String = ""
     var aircraftEngine: String = ""
     var seatCount: Double = 0
@@ -59,108 +60,116 @@ struct MomentDatum: Codable, Hashable {
         return auxFuelMoment/(auxMaxFuelGallons * fuelWeight)
     }
     
+    func isValid() -> Bool {
+        let retValue = aircraft.count >= 5 && seatCount > 0 && maxWeight > 0 && emptyWeight > 0 && (emptyWeight < maxWeight)
+        return retValue
+    }
+    
     let fuelWeight: Double = 6.01
     
     // We can inject user defaults for testing purposes
     init(_ usedDefaults: UserDefaults = UserDefaults(), from fileName: String) {
+        // Read from files first. If those don't work, read test files. If those don't work add a blank one.
         do {
             try loadFromJSON(fileName)
         } catch let error {
-            if !usedDefaults.bool(forKey: "kMomentDataLoaded") {
-                read(using: usedDefaults)
-            } else {
-                print("There was an error loading the moment data: \(error.localizedDescription)")
-            }
+//            if !usedDefaults.bool(forKey: "kMomentDataLoaded") {
+//                read(using: usedDefaults)
+//            } else {
+//                print("There was an error loading the moment data: \(error.localizedDescription)")
+//            }
         }
     }
     
-    
-    /// This saves the entered data into user defaults
-    /// - Parameters:
-    /// - None
-    ///
-    func save(using defaults: UserDefaults) {
-        defaults.setValue(true, forKey: "kMomentDataLoaded")
-        
-        defaults.setValue(maxWeight, forKey: "kMaxWeight")
-        defaults.setValue(emptyWeight, forKey: "kEmptyWeight")
-        defaults.setValue(aircraftArm, forKey: "kAircraftMoment")
-        defaults.setValue(seatCount, forKey: "kSeatCount")
-        
-        // Aircraft
-        defaults.setValue(aircraft, forKey: "kAircraft")
-        defaults.setValue(aircraftEngine, forKey: "kAircraftEngine")
-        
-        // Oil
-        defaults.setValue(oilMoment, forKey: "kOilMoment")
-        defaults.setValue(oilWeight, forKey: "kOilWeight")
-        
-        // Front
-        defaults.setValue(maxFrontWeight, forKey: "kMaxFrontWeight")
-        defaults.setValue(frontMoment, forKey: "kFrontArm")
-        
-        // Middle
-        defaults.setValue(maxMiddleWeight, forKey: "kMaxMiddleWeight")
-        defaults.setValue(middleMoment, forKey: "kMiddleArm")
-        
-        // Back
-        defaults.setValue(maxBackWeight, forKey: "kMaxBackWeight")
-        defaults.setValue(backMoment, forKey: "kBackArm")
-        
-        // Fuel
-        defaults.setValue(maxFuelGallons, forKey: "kMaxFuelGallons")
-        defaults.setValue(fuelMoment, forKey: "kFuelArm")
-        
-        // Aux Fuel
-        defaults.setValue(auxMaxFuelGallons, forKey: "kAuxMaxFuelGallons")
-        defaults.setValue(auxFuelMoment, forKey: "kAuxFuelArm")
-        
-        // Cargo
-        defaults.setValue(maxCargoWeight, forKey: "kMaxCargoWeight")
-        defaults.setValue(cargoMoment, forKey: "kCargoArm")
-        
-        // Cleanup
-        defaults.synchronize()
+    init() {
+        // This is so we can create a blank one on the fly
     }
-    
-    private mutating func read(using defaults: UserDefaults) {
-        maxWeight = defaults.double(forKey: "kMaxWeight")
-        emptyWeight = defaults.double(forKey: "kEmptyWeight")
-        aircraftArm = defaults.double(forKey: "kAircraftMoment")
-        seatCount = defaults.double(forKey: "kSeatCount")
-        
-        // Aircraft
-        aircraft = (defaults.object(forKey: "kAircraft") as? String) ?? ""
-        aircraftEngine = (defaults.object(forKey: "kAircraftEngine") as? String) ?? ""
-        
-        // Oil
-        oilMoment = defaults.double(forKey: "kOilMoment")
-        oilWeight = defaults.double(forKey: "kOilWeight")
-        
-        // Front
-        maxFrontWeight = defaults.double(forKey: "kMaxFrontWeight")
-        frontMoment = defaults.double(forKey: "kFrontArm")
-        
-        // Middle
-        maxMiddleWeight = defaults.double(forKey: "kMaxMiddleWeight")
-        middleMoment = defaults.double(forKey: "kMiddleArm")
-        
-        // Back
-        maxBackWeight = defaults.double(forKey: "kMaxBackWeight")
-        backMoment = defaults.double(forKey: "kBackArm")
-        
-        // Fuel
-        maxFuelGallons = defaults.double(forKey: "kMaxFuelGallons")
-        fuelMoment = defaults.double(forKey: "kFuelArm")
-        
-        // Aux Fuel
-        auxMaxFuelGallons = defaults.double(forKey: "kAuxMaxFuelGallons")
-        auxFuelMoment = defaults.double(forKey: "kAuxFuelArm")
-        
-        // Cargo
-        maxCargoWeight = defaults.double(forKey: "kMaxCargoWeight")
-        cargoMoment = defaults.double(forKey: "kCargoArm")
-    }
+//    /// This saves the entered data into user defaults
+//    /// - Parameters:
+//    /// - None
+//    ///
+//    func save(using defaults: UserDefaults) {
+//        defaults.setValue(true, forKey: "kMomentDataLoaded")
+//        
+//        defaults.setValue(maxWeight, forKey: "kMaxWeight")
+//        defaults.setValue(emptyWeight, forKey: "kEmptyWeight")
+//        defaults.setValue(aircraftArm, forKey: "kAircraftMoment")
+//        defaults.setValue(seatCount, forKey: "kSeatCount")
+//        
+//        // Aircraft
+//        defaults.setValue(aircraft, forKey: "kAircraft")
+//        defaults.setValue(aircraftEngine, forKey: "kAircraftEngine")
+//        
+//        // Oil
+//        defaults.setValue(oilMoment, forKey: "kOilMoment")
+//        defaults.setValue(oilWeight, forKey: "kOilWeight")
+//        
+//        // Front
+//        defaults.setValue(maxFrontWeight, forKey: "kMaxFrontWeight")
+//        defaults.setValue(frontMoment, forKey: "kFrontArm")
+//        
+//        // Middle
+//        defaults.setValue(maxMiddleWeight, forKey: "kMaxMiddleWeight")
+//        defaults.setValue(middleMoment, forKey: "kMiddleArm")
+//        
+//        // Back
+//        defaults.setValue(maxBackWeight, forKey: "kMaxBackWeight")
+//        defaults.setValue(backMoment, forKey: "kBackArm")
+//        
+//        // Fuel
+//        defaults.setValue(maxFuelGallons, forKey: "kMaxFuelGallons")
+//        defaults.setValue(fuelMoment, forKey: "kFuelArm")
+//        
+//        // Aux Fuel
+//        defaults.setValue(auxMaxFuelGallons, forKey: "kAuxMaxFuelGallons")
+//        defaults.setValue(auxFuelMoment, forKey: "kAuxFuelArm")
+//        
+//        // Cargo
+//        defaults.setValue(maxCargoWeight, forKey: "kMaxCargoWeight")
+//        defaults.setValue(cargoMoment, forKey: "kCargoArm")
+//        
+//        // Cleanup
+//        defaults.synchronize()
+//    }
+//    
+//    private mutating func read(using defaults: UserDefaults) {
+//        maxWeight = defaults.double(forKey: "kMaxWeight")
+//        emptyWeight = defaults.double(forKey: "kEmptyWeight")
+//        aircraftArm = defaults.double(forKey: "kAircraftMoment")
+//        seatCount = defaults.double(forKey: "kSeatCount")
+//        
+//        // Aircraft
+//        aircraft = (defaults.object(forKey: "kAircraft") as? String) ?? ""
+//        aircraftEngine = (defaults.object(forKey: "kAircraftEngine") as? String) ?? ""
+//        
+//        // Oil
+//        oilMoment = defaults.double(forKey: "kOilMoment")
+//        oilWeight = defaults.double(forKey: "kOilWeight")
+//        
+//        // Front
+//        maxFrontWeight = defaults.double(forKey: "kMaxFrontWeight")
+//        frontMoment = defaults.double(forKey: "kFrontArm")
+//        
+//        // Middle
+//        maxMiddleWeight = defaults.double(forKey: "kMaxMiddleWeight")
+//        middleMoment = defaults.double(forKey: "kMiddleArm")
+//        
+//        // Back
+//        maxBackWeight = defaults.double(forKey: "kMaxBackWeight")
+//        backMoment = defaults.double(forKey: "kBackArm")
+//        
+//        // Fuel
+//        maxFuelGallons = defaults.double(forKey: "kMaxFuelGallons")
+//        fuelMoment = defaults.double(forKey: "kFuelArm")
+//        
+//        // Aux Fuel
+//        auxMaxFuelGallons = defaults.double(forKey: "kAuxMaxFuelGallons")
+//        auxFuelMoment = defaults.double(forKey: "kAuxFuelArm")
+//        
+//        // Cargo
+//        maxCargoWeight = defaults.double(forKey: "kMaxCargoWeight")
+//        cargoMoment = defaults.double(forKey: "kCargoArm")
+//    }
     
     private mutating func loadFromJSON(_ fileName: String) throws {
         // This will change as the app evolves, right now it hard codes to a file
@@ -190,6 +199,7 @@ struct MomentDatum: Codable, Hashable {
             maxMiddleWeight = aircraftMoment.maxMiddleWeight
             middleMoment = aircraftMoment.middleMoment
             maxBackWeight = aircraftMoment.maxBackWeight
+            backMoment = aircraftMoment.backMoment
             maxCargoWeight = aircraftMoment.maxCargoWeight
             cargoMoment = aircraftMoment.cargoMoment
             maxFuelGallons = aircraftMoment.maxFuelGallons

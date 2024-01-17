@@ -10,7 +10,6 @@ import SwiftUI
 struct SettingsMasterView: View {
     @State private var isShowingDetail = false
 
-        
     
     var body: some View {
         NavigationStack {

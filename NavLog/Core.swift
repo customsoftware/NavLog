@@ -9,11 +9,13 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
-class Core: ObservableObject {
+@Observable
+class Core {
     static let services = Core()
     
-    @Published var gpsEngine = GPSObserver()
+    var gpsEngine = GPSObserver()
     let navEngine = NavigationEngine()
+    let acManager = AircraftManager()
 //    let takeOffCalc = TakeOffCalculator()
 //    let landingCalc = LandingCalculator()
     let orientation = AircraftOrientationManager()

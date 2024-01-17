@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AircraftParametersView: View {
     @SwiftUI.Environment(\.dismiss) var dismiss
-    // This manipulates it
-    @StateObject var viewModelController = AircraftParametersViewModel(momentData: MomentDatum(from: "CardinalMoment"))
+    @Bindable var aircraftManager = Core.services.acManager
+    @State private var acWhileInTransit: MomentDatum?
     
     private let textWidth: CGFloat = 180.0
     
@@ -22,108 +22,113 @@ struct AircraftParametersView: View {
     
     var body: some View {
         Form {
+            if aircraftManager.isAdding == false {
+                Picker("Choose Aircraft", selection: $aircraftManager.chosenAircraft) {
+                    ForEach(aircraftManager.availableAircraft.sorted(by: { r1, r2 in
+                        r1.aircraft < r2.aircraft
+                    }), id: \.self) {
+                        Text("\($0.aircraft)").tag($0)
+                    }
+                }
+                .tint(Color.accentColor)
+            }
             Section("Aircraft", content: {
-                TextField("Model:", text: $viewModelController.momentData.aircraft)
-                TextField("Engine:", text: $viewModelController.momentData.aircraftEngine)
+                TextEntryFieldStringView(captionText: "Model:", textWidth: textWidth - 30, promptText: "Enter Airplane type", isBold: false, textValue: $aircraftManager.chosenAircraft.aircraft)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Seats:", textWidth: textWidth, promptText: "Enter Number of Seats", textValue: $viewModelController.momentData.seatCount)
+                TextEntryFieldStringView(captionText: "Engine:", textWidth: textWidth - 30, promptText: "Enter engine type", isBold: false, textValue: $aircraftManager.chosenAircraft.aircraftEngine)
+                
+                TextEntryFieldView(formatter: formatter, captionText: "Seats:", textWidth: textWidth, promptText: "Enter Number of Seats", textValue: $aircraftManager.chosenAircraft.seatCount)
             })
             
             Section("AC Weights", content: {
-                TextEntryFieldView(formatter: formatter, captionText: "Maximum:", textWidth: textWidth, promptText: "Enter Max Weight", textValue: $viewModelController.momentData.maxWeight)
+                TextEntryFieldView(formatter: formatter, captionText: "Maximum:", textWidth: textWidth, promptText: "Enter Max Weight", textValue: $aircraftManager.chosenAircraft.maxWeight)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Empty", textWidth: textWidth, promptText: "Enter Empty Weight", textValue: $viewModelController.momentData.emptyWeight)
+                TextEntryFieldView(formatter: formatter, captionText: "Empty", textWidth: textWidth, promptText: "Enter Empty Weight", textValue: $aircraftManager.chosenAircraft.emptyWeight)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Aircraft Moment", textWidth: textWidth, promptText: "Aircraft Moment", integerOnly: false, textValue: $viewModelController.momentData.aircraftArm)
-            })
-            .onAppear(perform: {
-                viewModelController.loadProfile()
+                TextEntryFieldView(formatter: formatter, captionText: "Aircraft Moment", textWidth: textWidth, promptText: "Aircraft Moment", integerOnly: false, textValue: $aircraftManager.chosenAircraft.aircraftArm)
             })
             
             Section("Fuel", content: {
-                TextEntryFieldView(formatter: formatter, captionText: "Max Fuel Gallons", textWidth: textWidth, promptText: "Enter Max Fuel Gallons", isBold: true, textValue: $viewModelController.momentData.maxFuelGallons)
+                TextEntryFieldView(formatter: formatter, captionText: "Max Fuel Gallons", textWidth: textWidth, promptText: "Enter Max Fuel Gallons", isBold: false, textValue: $aircraftManager.chosenAircraft.maxFuelGallons)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Max Fuel Arm", textWidth: textWidth, promptText: "Max Fuel Moment", isBold: true, integerOnly: false, textValue: $viewModelController.momentData.fuelMoment)
+                TextEntryFieldView(formatter: formatter, captionText: "Max Fuel Arm", textWidth: textWidth, promptText: "Max Fuel Moment", isBold: true, integerOnly: false, textValue: $aircraftManager.chosenAircraft.fuelMoment)
+                
+                
+                TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", isBold: false, textValue: $aircraftManager.chosenAircraft.auxMaxFuelGallons)
+                
+                TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel Arm", textWidth: textWidth, promptText: "Aux Fuel Tanks", isBold: true, textValue: $aircraftManager.chosenAircraft.auxFuelMoment)
             })
             
             Section(header: Text("Cargo and Pax")) {
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Oil Weight", textWidth: textWidth, promptText: "Oil Weight", textValue: $viewModelController.momentData.oilWeight)
+                TextEntryFieldView(formatter: formatter, captionText: "Oil Weight", textWidth: textWidth, promptText: "Oil Weight", textValue: $aircraftManager.chosenAircraft.oilWeight)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Oil Arm", textWidth: textWidth, promptText: "Oil Arm", isBold: true, integerOnly: false, textValue: $viewModelController.momentData.oilMoment)
+                TextEntryFieldView(formatter: formatter, captionText: "Oil Arm", textWidth: textWidth, promptText: "Oil Arm", isBold: true, integerOnly: false, textValue: $aircraftManager.chosenAircraft.oilMoment)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Front Seat Max Weight", textWidth: textWidth, promptText: "Front Seat Max Weight", textValue: $viewModelController.momentData.maxFrontWeight)
+                TextEntryFieldView(formatter: formatter, captionText: "Front Seat Max Weight", textWidth: textWidth, promptText: "Front Seat Max Weight", textValue: $aircraftManager.chosenAircraft.maxFrontWeight)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Front Seat Arm", textWidth: textWidth, promptText: "Front Seat Moment", isBold: true, integerOnly: false, textValue: $viewModelController.momentData.frontMoment)
+                TextEntryFieldView(formatter: formatter, captionText: "Front Seat Arm", textWidth: textWidth, promptText: "Front Seat Moment", isBold: true, integerOnly: false, textValue: $aircraftManager.chosenAircraft.frontMoment)
                 
                 // If more than four seats show the middle row
-                if (viewModelController.momentData.seatCount) > 4 {
-                    TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Max Weight", textWidth: textWidth, promptText: "EMid Seat Max Weight", textValue: .constant(0.0))
+                if (aircraftManager.chosenAircraft.seatCount) > 4 {
+                    TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Max Weight", textWidth: textWidth, promptText: "Mid Seat Max Weight", textValue: $aircraftManager.chosenAircraft.maxMiddleWeight)
                     
-                    TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Arm", textWidth: textWidth, promptText: "Mid Seat Moment", isBold: true, integerOnly: false, textValue: .constant(0.0))
+                    TextEntryFieldView(formatter: formatter, captionText: "Mid Seat Arm", textWidth: textWidth, promptText: "Mid Seat Moment", isBold: true, integerOnly: false, textValue: $aircraftManager.chosenAircraft.middleMoment)
                 }
                 
                 // If more than two seats show the back row
-                if (viewModelController.momentData.seatCount) > 2 {
-                    TextEntryFieldView(formatter: formatter, captionText: "Back Seat Max Weight", textWidth: textWidth, promptText: "Back Seat Max Weight", textValue: $viewModelController.momentData.maxBackWeight)
+                if (aircraftManager.chosenAircraft.seatCount) > 2 {
+                    TextEntryFieldView(formatter: formatter, captionText: "Back Seat Max Weight", textWidth: textWidth, promptText: "Back Seat Max Weight", textValue: $aircraftManager.chosenAircraft.maxBackWeight)
                     
-                    TextEntryFieldView(formatter: formatter, captionText: "Back Seat Arm", textWidth: textWidth, promptText: "Back Seat Moment", isBold: true, integerOnly: false, textValue: $viewModelController.momentData.backMoment)
+                    TextEntryFieldView(formatter: formatter, captionText: "Back Seat Arm", textWidth: textWidth, promptText: "Back Seat Moment", isBold: true, integerOnly: false, textValue: $aircraftManager.chosenAircraft.backMoment)
                 }
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Cargo Max Weight", textWidth: textWidth, promptText: "Cargo Max Weight", textValue: $viewModelController.momentData.maxCargoWeight)
+                TextEntryFieldView(formatter: formatter, captionText: "Cargo Max Weight", textWidth: textWidth, promptText: "Cargo Max Weight", textValue: $aircraftManager.chosenAircraft.maxCargoWeight)
                 
-                TextEntryFieldView(formatter: formatter, captionText: "Cargo Arm", textWidth: textWidth, promptText: "Cargo Moment", isBold: true, integerOnly: false, textValue: $viewModelController.momentData.cargoMoment)
+                TextEntryFieldView(formatter: formatter, captionText: "Cargo Arm", textWidth: textWidth, promptText: "Cargo Moment", isBold: true, integerOnly: false, textValue: $aircraftManager.chosenAircraft.cargoMoment)
             }
         }
         .toolbar(content: {
             HStack {
                 Spacer()
+                if aircraftManager.isAdding == false {
+                    Button {
+                        // This creates a new empty plane for the user to "build"
+                        acWhileInTransit = aircraftManager.chosenAircraft
+                        
+                        aircraftManager.isAdding = true
+                        var newAC = MomentDatum()
+                        newAC.aircraft = "New"
+                        aircraftManager.chosenAircraft = newAC
+                        
+                    } label: { Text("New") }
+                } else {
+                    Button {
+                        // This creates a new empty plane for the user to "build"
+                        aircraftManager.isAdding = false
+                        guard let anAC = acWhileInTransit else { return }
+                        aircraftManager.chosenAircraft = anAC
+                        
+                    } label: { Text("Cancel") }
+                }
                 Button {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                    viewModelController.momentData.save(using: UserDefaults.standard)
-                    dismiss()
+                    if aircraftManager.chosenAircraft.isValid() {
+                        aircraftManager.saveCurrentAircraft()
+                        if aircraftManager.isAdding == false {
+                            dismiss()
+                        }
+                    } else {
+                        print("Why for not???")
+                    }
                 } label: { Text("Save") }
             }
         })
         .navigationTitle("W&B Key Properties")
         .navigationBarTitleDisplayMode(.inline)
-   
     }
 }
 
 #Preview {
     AircraftParametersView()
 }
-
-
-class AircraftParametersViewModel : ObservableObject {
-    @Published var momentData: MomentDatum
-    @Published var oilArm: Double?
-    @Published var aircraftArm: Double?
-    @Published var frontArm: Double?
-    @Published var backArm: Double?
-    @Published var fuelArm: Double?
-    @Published var cargoArm: Double?
-    @Published var isUnderGross: Bool = false
-    @Published var cgIsInLimits = true
-//    private(set) var performance: PerformanceProfile?
-    
-    init(momentData: MomentDatum) {
-        self.momentData = momentData
-    }
-    
-    func loadProfile() {
-        // This will change as the app evolves, right now it hard codes to a file
-        guard let perfProfilePath = Bundle.main.path(forResource: "CardinalTakeOff", ofType: "json")
-        else { return }
-        do {
-            let perfJSON = try String(contentsOfFile: perfProfilePath).data(using: .utf8)
-            let performanceProfile = try JSONDecoder().decode(PerformanceProfile.self, from: perfJSON!)
-//            self.performance = performanceProfile
-        } catch {
-            print("Reading the file didn't work. Error: \(error.localizedDescription)")
-        }
-    }
-}
-
-

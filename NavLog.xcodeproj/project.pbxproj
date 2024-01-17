@@ -17,7 +17,6 @@
 		904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904321D52AA61A4600F10D77 /* SliderBarView.swift */; };
 		904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A67152ACB558200FDC4E9 /* NavigationDetail.swift */; };
 		904B2EEF2B1233D600F526D7 /* AircraftOrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */; };
-		904B2EF12B124B2B00F526D7 /* EmailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EF02B124B2B00F526D7 /* EmailController.swift */; };
 		904B2EF32B12687D00F526D7 /* AttitudeEvaluationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */; };
 		9056512B2AF05712005076BE /* FetchMagneticDeviation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */; };
 		9058F1572A98E7A400C7CE81 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9058F1562A98E7A400C7CE81 /* WayPoint.swift */; };
@@ -51,7 +50,6 @@
 		908B95762B56E7B200AE0789 /* DA40 Moment.json in Resources */ = {isa = PBXBuildFile; fileRef = 908B95752B56E7B200AE0789 /* DA40 Moment.json */; };
 		908B95782B56F89200AE0789 /* Cherokee140Moment.json in Resources */ = {isa = PBXBuildFile; fileRef = 908B95772B56F89200AE0789 /* Cherokee140Moment.json */; };
 		908B957A2B5721DB00AE0789 /* KatanaMoment.json in Resources */ = {isa = PBXBuildFile; fileRef = 908B95792B5721DB00AE0789 /* KatanaMoment.json */; };
-		909375A92B115D150033691D /* DGSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909375A82B115D150033691D /* DGSwiftUIView.swift */; };
 		909375AB2B1167410033691D /* LegalSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909375AA2B1167410033691D /* LegalSwiftUIView.swift */; };
 		90980CDC2B02A3A600F0E5F0 /* libDeclinationLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90980CD92B02A2EF00F0E5F0 /* libDeclinationLib.a */; };
 		90980CE32B02B28B00F0E5F0 /* Declination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90980CE02B02B28B00F0E5F0 /* Declination.swift */; };
@@ -119,7 +117,6 @@
 		904321D52AA61A4600F10D77 /* SliderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarView.swift; sourceTree = "<group>"; };
 		904A67152ACB558200FDC4E9 /* NavigationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDetail.swift; sourceTree = "<group>"; };
 		904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftOrientationManager.swift; sourceTree = "<group>"; };
-		904B2EF02B124B2B00F526D7 /* EmailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailController.swift; sourceTree = "<group>"; };
 		904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttitudeEvaluationTests.swift; sourceTree = "<group>"; };
 		9056512A2AF05712005076BE /* FetchMagneticDeviation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMagneticDeviation.swift; sourceTree = "<group>"; };
 		9058F1562A98E7A400C7CE81 /* WayPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
@@ -153,7 +150,6 @@
 		908B95752B56E7B200AE0789 /* DA40 Moment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "DA40 Moment.json"; sourceTree = "<group>"; };
 		908B95772B56F89200AE0789 /* Cherokee140Moment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cherokee140Moment.json; sourceTree = "<group>"; };
 		908B95792B5721DB00AE0789 /* KatanaMoment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = KatanaMoment.json; sourceTree = "<group>"; };
-		909375A82B115D150033691D /* DGSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DGSwiftUIView.swift; sourceTree = "<group>"; };
 		909375AA2B1167410033691D /* LegalSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalSwiftUIView.swift; sourceTree = "<group>"; };
 		909525BF2AFBEF1600195274 /* libDeclinationLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDeclinationLib.a; path = NavLog/libDeclinationLib.a; sourceTree = "<group>"; };
 		90980CD82B02A2DB00F0E5F0 /* DeclinationLib.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DeclinationLib.swiftmodule; path = libDeclinationLib/DeclinationLib.swiftmodule; sourceTree = "<group>"; };
@@ -240,6 +236,7 @@
 		904A67142ACB556600FDC4E9 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				9058F1682A9932B600C7CE81 /* WaypointListItem.swift */,
 				9058F16A2A9932D600C7CE81 /* NavigationLog.swift */,
 				904A67152ACB558200FDC4E9 /* NavigationDetail.swift */,
 				90E2F9ED2B0C050A00E85227 /* ImportNavLogView.swift */,
@@ -290,12 +287,10 @@
 		9058F1632A99309300C7CE81 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				909375A72B115D020033691D /* DG */,
 				906EF5002B06685D00A4E6C9 /* Settings */,
 				90980CE62B02E01800F0E5F0 /* Performance */,
 				90D55EA92AA3E6B900AAC1D7 /* Heading */,
 				90CE25622A9A5D6100552366 /* Aircraft Meta */,
-				9058F1682A9932B600C7CE81 /* WaypointListItem.swift */,
 				904A67142ACB556600FDC4E9 /* Navigation */,
 				908A23CE2AA35B0000F1C3A7 /* AppStartView.swift */,
 				90A2584C2A96C27000B40DAD /* ContentView.swift */,
@@ -313,15 +308,6 @@
 				906865012B1E00970077D18F /* PerformanceSwiftUIView.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		909375A72B115D020033691D /* DG */ = {
-			isa = PBXGroup;
-			children = (
-				909375A82B115D150033691D /* DGSwiftUIView.swift */,
-				904B2EF02B124B2B00F526D7 /* EmailController.swift */,
-			);
-			path = DG;
 			sourceTree = "<group>";
 		};
 		909525BE2AFBEF1600195274 /* Frameworks */ = {
@@ -595,7 +581,6 @@
 				90D55EAD2AA3EEE000AAC1D7 /* HeadingMasterView.swift in Sources */,
 				90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */,
 				90EC522E2B4CCF08002C8C20 /* AirportParser.swift in Sources */,
-				909375A92B115D150033691D /* DGSwiftUIView.swift in Sources */,
 				90980CE42B02B28B00F0E5F0 /* DeviationEngine.swift in Sources */,
 				9058F1712A994C1700C7CE81 /* AircraftMetaItemStringView.swift in Sources */,
 				908A23CD2AA2925700F1C3A7 /* Core.swift in Sources */,
@@ -631,7 +616,6 @@
 				90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */,
 				90980CE82B02E03600F0E5F0 /* AircraftPerformanceView.swift in Sources */,
 				90980CEA2B02E51900F0E5F0 /* ScreenModels.swift in Sources */,
-				904B2EF12B124B2B00F526D7 /* EmailController.swift in Sources */,
 				906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */,
 				90C3A3592B06BF7D00B31B47 /* HeadingSummarySwiftUIView.swift in Sources */,
 				9058F15D2A98EDE700C7CE81 /* IncidentalModels.swift in Sources */,
