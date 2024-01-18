@@ -37,7 +37,11 @@ struct MomentDatum: Codable, Hashable {
     var auxFuelMoment: Double = 0
     
     func oilArm() -> Double {
-        return oilMoment/oilWeight
+        var retValue = 0.0
+        if oilWeight > 0 {
+            retValue = oilMoment/oilWeight
+        }
+        return retValue
     }
     
     func frontArm() -> Double {

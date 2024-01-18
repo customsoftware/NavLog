@@ -169,9 +169,6 @@ struct AircraftPerformanceView: View {
             viewModel.weather.airportCode = chosenName
         }
         
-        print("The airport: \(viewModel.weather.airportCode)")
-        print("\(chosenAirport.name ?? "None selected")")
-        print("\(currentLocation != nil ? "There is a location" : "No location set")")
         guard (viewModel.weather.airportCode.count > 2 || chosenAirport.name!.count > 1),
               self.currentLocation == nil
         else {
@@ -210,8 +207,6 @@ struct AircraftPerformanceView: View {
                     viewModel.weather.runwayLength = Double(aRunway.runwayLength)
                     selectedRunway = aRunway
                 }
-            } else {
-                print("There's nothing to choose")
             }
             viewModel.weather.save()
         }

@@ -4,10 +4,10 @@
     "max_weight": 2535,
     "empty_weight": 1760,
     "aircraft_arm": 0.0106,
-    "oil_moment": 39.4,
-    "oil_weight": 15,
+    "oil_moment": 0,
+    "oil_weight": 0,
     "max_front_weight": 540,
-    "front_moment": 49.0,
+    "front_moment": -49.0,
     "max_middle_weight": 0,
     "middle_moment": 0,
     "max_back_weight": 440,
@@ -17,7 +17,7 @@
     "max_fuel_gallons": 40,
     "fuel_moment": 25.5,
     "aux_max_fuel_gallons": 8,
-    "aux_fuel_moment": 30.5,
+    "aux_fuel_moment": 25.5,
     "seat_count": 4
 }
 
