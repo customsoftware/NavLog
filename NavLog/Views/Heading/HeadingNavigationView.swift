@@ -4,6 +4,8 @@
 //
 //  Created by Kenneth Cluff on 9/2/23.
 //
+//  A valuable article
+//  https://medium.com/@cmallikarjun118/dependency-injection-in-swiftui-0dd5bc6f00a8
 
 import SwiftUI
 import CoreLocation
@@ -146,7 +148,7 @@ struct HeadingNavigationView: View {
         return (retValue * 2)
     }
     
-    func convertLocationAltitudeToDouble(_ location: CLLocation?) -> Double {
+    private func convertLocationAltitudeToDouble(_ location: CLLocation?) -> Double {
         var locationAltitude: Double = 0
         defer { print("Altitude: \(locationAltitude)") }
         guard let aLocation = location else { return 0 }
@@ -154,13 +156,13 @@ struct HeadingNavigationView: View {
         return locationAltitude
     }
     
-    func convertLocationSpeedToDouble(_ location: CLLocation?) -> Double {
+    private func convertLocationSpeedToDouble(_ location: CLLocation?) -> Double {
         guard let aLocation = location else { return 0 }
         let computedSpeed = aLocation.speed
         return computedSpeed
     }
     
-    func convertTimeString(_ timeRemaining: Double?) -> String {
+    private func convertTimeString(_ timeRemaining: Double?) -> String {
         let computedTimeRemaining: Int
         /// Convert this into minutes and seconds
         if let timeRemaining, timeRemaining >= 0 {
@@ -178,10 +180,8 @@ struct HeadingNavigationView: View {
     HeadingNavigationView(controllingWayPoint: .constant(Core.services.navEngine.loadWayPoints().first!),
                           altimeterRange: 1000,
                           plannedAltimeter: .constant(5500),
-//                          currentAltimeter: 5300,
                           altOffset: .constant(25),
                           speedRange: 100,
-//                          actualSpeed: 90,
                           plannedSpeed: .constant(110),
                           gpsIsActive: .constant(true),
                           timeToWayPoint: .constant(76),

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */; };
 		90038F8D2AA180FC00B3FAFC /* NavLogSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */; };
+		901296822B5B2D0000027972 /* NoName.json in Resources */ = {isa = PBXBuildFile; fileRef = 901296812B5B2CFF00027972 /* NoName.json */; };
 		90227FFB2B066F80007879AB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90227FFA2B066F80007879AB /* Launch Screen.storyboard */; };
 		90227FFE2B069890007879AB /* PerformanceProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFD2B069890007879AB /* PerformanceProfile.swift */; };
 		902280002B0698E8007879AB /* PerformanceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFF2B0698E8007879AB /* PerformanceResults.swift */; };
@@ -109,6 +110,7 @@
 /* Begin PBXFileReference section */
 		90038F8A2AA16D3200B3FAFC /* NavigationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationEngine.swift; sourceTree = "<group>"; };
 		90038F8C2AA180FC00B3FAFC /* NavLogSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogSummary.swift; sourceTree = "<group>"; };
+		901296812B5B2CFF00027972 /* NoName.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NoName.json; sourceTree = "<group>"; };
 		90227FFA2B066F80007879AB /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		90227FFD2B069890007879AB /* PerformanceProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceProfile.swift; sourceTree = "<group>"; };
 		90227FFF2B0698E8007879AB /* PerformanceResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceResults.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				90B93FD92B0445CA00E163A7 /* CardinalTakeOff.json */,
 				906865072B1E03BE0077D18F /* CardinalLanding.json */,
 				906865062B1E03BE0077D18F /* CardinalMoment.json */,
+				901296812B5B2CFF00027972 /* NoName.json */,
 				908B95752B56E7B200AE0789 /* DA40 Moment.json */,
 				908B95792B5721DB00AE0789 /* KatanaMoment.json */,
 				908B95772B56F89200AE0789 /* Cherokee140Moment.json */,
@@ -540,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90CE24D12A99776A00552366 /* TestAircraft.json in Resources */,
+				901296822B5B2D0000027972 /* NoName.json in Resources */,
 				906865092B1E03BE0077D18F /* CardinalLanding.json in Resources */,
 				90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */,
 				90227FFB2B066F80007879AB /* Launch Screen.storyboard in Resources */,

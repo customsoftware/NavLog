@@ -17,7 +17,7 @@ struct AircraftPerformanceView: View {
     @State private var currentLocation: CLLocation?
     @State private var nearbyAirports: [AirportData] = [AirportData]()
     @State private var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
-    @State private var chosenAircraft: MomentDatum = MomentDatum(from: "CardinalMoment")
+    @State private var chosenAircraft: MomentDatum = MomentDatum(from: "NoName")
     @Bindable private var aircraftManager = Core.services.acManager
     @StateObject private var viewModel = AircraftPerformanceViewModel()
     @StateObject private var complexParser = ComplexMetarParser()

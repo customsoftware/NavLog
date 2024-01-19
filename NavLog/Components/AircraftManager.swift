@@ -17,7 +17,7 @@ class AircraftManager {
     private (set) var listOfAircraft: [URL]?
     
     init() {
-        chosenAircraft = MomentDatum(from: "CardinalMoment")
+        chosenAircraft = MomentDatum(from: "NoName")
         do {
             airplaneDirectory = URL.documentsDirectory
             listOfAircraft = try fileManager.contentsOfDirectory(at: airplaneDirectory, includingPropertiesForKeys: nil)

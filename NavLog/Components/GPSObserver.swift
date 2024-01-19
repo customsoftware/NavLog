@@ -15,6 +15,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     static let metersToKnots: Double = 1.94384
     static let metersToStandardMiles: Double = 2.23694
     static let metersToFeet: Double = 3.28084
+    static let metersToMeters: Double = 1.0
     
     var locationManger = CLLocationManager()
     var canBeUsed: Bool = false
