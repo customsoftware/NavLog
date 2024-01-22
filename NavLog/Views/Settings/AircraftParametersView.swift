@@ -138,7 +138,12 @@ struct AircraftParametersView: View {
             ) { result in
                 switch result {
                 case .success(let file):
-                    print(file.absoluteString)
+                    do {
+                        let testFile = file.startAccessingSecurityScopedResource()
+                        try aircraftManager.importMomentData(using: file)
+                    } catch let error {
+                        
+                    }
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -149,7 +154,6 @@ struct AircraftParametersView: View {
     
     private func addNewByEntry() {
         acWhileInTransit = aircraftManager.chosenAircraft
-        
         aircraftManager.isAdding = true
         var newAC = MomentDatum()
         newAC.aircraft = "New"

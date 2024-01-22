@@ -33,7 +33,9 @@ class AircraftManager {
                 do {
                     // Read the file from the directory then create the airplane and add it to the availableAircraft list
                     let acData = try Data(contentsOf: aFileUrl)
-                    let aMomentObect = try JSONDecoder().decode(MomentDatum.self, from: acData)
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = JSONDecoder.KeyDecodingStrategy.convertFromSnakeCase
+                    let aMomentObect = try decoder.decode(MomentDatum.self, from: acData)
                     availableAircraft.append(aMomentObect)
                 } catch {
                     print("DO something")
@@ -45,6 +47,30 @@ class AircraftManager {
         }
     }
     
+    func importMomentData(using url: URL) throws {
+        do {
+            let acData = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let aMomentObject = try decoder.decode(MomentDatum.self, from: acData)
+            
+            // Now we validate the model to see if we should import it
+            let matchingAC = availableAircraft.first { aMoment in
+                aMoment.aircraft == aMomentObject.aircraft
+            }
+            
+            
+            defer {
+                try! fileManager.removeItem(at: url)
+            }
+            guard let _ = matchingAC else {
+                availableAircraft.append(aMomentObject)
+                return }
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
     
     private func fetchTestAircraft(){
         availableAircraft.removeAll()
@@ -83,3 +109,6 @@ class AircraftManager {
 // arm is inches from datum
 // aircraft arm is different it is moment-arm
 
+enum ImportErrors: Error {
+    case badURL
+}

@@ -129,6 +129,28 @@ struct MomentDatum: Codable, Hashable {
             throw parseError
         }
     }
+    
+//    enum CodingKeys: String, CodingKey {
+//        case aircraft
+//        case aircraftEngine = "aircraft_engine"
+//        case maxWeight = "max_weight"
+//        case emptyWeight = "empty_weight"
+//        case aircraftArm = "aircraft_arm"
+//        case oilMoment = "oil_moment"
+//        case oilWeight = "oil_weight"
+//        case frontMoment = "front_moment"
+//        case maxMiddleWeight = "max_middle_weight"
+//        case middleMoment = "middle_moment"
+//        case maxBackWeight = "max_back_weight"
+//        case backMoment = "back_moment"
+//        case maxCargoWeight = "max_cargo_weight"
+//        case cargoMoment = "cargo_moment"
+//        case maxFuelGallons = "max_fuel_gallons"
+//        case fuelMoment = "fuel_moment"
+//        case auxMaxFuelGallons = "aux_max_fuel_gallons"
+//        case auxFuelMoment = "aux_fuel_moment"
+//        case seatCount = "seat_count"
+//    }
 }
 
 
