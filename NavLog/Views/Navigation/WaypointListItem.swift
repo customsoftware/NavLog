@@ -52,7 +52,7 @@ struct WaypointListItem: View {
                 .frame(width: 85)
                 Spacer()
             }
-            .padding(.leading, 10)
+            .padding(.leading, 20)
             HStack {
                 HStack {
                     Text("D")
@@ -74,7 +74,7 @@ struct WaypointListItem: View {
                 Spacer()
             }
             .padding(.top, 5)
-            .padding(.leading, 5)
+            .padding(.leading, 20)
             Spacer()
         }
     }

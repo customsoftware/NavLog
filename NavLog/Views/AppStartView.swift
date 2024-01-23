@@ -37,7 +37,7 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = true
                 }
 
-            NavigationLog()
+            NavLogWrapperSwiftUIView()
                 .tabItem {
                     Label("Log", systemImage: "road.lanes")
                 }

@@ -20,12 +20,12 @@ struct NavigationLog: View {
     var body: some View {
             List($missionLog) { waypoint in
                 NavigationLink {
-                    NavigationDetail(waypoint: waypoint)
+                    WayPointDetailSwiftUIView(waypoint: waypoint)
                 } label: {
                     WaypointListItem(wayPoint: waypoint)
                 }
             }
-            .navigationTitle("Navigation Log Details")
+            .navigationTitle("Nav Log Details")
             .toolbar{
                 Button( action: { },
                         label: {

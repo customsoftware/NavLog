@@ -132,11 +132,16 @@ struct HeadingNavigationView: View {
         
         let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
         let currentHeading: Double = gpsTracker.course
+        let reciprocal: Double = plannedHeading - 180
         
-        let offset =  currentHeading - plannedHeading
-        
+        let offset: Double
+        if currentHeading < reciprocal {
+            offset = (currentHeading + 360) - plannedHeading
+        } else {
+            offset = currentHeading - plannedHeading
+        }
         retValue = CGFloat(offset)
-        
+
         let range: CGFloat = 25.0
         
         if retValue >= range {

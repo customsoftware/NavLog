@@ -100,7 +100,7 @@ struct NavigationDetail: View {
 //            Text("Location").italic()
             HStack(alignment: .top, spacing: nil) {
                 Text("Latitude").italic()
-                TextField("Latidute", text: $latitude)
+                TextField("Latitude", text: $latitude)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
             

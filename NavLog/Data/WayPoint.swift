@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import Combine
 
-struct WayPoint: Equatable, Identifiable {
+struct WayPoint: Equatable, Identifiable, Observable {
     
     var id: UUID = UUID()
     
