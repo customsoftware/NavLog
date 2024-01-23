@@ -81,9 +81,13 @@ struct WayPoint: Equatable, Identifiable, Observable {
     
     func estimateTime() -> String {
         var retValue: String = ""
-        retValue = "\(Int(estimatedTimeReached)):"
-        let seconds = Int(estimatedTimeReached.truncatingRemainder(dividingBy: 1) * 60)
-        retValue = retValue + "\(seconds)"
+        retValue = "\(Int(estimatedTimeReached/60)):"
+        let seconds = Int(estimatedTimeReached.truncatingRemainder(dividingBy: 60))
+        if seconds < 10 {
+            retValue = retValue + "0\(seconds)"
+        } else {
+            retValue = retValue + "\(seconds)"
+        }
         return retValue
     }
     

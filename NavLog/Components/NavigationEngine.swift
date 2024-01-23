@@ -8,9 +8,11 @@
 import Foundation
 import CoreLocation
 
+
+@Observable
 class NavigationEngine {
     private (set) var activeLog: NavLogXML?
-    private (set) var activeWayPoints: [WayPoint] = []
+    var activeWayPoints: [WayPoint] = []
     private let doGarmin = true
     private let metersToFeetMultiple = 3.28084
     private let deviationEngine = DeviationFetchEngine()
@@ -78,6 +80,11 @@ class NavigationEngine {
     }
     
     private func fleshOutWayPoints() {
+        
+        activeWayPoints = activeWayPoints.sorted(by: { w1, w2 in
+            w1.sequence < w2.sequence
+        })
+        
         for var aWayPoint in activeWayPoints {
             // The rule here is to determine course to waypoint b from waypoint a
             let nextSequence : Int = aWayPoint.sequence + 1
@@ -94,7 +101,6 @@ class NavigationEngine {
             //                    self.activeWayPoints[currentSequence].wind = wind
             //                }
             //            }
-             
             
             guard let nextWayPoint = self.activeWayPoints.first(where: { wp in
                 wp.sequence == nextSequence

@@ -12,13 +12,10 @@ import SwiftUI
 
 struct NavigationLog: View {
     @State var showingImportView: Bool = false
-    
-    @State private var missionLog: [WayPoint] = Core.services.navEngine.activeWayPoints.sorted { w1, w2 in
-        w1.sequence < w2.sequence
-    }
+    @Bindable var navEngine = Core.services.navEngine
     
     var body: some View {
-            List($missionLog) { waypoint in
+            List($navEngine.activeWayPoints) { waypoint in
                 NavigationLink {
                     WayPointDetailSwiftUIView(waypoint: waypoint)
                 } label: {
