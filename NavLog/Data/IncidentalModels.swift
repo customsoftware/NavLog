@@ -22,6 +22,34 @@ enum DistanceMode: String, CaseIterable {
     case standard = "Standard"
     case nautical = "Knots"
     case metric = "Metric"
+    
+    var modeSymbol: String {
+        let retValue: String
+        switch self {
+        case .standard:
+            retValue = "SM"
+        case .nautical:
+            retValue = "NM"
+        case .metric:
+            retValue = "KM"
+        }
+        return retValue
+    }
+    
+    // This method works on the assumption that the GPS system in IOS works in meters only
+    //  So this is the value to convert a meter into the desired scale: mile, nautical mile or kilometer
+    var modeModifier: Double {
+        let retValue: Double
+        switch self {
+        case .standard:
+            retValue = 2.23694
+        case .nautical:
+            retValue = 1.94384
+        case .metric:
+            retValue = 1
+        }
+        return retValue
+    }
 }
 
 enum DisplayMode: String, CaseIterable {

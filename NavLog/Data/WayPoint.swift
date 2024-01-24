@@ -65,7 +65,7 @@ struct WayPoint: Equatable, Identifiable, Observable {
     /// It can then do simple math to determine speed to cross the distance in the recorded time.
     var actualGroundSpeed: Int?
     
-    var distanceMode: DistanceMode = .nautical
+    var distanceMode: DistanceMode = .standard
     
     private(set) var formatter = NumberFormatter()
     private(set) var cancellable = Set<AnyCancellable>()
@@ -88,20 +88,6 @@ struct WayPoint: Equatable, Identifiable, Observable {
         } else {
             retValue = retValue + "\(seconds)"
         }
-        return retValue
-    }
-    
-    func shortDistanceMode() -> String {
-        let retValue : String
-        switch distanceMode {
-        case .standard:
-            retValue = "SM"
-        case .nautical:
-            retValue = "NM"
-        case .metric:
-            retValue = "KM"
-        }
-        
         return retValue
     }
     

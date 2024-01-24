@@ -28,7 +28,7 @@ struct WayPointDetailSwiftUIView: View {
                 TextEntryFieldStringView(captionText: "Name", textWidth: fieldWidth, promptText: "Name of waypoint", isBold: true, textValue: $waypoint.name)
                 TextEntryIntFieldView(formatter: formatter, captionText: "Altitude", textWidth: fieldWidth, promptText: "Altitude", isBold: true, textValue: $waypoint.altitude)
                 TextEntryIntFieldView(formatter: formatter, captionText: "Ground Speed", textWidth: fieldWidth, promptText: "Ground Speed", isBold: false, textValue: $waypoint.estimatedGroundSpeed)
-                TextEntryFieldView(formatter: formatter, captionText: "Distance", textWidth: fieldWidth, promptText: "Distance to next waypoint", isBold: false, integerOnly: false, textValue: $waypoint.estimatedDistanceToNextWaypoint)
+                TextEntryFieldView(formatter: formatter, captionText: "Distance: " + self.waypoint.distanceMode.modeSymbol, textWidth: fieldWidth, promptText: "Distance to next waypoint", isBold: false, integerOnly: false, textValue: $waypoint.estimatedDistanceToNextWaypoint)
                 TextEntryFieldView(formatter: formatter, captionText: "Fuel", textWidth: fieldWidth, promptText: "Fuel to next waypoint", isBold: false, integerOnly: false, testValue: 30, textValue: $waypoint.computedFuelBurnToNextWayPoint)
                 Toggle(isOn: $waypoint.isCompleted, label: {
                     Text("Is Completed")

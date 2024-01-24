@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import CoreLocation
+import OSLog
 
 @Observable
 class Core {
@@ -53,4 +54,15 @@ class Core {
                            distanceToWayPoint: distance)
     }
 
+}
+
+extension Logger {
+    // Use this to uniquely ID log events
+    private static var subsystems = Bundle.main.bundleIdentifier!
+    
+    static let viewCycle = Logger(subsystem: subsystems, category: "viewCycle")
+    
+    static let api = Logger(subsystem: subsystems, category: "API")
+
+    static let gps = Logger(subsystem: subsystems, category: "GPS")
 }

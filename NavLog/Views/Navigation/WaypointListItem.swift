@@ -58,7 +58,7 @@ struct WaypointListItem: View {
                     Text("D")
                     Text(String(format: "%g", wayPoint.estimatedDistanceToNextWaypoint))
                         .font(.headline)
-                    Text(wayPoint.shortDistanceMode())
+                    Text(wayPoint.distanceMode.modeSymbol)
                 }
                 HStack {
                     Text("T")
