@@ -15,9 +15,9 @@ struct WayPoint: Equatable, Identifiable, Observable {
     var id: UUID = UUID()
     
     private let acData = AircraftPerformance.shared
-    
     private let clicksToNauticalMile: Double = 0.539957
-    
+    private let formatter = NumberFormatter()
+
     static func == (lhs: WayPoint, rhs: WayPoint) -> Bool {
         lhs.sequence == rhs.sequence
     }
@@ -52,9 +52,6 @@ struct WayPoint: Equatable, Identifiable, Observable {
     var distanceToNextWaypoint: Double = 0
     /// Magnetic deviation
     var magneticDeviation: Double = 0.0
-    
-    var operationMode: OperationMode = .cruise
-
     /// This indicates the waypoint as been passed (true) or not (false) it is determined when
     /// the distance to the next waypoint stops decreasing and begins to increase.
     var isCompleted: Bool = false
@@ -69,10 +66,9 @@ struct WayPoint: Equatable, Identifiable, Observable {
     /// It can then do simple math to determine speed to cross the distance in the recorded time.
     var actualGroundSpeed: Int?
     
+    var operationMode: OperationMode = .cruise
+
     var distanceMode: DistanceMode = .standard
-    
-    private(set) var formatter = NumberFormatter()
-    private(set) var cancellable = Set<AnyCancellable>()
     
     func windPrintable() -> String {
         formatter.minimumIntegerDigits = 0
@@ -92,7 +88,6 @@ struct WayPoint: Equatable, Identifiable, Observable {
         return round(retValue)
     }
     
-    
     func estimatedFuelBurn() -> Double {
         let duration = computeTimeToWaypoint()
         let retValue: Double
@@ -106,7 +101,6 @@ struct WayPoint: Equatable, Identifiable, Observable {
         }
         return round(retValue * 100)/100
     }
-    
     
     func estimateTime() -> String {
         var retValue: String = ""

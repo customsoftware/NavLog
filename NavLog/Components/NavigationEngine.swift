@@ -21,11 +21,16 @@ class NavigationEngine {
         
     }
     
-    func buildTestAircraft() -> Aircraft {
-        var retValue : Aircraft = Aircraft(registration: "NCC-1701X", standardClimbRate: 700, standardDescentRate: 500, cruiseFuelBurnRate: 8.6, climbToAltitudeFuelBurnRate: 12.9, descendingFuelBurnRate: 4.4, stallSpeed: 54, climbSpeed: 90, cruiseSpeed: 110, descentSpeed: 110)
-        return retValue
+    func saveLogToDisk() {
+        
     }
     
+    func readWaypointsFromDisk() throws -> [WayPoint]? {
+        var retValue: [WayPoint]?
+        
+        
+        return retValue
+    }
     
     func buildTestNavLog() {
         var parser: ParserProtocol
@@ -65,7 +70,20 @@ class NavigationEngine {
         }
     }
     
-    fileprivate func getWeatherForWayPoints(latitude: Double, longitude: Double) async throws -> Wind {
+    func loadWayPoints() -> [WayPoint] {
+        // We need the app to wait for this to finish
+        return activeWayPoints
+    }
+}
+
+fileprivate extension NavigationEngine {
+    
+    func buildTestAircraft() -> Aircraft {
+        var retValue : Aircraft = Aircraft(registration: "NCC-1701X", standardClimbRate: 700, standardDescentRate: 500, cruiseFuelBurnRate: 8.6, climbToAltitudeFuelBurnRate: 12.9, descendingFuelBurnRate: 4.4, stallSpeed: 54, climbSpeed: 90, cruiseSpeed: 110, descentSpeed: 110)
+        return retValue
+    }
+    
+    func getWeatherForWayPoints(latitude: Double, longitude: Double) async throws -> Wind {
         let retValue = Wind(speed: 0, directionFrom: 0)
 //        let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
 //        guard let url = URL(string: weatherString) else { return retValue}
@@ -78,7 +96,7 @@ class NavigationEngine {
         return retValue
     }
     
-    private func fleshOutWayPoints() {
+    func fleshOutWayPoints() {
         
         activeWayPoints = activeWayPoints.sorted(by: { w1, w2 in
             w1.sequence < w2.sequence
@@ -156,16 +174,11 @@ class NavigationEngine {
        }
     }
     
-    fileprivate func loadIntoWayPoint(_ logEntry: NavigationPoint, _ index: Int) {
+    func loadIntoWayPoint(_ logEntry: NavigationPoint, _ index: Int) {
         let aLocation = CLLocation(latitude: logEntry.latitude, longitude: logEntry.longitude)
         let theAltitude = Int(logEntry.elevation * metersToFeetMultiple)
         var aWayPoint = WayPoint(name: logEntry.name, location: aLocation, altitude: theAltitude, wind: Wind(speed: 0, directionFrom: 0), courseFrom: 0, estimatedDistanceToNextWaypoint: 0, estimatedGroundSpeed: 0, estimatedTimeReached: 0, computedFuelBurnToNextWayPoint: 0)
         aWayPoint.sequence = index
         activeWayPoints.append(aWayPoint)
-    }
-    
-    func loadWayPoints() -> [WayPoint] {
-        // We need the app to wait for this to finish
-        return activeWayPoints
     }
 }

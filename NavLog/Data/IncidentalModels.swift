@@ -9,7 +9,7 @@ import Foundation
 
 
 /// This represents wind speeds which affect the aircraft in flight
-struct Wind {
+struct Wind: Codable {
     /// This is how fast the wind is blowing measured in nautical miles per hour
     var speed: Double
     /// This is the direction the wind is blowing. This is the direction you must face to have it blowing directly into your face.
@@ -113,7 +113,7 @@ enum SpeedMode: String, CaseIterable {
 
 
 // Whether values are displayed in standard miles per hour or knots, nautical miles per hour
-enum DistanceMode: String, CaseIterable {
+enum DistanceMode: String, CaseIterable, Codable {
     case standard = "Standard"
     case nautical = "Knots"
     case metric = "Metric"
@@ -169,7 +169,7 @@ enum DisplayMode: String, CaseIterable {
 }
 
 
-enum OperationMode: CaseIterable {
+enum OperationMode: Int, CaseIterable, Codable {
     case climb
     case cruise
     case descend

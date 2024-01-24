@@ -32,6 +32,9 @@ struct NavigationLog: View {
                         Text("Import")
                     }
                 })
+                Button("Save") {
+                    
+                }
             }
     }
 }
