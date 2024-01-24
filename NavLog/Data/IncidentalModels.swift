@@ -17,6 +17,101 @@ struct Wind {
 }
 
 
+enum CapacityMode: CaseIterable {
+    case gallon
+    case liter
+    
+    var text: String {
+        let retValue: String
+        
+        switch self {
+        case .gallon:
+            retValue = "gallons"
+        case .liter:
+            retValue = "liters"
+        }
+        return retValue
+    }
+    
+    var flow: String {
+        let retValue: String
+        switch self {
+        case .gallon:
+            retValue = "gph"
+        case .liter:
+            retValue = "lph"
+        }
+        return retValue
+    }
+    
+    var shortText: String {
+        let retValue: String
+        switch self {
+        case .gallon:
+            retValue = "gal"
+        case .liter:
+            retValue = "ltr"
+        }
+        return retValue
+    }
+}
+
+
+enum AltitudeMode: CaseIterable {
+    case feet
+    case meters
+    
+    var text: String {
+        let retValue: String
+        
+        switch self {
+        case .feet:
+            retValue = "feet"
+        case .meters:
+            retValue = "meters"
+        }
+        
+        return retValue
+    }
+}
+
+
+// Whether values are displayed in standard miles per hour or knots, nautical miles per hour
+enum SpeedMode: String, CaseIterable {
+    case standard = "Mile/Hour"
+    case nautical = "Knots/Hour"
+    case metric = "Kilometers/Hour"
+    
+    var modeSymbol: String {
+        let retValue: String
+        switch self {
+        case .standard:
+            retValue = "MPH"
+        case .nautical:
+            retValue = "KTS"
+        case .metric:
+            retValue = "KPH"
+        }
+        return retValue
+    }
+    
+    // This method works on the assumption that the GPS system in IOS works in meters only
+    //  So this is the value to convert a meter into the desired scale: mile, nautical mile or kilometer
+    var modeModifier: Double {
+        let retValue: Double
+        switch self {
+        case .standard:
+            retValue = 2.23694
+        case .nautical:
+            retValue = 1.94384
+        case .metric:
+            retValue = 1
+        }
+        return retValue
+    }
+}
+
+
 // Whether values are displayed in standard miles per hour or knots, nautical miles per hour
 enum DistanceMode: String, CaseIterable {
     case standard = "Standard"

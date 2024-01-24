@@ -35,11 +35,17 @@ struct SettingsMasterView: View {
                 }
                 
                 NavigationLink {
+                    AppMetricsSwiftUIView()
+                } label: {
+                    Text("Metrics")
+                }
+                
+                NavigationLink {
                     LegalSwiftUIView()
                 } label: {
                     Text("Legal")
                 }
-                
+              
             }
             .navigationTitle("Settings")
         }
