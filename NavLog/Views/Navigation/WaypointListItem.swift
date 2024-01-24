@@ -68,7 +68,7 @@ struct WaypointListItem: View {
                 }
                 HStack {
                     Text("F")
-                    Text(String(format: "%g", wayPoint.computedFuelBurnToNextWayPoint))
+                    Text(String(format: "%g", wayPoint.estimatedFuelBurn()))
                         .font(.headline)
                     Text(metrics.fuelMode.shortText)
                 }

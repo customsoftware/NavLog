@@ -16,6 +16,8 @@
 		902280022B06994C007879AB /* MomentDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902280012B06994C007879AB /* MomentDatum.swift */; };
 		90244FCE2B4DAD8C00A75C1E /* RunwayChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */; };
 		903BD5142B615B1800118B65 /* AppMetricsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5132B615B1800118B65 /* AppMetricsSwiftUIView.swift */; };
+		903BD5162B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5152B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift */; };
+		903BD5182B61B97100118B65 /* JSONArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5172B61B97100118B65 /* JSONArchiver.swift */; };
 		904321D62AA61A4600F10D77 /* SliderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904321D52AA61A4600F10D77 /* SliderBarView.swift */; };
 		904A67162ACB558200FDC4E9 /* NavigationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904A67152ACB558200FDC4E9 /* NavigationDetail.swift */; };
 		904B2EEF2B1233D600F526D7 /* AircraftOrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */; };
@@ -121,6 +123,8 @@
 		902280012B06994C007879AB /* MomentDatum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentDatum.swift; sourceTree = "<group>"; };
 		90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunwayChooser.swift; sourceTree = "<group>"; };
 		903BD5132B615B1800118B65 /* AppMetricsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetricsSwiftUIView.swift; sourceTree = "<group>"; };
+		903BD5152B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPerformanceSwiftUIView.swift; sourceTree = "<group>"; };
+		903BD5172B61B97100118B65 /* JSONArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONArchiver.swift; sourceTree = "<group>"; };
 		904321D52AA61A4600F10D77 /* SliderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderBarView.swift; sourceTree = "<group>"; };
 		904A67152ACB558200FDC4E9 /* NavigationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDetail.swift; sourceTree = "<group>"; };
 		904B2EEE2B1233D600F526D7 /* AircraftOrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftOrientationManager.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 				90EC522D2B4CCF08002C8C20 /* AirportParser.swift */,
 				90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */,
 				908B95732B56D5F200AE0789 /* AircraftManager.swift */,
+				903BD5172B61B97100118B65 /* JSONArchiver.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				906864FF2B1E00440077D18F /* AircraftStatsView.swift */,
 				906865012B1E00970077D18F /* PerformanceSwiftUIView.swift */,
 				903BD5132B615B1800118B65 /* AppMetricsSwiftUIView.swift */,
+				903BD5152B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -632,6 +638,8 @@
 				9058F1672A99313700C7CE81 /* AircraftMetaDataView.swift in Sources */,
 				908B95742B56D5F200AE0789 /* AircraftManager.swift in Sources */,
 				90872D152B039E2900349152 /* AircraftParametersView.swift in Sources */,
+				903BD5182B61B97100118B65 /* JSONArchiver.swift in Sources */,
+				903BD5162B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift in Sources */,
 				90D55EAB2AA3E6D900AAC1D7 /* HeadingDetailView.swift in Sources */,
 				90980CE82B02E03600F0E5F0 /* AircraftPerformanceView.swift in Sources */,
 				90980CEA2B02E51900F0E5F0 /* ScreenModels.swift in Sources */,

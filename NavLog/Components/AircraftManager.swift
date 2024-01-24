@@ -59,7 +59,6 @@ class AircraftManager {
                 aMoment.aircraft == aMomentObject.aircraft
             }
             
-            
             defer {
                 try! fileManager.removeItem(at: url)
             }

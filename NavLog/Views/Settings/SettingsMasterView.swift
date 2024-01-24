@@ -35,6 +35,12 @@ struct SettingsMasterView: View {
                 }
                 
                 NavigationLink {
+                    AircraftPerformanceSwiftUIView()
+                } label: {
+                    Text("Aircraft")
+                }
+                
+                NavigationLink {
                     AppMetricsSwiftUIView()
                 } label: {
                     Text("Metrics")

@@ -160,6 +160,7 @@ enum DistanceMode: String, CaseIterable {
     }
 }
 
+
 enum DisplayMode: String, CaseIterable {
     /// This means this is where we are
     case actualCentered
@@ -167,6 +168,12 @@ enum DisplayMode: String, CaseIterable {
     case estimatedCentered
 }
 
+
+enum OperationMode: CaseIterable {
+    case climb
+    case cruise
+    case descend
+}
 
 struct MetaFloat {
     var name: String

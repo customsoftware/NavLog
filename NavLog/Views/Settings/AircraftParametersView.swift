@@ -16,7 +16,7 @@ struct AircraftParametersView: View {
     
     private let textWidth: CGFloat = 180.0
     
-    let formatter: NumberFormatter = {
+    private let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter

@@ -46,6 +46,11 @@ struct HeadingNavigationView: View {
                         .frame(minWidth: 2, idealWidth: 2, maxWidth: 2, minHeight: 175, idealHeight: 240, maxHeight: 270, alignment: .center)
                     .foregroundColor(Color(.label))
                 }
+                
+                if gpsIsActive {
+                    Text(getDirectionToTurn(width:300))
+                }
+                
                 Spacer()
             })
             
@@ -125,6 +130,17 @@ struct HeadingNavigationView: View {
             }
         })
         .clipped()
+    }
+    
+    private func getDirectionToTurn(width: CGFloat) -> String {
+        let x = convertDegreeToXOffset(300)
+        let string: String
+        if x >= 0 {
+            string = "Turn Left"
+        } else {
+            string = "Turn Right"
+        }
+        return string
     }
     
     func convertDegreeToXOffset(_ width: CGFloat) -> CGFloat {

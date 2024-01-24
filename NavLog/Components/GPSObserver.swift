@@ -17,6 +17,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     static let metersToFeet: Double = 3.28084
     static let metersToMeters: Double = 1.0
     
+    @StateObject private var metrics = AppMetricsSwift.settings
     var locationManger = CLLocationManager()
     var canBeUsed: Bool = false
     var isRunning: Bool = false
@@ -75,7 +76,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         // Get CLLocation
         var retValue: Double = 0
-        switch aircraft.distanceMode {
+        switch metrics.distanceMode {
         case .standard:
             retValue = reportedSpeed * GPSObserver.metersToStandardMiles
         case .nautical:

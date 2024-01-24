@@ -19,21 +19,30 @@ struct WayPointDetailSwiftUIView: View {
     @State private var pins: [MapPins] = []
     @State private var activePin: MapPins = MapPins(coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0))
     @StateObject private var metrics = AppMetricsSwift.settings
+    @StateObject private var aircraft = AircraftPerformance.shared
     
     @Binding var waypoint: WayPoint
     private let fieldWidth: CGFloat = 160.0
     
     var body: some View {
         Form {
+            Toggle(isOn: $waypoint.isCompleted, label: {
+                Text("Is Completed")
+            })
             Section(header: Text("General Parameters")) {
                 TextEntryFieldStringView(captionText: "Name", textWidth: fieldWidth, promptText: "Name of waypoint", isBold: true, textValue: $waypoint.name)
                 TextEntryIntFieldView(formatter: formatter, captionText: "Altitude: (" + metrics.altitudeMode.text + ")", textWidth: fieldWidth, promptText: "Altitude", isBold: true, textValue: $waypoint.altitude)
                 TextEntryIntFieldView(formatter: formatter, captionText: "Ground Speed: " + metrics.speedMode.modeSymbol, textWidth: fieldWidth, promptText: "Ground Speed", isBold: false, textValue: $waypoint.estimatedGroundSpeed)
                 TextEntryFieldView(formatter: formatter, captionText: "Distance: " + metrics.distanceMode.modeSymbol, textWidth: fieldWidth, promptText: "Distance to next waypoint", isBold: false, integerOnly: false, textValue: $waypoint.estimatedDistanceToNextWaypoint)
-                TextEntryFieldView(formatter: formatter, captionText: "Fuel: (" + metrics.fuelMode.shortText + ")", textWidth: fieldWidth, promptText: "Fuel to next waypoint", isBold: false, integerOnly: false, testValue: 30, textValue: $waypoint.computedFuelBurnToNextWayPoint)
-                Toggle(isOn: $waypoint.isCompleted, label: {
-                    Text("Is Completed")
-                })
+                Text("Estimated Travel Time: \(Int(waypoint.computeTimeToWaypoint())) seconds")
+                Text("Trip Performance Regime")
+                Picker("Mode", selection: $waypoint.operationMode) {
+                    Text("Climbing").tag(OperationMode.climb)
+                    Text("Cruising").tag(OperationMode.cruise)
+                    Text("Descending").tag(OperationMode.descend)
+                }
+                .pickerStyle(.segmented)
+                Text("Estimated fuel burn: \(waypoint.estimatedFuelBurn(), specifier: "%.1f") \(metrics.fuelMode.text)")
             }
             Section(header: Text("Wind")) {
                 TextEntryFieldView(formatter: formatter, captionText: "Wind", textWidth: fieldWidth, promptText: "Direction", isBold: true, integerOnly: false, testValue: nil, textValue: $waypoint.wind.directionFrom)
@@ -72,7 +81,7 @@ struct WayPointDetailSwiftUIView: View {
 }
 
 #Preview {
-    WayPointDetailSwiftUIView(waypoint: .constant(WayPoint(name: "Test", location: CLLocation(latitude: 44.25, longitude: -112.012), altitude: 1500, wind: Wind(speed: 5, directionFrom: 115), courseFrom: 315, estimatedDistanceToNextWaypoint: 2.75, estimatedGroundSpeed: 65, estimatedTimeReached: 85, computedFuelBurnToNextWayPoint: 2.5)))
+    WayPointDetailSwiftUIView(waypoint: .constant(WayPoint(name: "Test", location: CLLocation(latitude: 44.25, longitude: -112.012), altitude: 1500, wind: Wind(speed: 5, directionFrom: 115), courseFrom: 315, estimatedDistanceToNextWaypoint: 2.75, estimatedGroundSpeed: 85, estimatedTimeReached: 85, computedFuelBurnToNextWayPoint: 2.5)))
 }
 
 

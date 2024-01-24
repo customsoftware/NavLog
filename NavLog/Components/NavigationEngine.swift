@@ -22,8 +22,7 @@ class NavigationEngine {
     }
     
     func buildTestAircraft() -> Aircraft {
-        var retValue : Aircraft = Aircraft(stallSpeed: 63, fuelCapacity: 48, standardClimbRate: 700, standardDescentRate: 500, cruiseFuelBurnRate: 8.6, climbToAltitudeFuelBurnRate: 12.9, descendingFuelBurnRate: 2.5, climbSpeed: 90, cruiseSpeed: 110)
-        retValue.distanceMode = .standard
+        var retValue : Aircraft = Aircraft(registration: "NCC-1701X", standardClimbRate: 700, standardDescentRate: 500, cruiseFuelBurnRate: 8.6, climbToAltitudeFuelBurnRate: 12.9, descendingFuelBurnRate: 4.4, stallSpeed: 54, climbSpeed: 90, cruiseSpeed: 110, descentSpeed: 110)
         return retValue
     }
     

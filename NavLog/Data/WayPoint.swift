@@ -14,6 +14,8 @@ struct WayPoint: Equatable, Identifiable, Observable {
     
     var id: UUID = UUID()
     
+    private let acData = AircraftPerformance.shared
+    
     private let clicksToNauticalMile: Double = 0.539957
     
     static func == (lhs: WayPoint, rhs: WayPoint) -> Bool {
@@ -50,6 +52,8 @@ struct WayPoint: Equatable, Identifiable, Observable {
     var distanceToNextWaypoint: Double = 0
     /// Magnetic deviation
     var magneticDeviation: Double = 0.0
+    
+    var operationMode: OperationMode = .cruise
 
     /// This indicates the waypoint as been passed (true) or not (false) it is determined when
     /// the distance to the next waypoint stops decreasing and begins to increase.
@@ -79,10 +83,36 @@ struct WayPoint: Equatable, Identifiable, Observable {
         return retValue
     }
     
+    /// This computes travel time in seconds to next waypoint
+    func computeTimeToWaypoint() -> Double {
+        guard estimatedGroundSpeed > 0,
+              estimatedDistanceToNextWaypoint > 0 else { return 0 }
+        // Speed is in mph or kph so divide by 3600 to get miles/second or kilometers/second
+        let retValue = (3600.0/Double(estimatedGroundSpeed)) * estimatedDistanceToNextWaypoint
+        return round(retValue)
+    }
+    
+    
+    func estimatedFuelBurn() -> Double {
+        let duration = computeTimeToWaypoint()
+        let retValue: Double
+        switch operationMode {
+        case .climb:
+            retValue = acData.aircraft.climbToAltitudeFuelBurnRate * (duration/3600)
+        case .cruise:
+            retValue = acData.aircraft.cruiseFuelBurnRate * (duration/3600)
+        case .descend:
+            retValue = acData.aircraft.descendingFuelBurnRate * (duration/3600)
+        }
+        return round(retValue * 100)/100
+    }
+    
+    
     func estimateTime() -> String {
         var retValue: String = ""
-        retValue = "\(Int(estimatedTimeReached/60)):"
-        let seconds = Int(estimatedTimeReached.truncatingRemainder(dividingBy: 60))
+        let timeToWaypoint = computeTimeToWaypoint()
+        retValue = "\(Int(timeToWaypoint)/60):"
+        let seconds = Int(timeToWaypoint.truncatingRemainder(dividingBy: 60))
         if seconds < 10 {
             retValue = retValue + "0\(seconds)"
         } else {
