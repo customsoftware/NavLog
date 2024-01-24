@@ -145,6 +145,19 @@ enum DistanceMode: String, CaseIterable {
         }
         return retValue
     }
+    
+    var fineDetail: String {
+        let retValue: String
+        switch self {
+        case .standard:
+            retValue = "feet"
+        case .nautical:
+            retValue = "feed"
+        case .metric:
+            retValue = "meters"
+        }
+        return retValue
+    }
 }
 
 enum DisplayMode: String, CaseIterable {

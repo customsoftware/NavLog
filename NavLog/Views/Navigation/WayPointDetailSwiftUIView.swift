@@ -18,25 +18,26 @@ struct WayPointDetailSwiftUIView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
     @State private var pins: [MapPins] = []
     @State private var activePin: MapPins = MapPins(coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0))
+    @StateObject private var metrics = AppMetricsSwift.settings
     
     @Binding var waypoint: WayPoint
-    private let fieldWidth: CGFloat = 110.0
+    private let fieldWidth: CGFloat = 160.0
     
     var body: some View {
         Form {
             Section(header: Text("General Parameters")) {
                 TextEntryFieldStringView(captionText: "Name", textWidth: fieldWidth, promptText: "Name of waypoint", isBold: true, textValue: $waypoint.name)
-                TextEntryIntFieldView(formatter: formatter, captionText: "Altitude", textWidth: fieldWidth, promptText: "Altitude", isBold: true, textValue: $waypoint.altitude)
-                TextEntryIntFieldView(formatter: formatter, captionText: "Ground Speed", textWidth: fieldWidth, promptText: "Ground Speed", isBold: false, textValue: $waypoint.estimatedGroundSpeed)
-                TextEntryFieldView(formatter: formatter, captionText: "Distance: " + self.waypoint.distanceMode.modeSymbol, textWidth: fieldWidth, promptText: "Distance to next waypoint", isBold: false, integerOnly: false, textValue: $waypoint.estimatedDistanceToNextWaypoint)
-                TextEntryFieldView(formatter: formatter, captionText: "Fuel", textWidth: fieldWidth, promptText: "Fuel to next waypoint", isBold: false, integerOnly: false, testValue: 30, textValue: $waypoint.computedFuelBurnToNextWayPoint)
+                TextEntryIntFieldView(formatter: formatter, captionText: "Altitude: (" + metrics.altitudeMode.text + ")", textWidth: fieldWidth, promptText: "Altitude", isBold: true, textValue: $waypoint.altitude)
+                TextEntryIntFieldView(formatter: formatter, captionText: "Ground Speed: " + metrics.speedMode.modeSymbol, textWidth: fieldWidth, promptText: "Ground Speed", isBold: false, textValue: $waypoint.estimatedGroundSpeed)
+                TextEntryFieldView(formatter: formatter, captionText: "Distance: " + metrics.distanceMode.modeSymbol, textWidth: fieldWidth, promptText: "Distance to next waypoint", isBold: false, integerOnly: false, textValue: $waypoint.estimatedDistanceToNextWaypoint)
+                TextEntryFieldView(formatter: formatter, captionText: "Fuel: (" + metrics.fuelMode.shortText + ")", textWidth: fieldWidth, promptText: "Fuel to next waypoint", isBold: false, integerOnly: false, testValue: 30, textValue: $waypoint.computedFuelBurnToNextWayPoint)
                 Toggle(isOn: $waypoint.isCompleted, label: {
                     Text("Is Completed")
                 })
             }
             Section(header: Text("Wind")) {
                 TextEntryFieldView(formatter: formatter, captionText: "Wind", textWidth: fieldWidth, promptText: "Direction", isBold: true, integerOnly: false, testValue: nil, textValue: $waypoint.wind.directionFrom)
-                TextEntryFieldView(formatter: formatter, captionText: "Speed", textWidth: fieldWidth, promptText: "Speed", isBold: false, integerOnly: false, testValue: nil, textValue: $waypoint.wind.speed)
+                TextEntryFieldView(formatter: formatter, captionText: "Speed: " + metrics.speedMode.modeSymbol, textWidth: fieldWidth, promptText: "Speed", isBold: false, integerOnly: false, testValue: nil, textValue: $waypoint.wind.speed)
             }
             Section(header: Text("Course")) {
                 TextEntryFieldView(formatter: formatter, captionText: "Magnetic", textWidth: fieldWidth, promptText: "Deviation", isBold: true, testValue: nil, textValue: $waypoint.magneticDeviation)

@@ -23,6 +23,7 @@ struct AircraftPerformanceView: View {
     @StateObject private var complexParser = ComplexMetarParser()
     @StateObject private var airportParser = AirportParser()
     @StateObject private var runwayChooser = RunwayChooser()
+    @StateObject private var metrics = AppMetricsSwift.settings
     @State private var theWeather: AirportWeather? {
         didSet {
             guard let weather = theWeather else {
@@ -65,7 +66,7 @@ struct AircraftPerformanceView: View {
                         TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
                     }
                     
-                    TextEntryFieldView(formatter: formatter, captionText: "Elevation", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
+                    TextEntryFieldView(formatter: formatter, captionText: "Elevation: (" + metrics.altitudeMode.text + ")", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
                     //
                     //                    if runwayChooser.runwayDirections.count > 0 {
                     //                        Picker("Runway Direction", selection: $selectedRunway) {
@@ -85,7 +86,7 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", integerOnly: false, textValue: $viewModel.weather.pressure)
                     TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", integerOnly: false, textValue: $viewModel.weather.temp)
                     TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.weather.windDirection)
-                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed", textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed: " + metrics.speedMode.modeSymbol, textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
                 }
                 
                 Section(header: Text("Mission Load")) {
@@ -114,7 +115,7 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
                     
                     // We need a way to let the user know if they put more fuel than the tank can hold...
-                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in Gallons", textWidth: textWidth, promptText: "Fuel Wings", testValue: chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
                     
                     if chosenAircraft.auxMaxFuelGallons > 0 {
                         TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)

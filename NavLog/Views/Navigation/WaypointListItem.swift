@@ -13,6 +13,7 @@ import MapKit
 struct WaypointListItem: View {
     
     @Binding var wayPoint: WayPoint
+    @StateObject var metrics = AppMetricsSwift.settings
     
     let formatter = Formatter()
     
@@ -58,7 +59,7 @@ struct WaypointListItem: View {
                     Text("D")
                     Text(String(format: "%g", wayPoint.estimatedDistanceToNextWaypoint))
                         .font(.headline)
-                    Text(wayPoint.distanceMode.modeSymbol)
+                    Text(metrics.distanceMode.modeSymbol)
                 }
                 HStack {
                     Text("T")
@@ -69,7 +70,7 @@ struct WaypointListItem: View {
                     Text("F")
                     Text(String(format: "%g", wayPoint.computedFuelBurnToNextWayPoint))
                         .font(.headline)
-                    Text("gal")
+                    Text(metrics.fuelMode.shortText)
                 }
                 Spacer()
             }

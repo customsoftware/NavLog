@@ -11,6 +11,7 @@ import Combine
 struct TakeOffPerformanceView: View {
     var performance: PerformanceResults
     var environment: WeatherEnvironment
+    @StateObject private var metrics = AppMetricsSwift.settings
     
     var body: some View {
         VStack (alignment: .leading, content: {
@@ -34,6 +35,10 @@ struct TakeOffPerformanceView: View {
                     .foregroundStyle(.red)
                     .bold()
             }
+            
+            Text("Distances are all in \(metrics.distanceMode.fineDetail)")
+                .padding()
+                .italic()
             
             Text("Pressure Altitude: \(Int(environment.pressureAltitude))")
             Text("Density Altitude: \(Int(environment.densityAltitude))")
