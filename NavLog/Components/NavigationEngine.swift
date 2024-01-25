@@ -15,7 +15,8 @@ class NavigationEngine {
     private let fileNameExtension: String = "mplan"
     private (set) var activeLog: NavLogXML?
     var activeWayPoints: [WayPoint] = []
-    private let doGarmin = true
+    var importFinished = false
+    private var doGarmin = true
     private let metersToFeetMultiple = 3.28084
     private let deviationEngine = DeviationFetchEngine()
     
@@ -27,8 +28,8 @@ class NavigationEngine {
         do {
             let archiveData = try JSONEncoder().encode(activeWayPoints)
             try JSONArchiver().write(data: archiveData, to: fileName, with: fileNameExtension)
-            print("It worked")
-        } catch let error {
+            Logger.api.info("Writing log to archive worked!!")
+         } catch let error {
             Logger.api.warning("The write failed: \(error.localizedDescription)")
         }
     }
@@ -38,12 +39,47 @@ class NavigationEngine {
         guard let data = try JSONArchiver().read(from: fileName, with: fileNameExtension) else { return retValue }
         do {
             retValue = try JSONDecoder().decode([WayPoint].self, from: data)
-            print("It worked!!")
+            Logger.api.info("Loading archived log into data worked!!")
         } catch let error {
             Logger.api.warning("Decoding log failed: \(error.localizedDescription)")
         }
         
         return retValue
+    }
+    
+    func importNavLog(doingGarmin: Bool = true, with url: URL) {
+        doGarmin = doingGarmin
+        importFinished = false
+        var parser: ParserProtocol
+        
+        if doGarmin {
+            parser = ParserFactory.getNavLogParser(.garmin) { [weak self] aLog in
+                self?.activeLog = aLog
+                var sequence = 0
+                self?.activeWayPoints.removeAll()
+                aLog.navPoints.forEach { navPoint in
+                    self?.loadIntoWayPoint(navPoint, sequence)
+                    sequence += 1
+                }
+                
+                self?.cleanupAfterImport(from: url)
+            }
+        } else {
+            parser = ParserFactory.getNavLogParser(.dynon, using: { [weak self] aLog in
+                self?.activeLog = aLog
+                var sequence = 0
+                self?.activeWayPoints.removeAll()
+                aLog.navPoints.forEach { navPoint in
+                    self?.loadIntoWayPoint(navPoint, sequence)
+                    sequence += 1
+                }
+                
+                self?.cleanupAfterImport(from: url)
+            })
+        }
+        
+        let xmlData = try! Data(contentsOf: url)
+        parser.parseData(xmlData)
     }
     
     func buildTestNavLog() {
@@ -99,15 +135,35 @@ fileprivate extension NavigationEngine {
     
     func getWeatherForWayPoints(latitude: Double, longitude: Double) async throws -> Wind {
         let retValue = Wind(speed: 0, directionFrom: 0)
-//        let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
-//        guard let url = URL(string: weatherString) else { return retValue}
-//        
-//        
-//        
-//        let (data, _) = try URLSession.shared.data(from: url)
-//        let weatherReport = try JSONDecoder().decode(WeatherReport.self, from: data)
-//        retValue = Wind(speed: weatherReport.currentConditions.windspeed, directionFrom: weatherReport.currentConditions.winddir)
+        //        let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
+        //        guard let url = URL(string: weatherString) else { return retValue}
+        //
+        //
+        //
+        //        let (data, _) = try URLSession.shared.data(from: url)
+        //        let weatherReport = try JSONDecoder().decode(WeatherReport.self, from: data)
+        //        retValue = Wind(speed: weatherReport.currentConditions.windspeed, directionFrom: weatherReport.currentConditions.winddir)
         return retValue
+    }
+    
+    func cleanupAfterImport(from url: URL) {
+        guard let aLog = activeLog,
+              activeWayPoints.count > 0
+        else { return }
+        
+        self.fleshOutWayPoints()
+        
+        if aLog.navPoints.count > 0,
+           activeWayPoints.count == aLog.navPoints.count {
+            
+            removeFile(at: url)
+            saveLogToDisk()
+            importFinished = true
+        }
+    }
+    
+    func removeFile(at url: URL) {
+        try! FileManager().removeItem(at: url)
     }
     
     func fleshOutWayPoints() {
