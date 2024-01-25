@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HeadingMasterView: View {
-    @Binding var wayPointList: [WayPoint]
+    @Bindable var navEngine: NavigationEngine = Core.services.navEngine
     @Binding var altimeterOffset: Double
     @State var activeWayPointIndex: Int = 0
     @State var gpsIsRunning: Bool = false
@@ -19,14 +19,14 @@ struct HeadingMasterView: View {
     var body: some View {
         NavigationStack {
                 VStack(alignment: .leading, content: {
-                    if wayPointList.count > 0 {
-                        Text(verbatim: wayPointList[activeWayPointIndex].name)
+                    if  navEngine.activeWayPoints.count > 0 {
+                        Text(verbatim: navEngine.activeWayPoints[activeWayPointIndex].name)
                             .font(.headline)
                             .foregroundStyle(Color(.label))
                     }
                     let currentValues = getDisplayValues()
                     HeadingNavigationView(
-                        controllingWayPoint: $wayPointList[activeWayPointIndex],
+                        controllingWayPoint: $navEngine.activeWayPoints[activeWayPointIndex],
                         altimeterRange: 1000,
                         plannedAltimeter: .constant(currentValues.plannedAltitude),
                         altOffset: .constant(25.0),
@@ -36,9 +36,9 @@ struct HeadingMasterView: View {
                         timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
                         fuelRemaining: $fuelTimeRemaining)
                     .padding(.bottom, 15)
-                    HeadingSummarySwiftUIView(activeWayPoint: wayPointList[activeWayPointIndex])
+                    HeadingSummarySwiftUIView(activeWayPoint: navEngine.activeWayPoints[activeWayPointIndex])
                         .padding(.bottom, 5)
-                    HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $wayPointList[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: wayPointList.count, gpsIsRunning: $gpsIsRunning)
+                    HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $navEngine.activeWayPoints[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: $navEngine.activeWayPoints.count, gpsIsRunning: $gpsIsRunning)
                     
                     NavigationLink {
                         NavigationLog()
@@ -58,14 +58,14 @@ struct HeadingMasterView: View {
     
     func getDisplayValues() -> CourseState {
         let currentLocation = Core.services.gpsEngine.currentLocation
-        let currentWaypoint = wayPointList[activeWayPointIndex]
+        let currentWaypoint = navEngine.activeWayPoints[activeWayPointIndex]
         
         return Core.currentDisplayValues(currentLocation: currentLocation, currentWayPoint: currentWaypoint)
     }
 }
 
 #Preview {
-    HeadingMasterView(wayPointList: .constant(Core.services.navEngine.loadWayPoints()), altimeterOffset: .constant(0))
+    HeadingMasterView(navEngine: Core.services.navEngine, altimeterOffset: .constant(0))
 }
 
 

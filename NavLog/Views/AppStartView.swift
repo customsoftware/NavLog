@@ -27,7 +27,7 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
             
-            HeadingMasterView(wayPointList: $wayPointList, altimeterOffset: $altimeterOffset)
+            HeadingMasterView(navEngine: Core.services.navEngine, altimeterOffset: $altimeterOffset)
                 .tabItem {
                     Label("Map", systemImage: "map.circle")
                         .foregroundColor(.black)
