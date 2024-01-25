@@ -14,8 +14,12 @@ import OSLog
 struct NavigationLog: View {
     @State var showingImportView: Bool = false
     @Bindable var navEngine = Core.services.navEngine
+    @State var isShowingDone: Bool = false
     
     var body: some View {
+        NavLogSummaryView(wayPointList: $navEngine.activeWayPoints)
+            .padding()
+        Divider()
         List($navEngine.activeWayPoints) { waypoint in
             NavigationLink {
                 WayPointDetailSwiftUIView(waypoint: waypoint)
@@ -23,6 +27,9 @@ struct NavigationLog: View {
                 WaypointListItem(wayPoint: waypoint)
             }
         }
+        .alert(isPresented: $isShowingDone, content: {
+            Alert(title: Text("Save Complete"))
+        })
         .navigationTitle("Nav Log Details")
         .toolbar{
             Button( action: { },
@@ -35,6 +42,7 @@ struct NavigationLog: View {
             })
             Button("Save") {
                 navEngine.saveLogToDisk()
+                isShowingDone = true
             }
         }
     }
