@@ -7,10 +7,12 @@
 
 import Foundation
 import CoreLocation
-
+import OSLog
 
 @Observable
 class NavigationEngine {
+    private let fileName: String = "missionPlan"
+    private let fileNameExtension: String = "mplan"
     private (set) var activeLog: NavLogXML?
     var activeWayPoints: [WayPoint] = []
     private let doGarmin = true
@@ -22,12 +24,24 @@ class NavigationEngine {
     }
     
     func saveLogToDisk() {
-        
+        do {
+            let archiveData = try JSONEncoder().encode(activeWayPoints)
+            try JSONArchiver().write(data: archiveData, to: fileName, with: fileNameExtension)
+            print("It worked")
+        } catch let error {
+            Logger.api.warning("The write failed: \(error.localizedDescription)")
+        }
     }
     
     func readWaypointsFromDisk() throws -> [WayPoint]? {
         var retValue: [WayPoint]?
-        
+        guard let data = try JSONArchiver().read(from: fileName, with: fileNameExtension) else { return retValue }
+        do {
+            retValue = try JSONDecoder().decode([WayPoint].self, from: data)
+            print("It worked!!")
+        } catch let error {
+            Logger.api.warning("Decoding log failed: \(error.localizedDescription)")
+        }
         
         return retValue
     }
@@ -175,9 +189,8 @@ fileprivate extension NavigationEngine {
     }
     
     func loadIntoWayPoint(_ logEntry: NavigationPoint, _ index: Int) {
-        let aLocation = CLLocation(latitude: logEntry.latitude, longitude: logEntry.longitude)
         let theAltitude = Int(logEntry.elevation * metersToFeetMultiple)
-        var aWayPoint = WayPoint(name: logEntry.name, location: aLocation, altitude: theAltitude, wind: Wind(speed: 0, directionFrom: 0), courseFrom: 0, estimatedDistanceToNextWaypoint: 0, estimatedGroundSpeed: 0, estimatedTimeReached: 0, computedFuelBurnToNextWayPoint: 0)
+        var aWayPoint = WayPoint(name: logEntry.name, latitude: logEntry.latitude, longitude: logEntry.longitude, altitude: theAltitude, wind: Wind(speed: 0, directionFrom: 0), courseFrom: 0, estimatedDistanceToNextWaypoint: 0, estimatedGroundSpeed: 0, estimatedTimeReached: 0, computedFuelBurnToNextWayPoint: 0)
         aWayPoint.sequence = index
         activeWayPoints.append(aWayPoint)
     }

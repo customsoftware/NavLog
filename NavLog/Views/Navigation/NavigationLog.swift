@@ -9,33 +9,34 @@
 // https://stackoverflow.com/questions/57024263/how-to-navigate-to-a-new-view-from-navigationbar-button-click-in-swiftui
 
 import SwiftUI
+import OSLog
 
 struct NavigationLog: View {
     @State var showingImportView: Bool = false
     @Bindable var navEngine = Core.services.navEngine
     
     var body: some View {
-            List($navEngine.activeWayPoints) { waypoint in
+        List($navEngine.activeWayPoints) { waypoint in
+            NavigationLink {
+                WayPointDetailSwiftUIView(waypoint: waypoint)
+            } label: {
+                WaypointListItem(wayPoint: waypoint)
+            }
+        }
+        .navigationTitle("Nav Log Details")
+        .toolbar{
+            Button( action: { },
+                    label: {
                 NavigationLink {
-                    WayPointDetailSwiftUIView(waypoint: waypoint)
+                    ImportNavLogView()
                 } label: {
-                    WaypointListItem(wayPoint: waypoint)
+                    Text("Import")
                 }
+            })
+            Button("Save") {
+                navEngine.saveLogToDisk()
             }
-            .navigationTitle("Nav Log Details")
-            .toolbar{
-                Button( action: { },
-                        label: {
-                    NavigationLink {
-                        ImportNavLogView()
-                    } label: {
-                        Text("Import")
-                    }
-                })
-                Button("Save") {
-                    
-                }
-            }
+        }
     }
 }
 

@@ -174,7 +174,7 @@ struct AircraftPerformanceView: View {
               self.currentLocation == nil
         else {
             //  Here we could look for airports around us...
-            if let aLocation = currentLocation {
+            if let _ = currentLocation {
                 getLocalAirports()
             } else {
                 DispatchQueue.global().async(execute: {

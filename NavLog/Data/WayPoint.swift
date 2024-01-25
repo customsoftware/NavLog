@@ -10,22 +10,26 @@ import Foundation
 import CoreLocation
 import Combine
 
-struct WayPoint: Equatable, Identifiable, Observable {
-    
-    var id: UUID = UUID()
-    
-    private let acData = AircraftPerformance.shared
+struct WayPoint: Equatable, Identifiable, Observable, Codable {
     private let clicksToNauticalMile: Double = 0.539957
-    private let formatter = NumberFormatter()
 
     static func == (lhs: WayPoint, rhs: WayPoint) -> Bool {
         lhs.sequence == rhs.sequence
     }
+
+    var id: UUID = UUID()
     
     /// This is the name you give the waypoint
     var name: String
     /// This is the location of the starting point measured in degrees latitude and longitude
-    var location: CLLocation
+    var location: CLLocation {
+        let aLocation = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        return aLocation
+    }
+    var latitude: Double = 0.0
+    
+    var longitude: Double = 0.0
+    
     /// This is altitude in feet above mean sea level and represents what the aircraft altimeter shows.
     var altitude: Int
     /// These are the forecast winds at this altitude and this location
@@ -60,7 +64,16 @@ struct WayPoint: Equatable, Identifiable, Observable {
     /// This is the actual aircraft location when it crosses the next waypoint. In this case "crosses"
     /// means the point of closes approach to the next waypoint location. Or when the distance to
     /// the next waypoint begins to increas.
-    var actualLocation: CLLocation?
+    var actualLongitude: Double?
+    
+    var actualLatitude: Double?
+    
+    var actualLocation: CLLocation? {
+        guard let aLat = actualLatitude,
+              let aLong = actualLongitude else { return nil }
+        
+        return CLLocation(latitude: aLat, longitude: aLong)
+    }
     /// This will be computed at the moment isCompleted changes from false to true and will be
     /// determined by the elapse time from crossing the previous waypoint to crossing this waypoint.
     /// It can then do simple math to determine speed to cross the distance in the recorded time.
@@ -70,7 +83,7 @@ struct WayPoint: Equatable, Identifiable, Observable {
 
     var distanceMode: DistanceMode = .standard
     
-    func windPrintable() -> String {
+    func windPrintable(formatter: NumberFormatter) -> String {
         formatter.minimumIntegerDigits = 0
         var retValue = "\(formatter.string(from: wind.directionFrom as NSNumber) ?? "") @ \(formatter.string(from: wind.speed as NSNumber) ?? "")"
         if retValue == "0 @ 0" {
@@ -88,7 +101,7 @@ struct WayPoint: Equatable, Identifiable, Observable {
         return round(retValue)
     }
     
-    func estimatedFuelBurn() -> Double {
+    func estimatedFuelBurn(acData: AircraftPerformance) -> Double {
         let duration = computeTimeToWaypoint()
         let retValue: Double
         switch operationMode {

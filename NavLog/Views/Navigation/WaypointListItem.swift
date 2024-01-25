@@ -15,7 +15,7 @@ struct WaypointListItem: View {
     @Binding var wayPoint: WayPoint
     @StateObject var metrics = AppMetricsSwift.settings
     
-    let formatter = Formatter()
+    private let formatter = NumberFormatter()
     
     var body: some View {
         
@@ -38,7 +38,7 @@ struct WaypointListItem: View {
                     Text("\(wayPoint.altitude)")
                         .font(.headline)
                     Text("Wind")
-                    Text("\(wayPoint.windPrintable())")
+                    Text("\(wayPoint.windPrintable(formatter: formatter))")
                         .font(.headline)
                 })
                 .frame(width: 85)
@@ -68,7 +68,7 @@ struct WaypointListItem: View {
                 }
                 HStack {
                     Text("F")
-                    Text(String(format: "%g", wayPoint.estimatedFuelBurn()))
+                    Text(String(format: "%g", wayPoint.estimatedFuelBurn(acData: AircraftPerformance.shared)))
                         .font(.headline)
                     Text(metrics.fuelMode.shortText)
                 }

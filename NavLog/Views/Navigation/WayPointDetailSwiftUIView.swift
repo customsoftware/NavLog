@@ -42,7 +42,7 @@ struct WayPointDetailSwiftUIView: View {
                     Text("Descending").tag(OperationMode.descend)
                 }
                 .pickerStyle(.segmented)
-                Text("Estimated fuel burn: \(waypoint.estimatedFuelBurn(), specifier: "%.1f") \(metrics.fuelMode.text)")
+                Text("Estimated fuel burn: \(waypoint.estimatedFuelBurn(acData: aircraft), specifier: "%.1f") \(metrics.fuelMode.text)")
             }
             Section(header: Text("Wind")) {
                 TextEntryFieldView(formatter: formatter, captionText: "Wind", textWidth: fieldWidth, promptText: "Direction", isBold: true, integerOnly: false, testValue: nil, textValue: $waypoint.wind.directionFrom)
@@ -81,7 +81,7 @@ struct WayPointDetailSwiftUIView: View {
 }
 
 #Preview {
-    WayPointDetailSwiftUIView(waypoint: .constant(WayPoint(name: "Test", location: CLLocation(latitude: 44.25, longitude: -112.012), altitude: 1500, wind: Wind(speed: 5, directionFrom: 115), courseFrom: 315, estimatedDistanceToNextWaypoint: 2.75, estimatedGroundSpeed: 85, estimatedTimeReached: 85, computedFuelBurnToNextWayPoint: 2.5)))
+    WayPointDetailSwiftUIView(waypoint: .constant(WayPoint(name: "Test", latitude: 44.25, longitude: -112.012, altitude: 1500, wind: Wind(speed: 5, directionFrom: 115), courseFrom: 315, estimatedDistanceToNextWaypoint: 2.75, estimatedGroundSpeed: 85, estimatedTimeReached: 85, computedFuelBurnToNextWayPoint: 2.5)))
 }
 
 

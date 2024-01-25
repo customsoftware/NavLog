@@ -35,5 +35,5 @@ struct HeadingSummarySwiftUIView: View {
 }
 
 #Preview {
-    HeadingSummarySwiftUIView( activeWayPoint: WayPoint(name: "Test", location: CLLocation(latitude: 42, longitude: -115), altitude: 5000, wind: Wind(speed: 5, directionFrom: 140), courseFrom: 140, estimatedDistanceToNextWaypoint: 30, estimatedGroundSpeed: 85, estimatedTimeReached: 60, computedFuelBurnToNextWayPoint: 4.5))
+    HeadingSummarySwiftUIView( activeWayPoint: WayPoint(name: "Test", latitude: 42, longitude: -115, altitude: 5000, wind: Wind(speed: 5, directionFrom: 140), courseFrom: 140, estimatedDistanceToNextWaypoint: 30, estimatedGroundSpeed: 85, estimatedTimeReached: 60, computedFuelBurnToNextWayPoint: 4.5))
 }

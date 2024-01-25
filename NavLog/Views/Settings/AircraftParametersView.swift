@@ -139,7 +139,7 @@ struct AircraftParametersView: View {
                 switch result {
                 case .success(let file):
                     do {
-                        let testFile = file.startAccessingSecurityScopedResource()
+                        let _ = file.startAccessingSecurityScopedResource()
                         try aircraftManager.importMomentData(using: file)
                     } catch let error {
                         
