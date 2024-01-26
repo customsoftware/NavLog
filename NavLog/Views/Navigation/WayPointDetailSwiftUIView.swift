@@ -49,7 +49,7 @@ struct WayPointDetailSwiftUIView: View {
                 TextEntryFieldView(formatter: formatter, captionText: "Speed: " + metrics.speedMode.modeSymbol, textWidth: fieldWidth, promptText: "Speed", isBold: false, integerOnly: false, testValue: nil, textValue: $waypoint.wind.speed)
             }
             Section(header: Text("Course")) {
-                TextEntryFieldView(formatter: formatter, captionText: "Magnetic", textWidth: fieldWidth, promptText: "Deviation", isBold: true, testValue: nil, textValue: $waypoint.magneticDeviation)
+                TextEntryFieldView(formatter: formatter, captionText: "Magnetic", textWidth: fieldWidth, promptText: "Deviation", isBold: true, integerOnly: false, testValue: nil, textValue: $waypoint.magneticDeviation)
                 TextEntryIntFieldView(formatter: formatter, captionText: "Course", textWidth: fieldWidth, promptText: "Course", isBold: false, testValue: nil, textValue: $waypoint.courseFrom)
             }
             Section(header: Text("Map")) {

@@ -21,7 +21,7 @@ struct NavLogSummaryView: View {
                 .font(.caption)
             HStack {
                 Text("Time: \(totalTime)")
-                Text("Fuel: \(String(format: "%g", totalFuel))")
+                Text("Fuel: \(String(format: "%.1f", totalFuel))")
                 Text("Distance: \(Int(totalDistance))")
             }
         }
@@ -52,12 +52,26 @@ struct NavLogSummaryView: View {
     
     private func estimateTime(from totalTime: Double) -> String {
         var retValue: String = ""
-        retValue = "\(Int(totalTime)/60):"
-        let seconds = Int(totalTime.truncatingRemainder(dividingBy: 60))
-        if seconds < 10 {
-            retValue = retValue + "0\(seconds)"
+        if totalTime >= 3600 {
+            retValue = "h\(Int(totalTime)/3600):"
+            var minutes = totalTime.truncatingRemainder(dividingBy: 3600)
+            let seconds = Int(minutes.truncatingRemainder(dividingBy: 60))
+            if seconds > 30 {
+                minutes += 1
+            }
+            if minutes < 10 {
+                retValue = retValue + "0\(Int(minutes)/60)"
+            } else {
+                retValue = retValue + "\(Int(minutes)/60)"
+            }
         } else {
-            retValue = retValue + "\(seconds)"
+            retValue = "m\(Int(totalTime)/60):"
+            let seconds = Int(totalTime.truncatingRemainder(dividingBy: 60))
+            if seconds < 10 {
+                retValue = retValue + "0\(seconds)"
+            } else {
+                retValue = retValue + "\(seconds)"
+            }
         }
         return retValue
     }

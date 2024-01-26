@@ -1,138 +1,123 @@
-import SwiftUI
 import Foundation
-import Combine
-
-// Runway struct
-struct Runway: Codable {
-    var id: String
-    var dimension: String
-    var surface: String
-    var alignment: String
-    
-    var runwayLength: Int {
-        let runwayComponents = dimension.components(separatedBy: "x")
-        let retValue = (runwayComponents[0] as NSString).intValue
-        return Int(retValue)
-    }
-    
-    func getRunwayAxis() -> (Int, Int) {
-        let axisComponents = id.components(separatedBy: "/")
-        let axis1 = (axisComponents[0] as NSString).integerValue
-        let axis2 = (axisComponents[1] as NSString).integerValue
-        return (axis1, axis2)
-    }
-}
-
-// AirportData struct
-struct AirportData: Codable {
-    var name: String?
-    var iata: String
-    var runways: [Runway]
-    
-    enum CodingKeys: String, CodingKey {
-        case name = "id"
-        case iata
-        case runways
-    }
-}
-
-// Airport error
-enum AirPortError: Error, LocalizedError, CustomStringConvertible {
-    case badURL(description: String)
-    case networkError(description: String)
-    case parsingError(description: String)
-    case noError
-    
-    public var errorDescription: String? {
-        let retValue: String
-        switch self {
-        case .badURL(description: let errorString):
-            retValue = NSLocalizedString("Bad URL - \(errorString)", comment: "")
-            
-        case .networkError(description: let errorString):
-            retValue = NSLocalizedString("Network - \(errorString)", comment: "")
-            
-        case .parsingError(description: let errorString):
-            retValue = NSLocalizedString("Parsing - \(errorString)", comment: "")
-            
-        case .noError:
-            retValue = "No error"
-        }
-        return retValue
-    }
-
-    public var description: String {
-        let retValue: String
-        switch self {
-        case .badURL(description: let error):
-            retValue = "Bad URL - \(error)"
-            
-        case .networkError(description: let error):
-            retValue = "Network - \(error)"
-            
-        case .parsingError(description: let error):
-            retValue = "Parsing - \(error)"
-        
-        case .noError:
-            retValue = "No error"
-        }
-        return retValue
-    }
-}
 
 
+var testXML: String =
+"""
+<?xml version="1.0" encoding="utf-8"?>
+<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
+  <created>2024-01-25T19:24:05Z</created>
+  <waypoint-table>
+    <waypoint>
+      <identifier>KPVU</identifier>
+      <type>AIRPORT</type>
+      <country-code>K2</country-code>
+      <lat>40.219167</lat>
+      <lon>-111.723361</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>PEDLE</identifier>
+      <type>INT</type>
+      <country-code>K2</country-code>
+      <lat>40.474683</lat>
+      <lon>-111.928328</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>VPSLC</identifier>
+      <type>INT</type>
+      <country-code>K2</country-code>
+      <lat>40.763889</lat>
+      <lon>-111.914167</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>CRKIT</identifier>
+      <type>INT</type>
+      <country-code>K2</country-code>
+      <lat>40.765486</lat>
+      <lon>-112.147172</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>SHEAR</identifier>
+      <type>INT</type>
+      <country-code>K2</country-code>
+      <lat>41.960372</lat>
+      <lon>-113.044178</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>KEUL</identifier>
+      <type>AIRPORT</type>
+      <country-code>K1</country-code>
+      <lat>43.641850</lat>
+      <lon>-116.635764</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>KPSC</identifier>
+      <type>AIRPORT</type>
+      <country-code>K1</country-code>
+      <lat>46.264681</lat>
+      <lon>-119.119025</lon>
+      <comment />
+    </waypoint>
+  </waypoint-table>
+  <route>
+    <route-name>KPVU KPSC</route-name>
+    <flight-plan-index>1</flight-plan-index>
+    <route-point>
+      <waypoint-identifier>KPVU</waypoint-identifier>
+      <waypoint-type>AIRPORT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>PEDLE</waypoint-identifier>
+      <waypoint-type>INT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>VPSLC</waypoint-identifier>
+      <waypoint-type>INT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>CRKIT</waypoint-identifier>
+      <waypoint-type>INT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>SHEAR</waypoint-identifier>
+      <waypoint-type>INT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>KEUL</waypoint-identifier>
+      <waypoint-type>AIRPORT</waypoint-type>
+      <waypoint-country-code>K1</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>KPSC</waypoint-identifier>
+      <waypoint-type>AIRPORT</waypoint-type>
+      <waypoint-country-code>K1</waypoint-country-code>
+    </route-point>
+  </route>
+</flight-plan>
+""";
 
-class APIService {
-    
-    private let airportQueryString =
-        """
-        https://aviationweather.gov/api/data/airport?ids=KPUC&format=json
-        """
-    
-    private var cancellable = Set<AnyCancellable>()
-    
-    func fetchAirportData() throws {
-        guard let url = URL(string: airportQueryString) else {
-            throw AirPortError.badURL(description: airportQueryString)
-        }
-        
-        URLSession.shared.dataTaskPublisher(for: url)
-            .receive(on: DispatchQueue.main)
-            .tryMap({ data, response in
-                guard let aResponse = response as? HTTPURLResponse,
-                      aResponse.statusCode >= 200,
-                      aResponse.statusCode < 300 else {
-                    if let aResponse = response as? HTTPURLResponse {
-                        throw AirPortError.networkError(description: "Invalid status code: \(aResponse.statusCode)")
-                    } else {
-                        throw AirPortError.networkError(description: "Invalid response")
-                    }
-                }
-                return data
-            })
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("It worked")
-                case .failure(let error):
-                    print("It failed")
-                }
-            } receiveValue: { values in
-                return values
-            }
-            .decode(type: AirportData, decoder: JSONDecoder())
-    }
-}
+let searchString = "<comment />"
+let dummyReplaceString =
+"""
+<comment />
+      <elevation>2590.8</elevation>
+"""
 
-class APIServiceViewModel: ObservableObject {
-    
-}
-
-struct APIServiewView: View {
-    
-    @StateObject private var vm = APIServiceViewModel()
-    
-    var body: some View {
-        Text("Hello, Ken")
-    }
+if testXML.contains("<elevation") {
+    print("It contains the segment")
+} else {
+    print("It doesn't contain the segment... fix!")
+    testXML = testXML.replacingOccurrences(of: searchString, with: dummyReplaceString)
+    print("This is the fixed string...")
+    print(testXML)
 }

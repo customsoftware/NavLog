@@ -57,7 +57,7 @@ struct WaypointListItem: View {
             HStack {
                 HStack {
                     Text("D")
-                    Text(String(format: "%g", wayPoint.estimatedDistanceToNextWaypoint))
+                    Text(String(format: "%.1f", wayPoint.estimatedDistanceToNextWaypoint))
                         .font(.headline)
                     Text(metrics.distanceMode.modeSymbol)
                 }
@@ -68,7 +68,7 @@ struct WaypointListItem: View {
                 }
                 HStack {
                     Text("F")
-                    Text(String(format: "%g", wayPoint.estimatedFuelBurn(acData: AircraftPerformance.shared)))
+                    Text(String(format: "%.1f", wayPoint.estimatedFuelBurn(acData: AircraftPerformance.shared)))
                         .font(.headline)
                     Text(metrics.fuelMode.shortText)
                 }

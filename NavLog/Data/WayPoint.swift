@@ -12,6 +12,7 @@ import Combine
 
 struct WayPoint: Equatable, Identifiable, Observable, Codable {
     private let clicksToNauticalMile: Double = 0.539957
+    private let clicksToStatuteMile: Double = 0.539957
 
     static func == (lhs: WayPoint, rhs: WayPoint) -> Bool {
         lhs.sequence == rhs.sequence
@@ -38,7 +39,11 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     var courseFrom: Int
     /// This is the intended magnetic heading the plane must fly to follow the course
     func headingFrom() -> Int {
-        return self.courseFrom + Int(self.magneticDeviation)
+        var retValue = self.courseFrom + Int(self.magneticDeviation)
+        if retValue < 0 {
+            retValue += 360
+        }
+        return retValue
     }
     /// This is the distance in nautical miles to the next waypoint
     var estimatedDistanceToNextWaypoint: Double
@@ -55,7 +60,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     /// Distance to next location
     var distanceToNextWaypoint: Double = 0
     /// Magnetic deviation
-    var magneticDeviation: Double = 0.0
+    var magneticDeviation: Double = -10.5
     /// This indicates the waypoint as been passed (true) or not (false) it is determined when
     /// the distance to the next waypoint stops decreasing and begins to increase.
     var isCompleted: Bool = false
@@ -130,15 +135,23 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     
     mutating func computeCourseToWayPoint(_ nextPoint: WayPoint) -> (Int, Double) {
         let circle: Float = 360.0
-        // This is location.distanct is in meters. Need to conver to nautical miles
+        // This is location.distanct is in meters. Need to convert to nautical miles
         let distance: Double = round((self.location.distance(from: nextPoint.location) * clicksToNauticalMile) / 10) / 100
-        let courseY = sin(self.location.coordinate.latitude - nextPoint.location.coordinate.latitude )
-        let courseXpart1 = cos(self.location.coordinate.longitude) * sin(nextPoint.location.coordinate.longitude)
-        let courseXpart2 = sin(self.location.coordinate.longitude) * cos(nextPoint.location.coordinate.longitude) * cos(nextPoint.location.coordinate.latitude - self.location.coordinate.latitude)
-        let courseX = courseXpart1 - courseXpart2
-        let courseRadian = atan2(courseY, courseX)
-        let fRetValue = fmodf(circle + -Float(courseRadian) * (180.0 / Float.pi), circle)
-        return (Int(fRetValue), distance)
+        
+        let deltaLong = nextPoint.longitude - longitude
+        let y = sin(deltaLong) * cos(nextPoint.latitude)
+        let x = cos(latitude) * sin(nextPoint.latitude) - sin(latitude) * cos(nextPoint.latitude) * cos(deltaLong)
+        // KTC: - Online resource for using atan2 in this process say it should be
+        //  atan2(x, y) but testing shows for Swift 5.2 at least, it's reversed.
+        let radValue = atan2(y, x)
+        let degreeValue = radToDegrees(radValue)
+        let retValue = 360 - ((Float(degreeValue) + circle).truncatingRemainder(dividingBy: circle))
+        
+        return (Int(retValue), distance)
+    }
+    
+    func radToDegrees(_ radians: Double) -> Double {
+        return (radians  * 180) / .pi
     }
     
     func computeHeadingToWayPoint(_ nextPoint: WayPoint) -> Double {
