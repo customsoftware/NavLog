@@ -71,6 +71,14 @@ struct WayPointDetailSwiftUIView: View {
                 .frame(width: 320, height: 220)
             }
         }
+        .toolbar(content: {
+            Button("Previous") {
+                // DO something
+            }
+            Button("Next") {
+                // DO something
+            }
+        })
         .onAppear(perform: {
             region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.125, longitudeDelta: 0.125))
             

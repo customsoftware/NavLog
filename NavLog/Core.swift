@@ -30,6 +30,8 @@ class Core {
 //            canComputeLanding = true
 //            canComputeTakeoff = true
 //       }
+        
+        acManager.retrieveChosenAircraft()
     }
     
     static func currentDisplayValues(currentLocation: CLLocation?, currentWayPoint: WayPoint?) -> CourseState {

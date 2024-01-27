@@ -17,7 +17,6 @@ struct AircraftPerformanceView: View {
     @State private var currentLocation: CLLocation?
     @State private var nearbyAirports: [AirportData] = [AirportData]()
     @State private var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
-    @State private var chosenAircraft: MomentDatum = MomentDatum(from: "NoName")
     @Bindable private var aircraftManager = Core.services.acManager
     @StateObject private var viewModel = AircraftPerformanceViewModel()
     @StateObject private var complexParser = ComplexMetarParser()
@@ -67,19 +66,6 @@ struct AircraftPerformanceView: View {
                     }
                     
                     TextEntryFieldView(formatter: formatter, captionText: "Elevation: (" + metrics.altitudeMode.text + ")", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
-                    //
-                    //                    if runwayChooser.runwayDirections.count > 0 {
-                    //                        Picker("Runway Direction", selection: $selectedRunway) {
-                    //                            ForEach(Array(airportParser.runways.sorted(by: { r1, r2 in
-                    //                                r1.direction! < r2.direction!
-                    //                            })), id: \.self) {
-                    //                                Text("\(Int($0.direction!)) - \($0.dimension)").tag($0)
-                    //                            }
-                    //                        }
-                    //                    } else {
-                    //                        TextEntryFieldView(formatter: formatter, captionText: "Runway Length", textWidth: textWidth, promptText: "Runway", textValue: $viewModel.weather.runwayLength)
-                    //                        TextEntryFieldView(formatter: formatter, captionText: "Runway Direction", textWidth: textWidth, promptText: "Direction", textValue: $viewModel.weather.runwayDirection)
-                    //                    }
                 }
                 
                 Section(header: Text("Weather")) {
@@ -91,7 +77,7 @@ struct AircraftPerformanceView: View {
                 
                 Section(header: Text("Mission Load")) {
                     
-                    Picker("2. Choose Aircraft", selection: $chosenAircraft) {
+                    Picker("2. Choose Aircraft", selection: $aircraftManager.chosenAircraft) {
                         ForEach(aircraftManager.availableAircraft.sorted(by: { r1, r2 in
                             r1.aircraft < r2.aircraft
                         }), id: \.self) {
@@ -104,21 +90,21 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
                     
                     // If there are more than four seats, we show the middle seats
-                    if chosenAircraft.seatCount > 4 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", testValue: chosenAircraft.maxMiddleWeight, textValue: $viewModel.mission.middleSeat)
+                    if aircraftManager.chosenAircraft.seatCount > 4 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", testValue: aircraftManager.chosenAircraft.maxMiddleWeight, textValue: $viewModel.mission.middleSeat)
                     }
                     // If there are more than two seats, we show the back seat
-                    if chosenAircraft.seatCount > 2 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", testValue: chosenAircraft.maxBackWeight, textValue: $viewModel.mission.backSeat)
+                    if aircraftManager.chosenAircraft.seatCount > 2 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", testValue: aircraftManager.chosenAircraft.maxBackWeight, textValue: $viewModel.mission.backSeat)
                     }
                     
-                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
+                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: aircraftManager.chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
                     
                     // We need a way to let the user know if they put more fuel than the tank can hold...
-                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: aircraftManager.chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
                     
-                    if chosenAircraft.auxMaxFuelGallons > 0 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)
+                    if aircraftManager.chosenAircraft.auxMaxFuelGallons > 0 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: aircraftManager.chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)
                     }
                 }
                 
@@ -153,12 +139,14 @@ struct AircraftPerformanceView: View {
             })
             .alert(isPresented: $shouldShowAlert) {
                 // Put alert here
-                Alert(title: Text("You can't load more than \(Int(chosenAircraft.maxFuelGallons)) gallons."))
+                Alert(title: Text("You can't load more than \(Int(aircraftManager.chosenAircraft.maxFuelGallons)) gallons."))
                 
             }
             .navigationTitle("Weight & Balance")
             .onAppear(perform:{
                 viewModel.weather.inCelsiusMode = temperatureInDegreesC
+                // Let's see if we know what airplane...
+                
             })
         })
     }
@@ -221,11 +209,11 @@ struct AircraftPerformanceView: View {
         }
         viewModel.weather.save()
         // I want all this done in the missionPerformance object, but it works for now.
-        missionPerformance.cgIsInLimits = viewModel.computeCGLimits(using: chosenAircraft)
-        missionPerformance.isUnderGross = viewModel.isInWeightLimits(using: chosenAircraft)
-        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight(with: chosenAircraft) - chosenAircraft.maxWeight)
+        missionPerformance.cgIsInLimits = viewModel.computeCGLimits(using: aircraftManager.chosenAircraft)
+        missionPerformance.isUnderGross = viewModel.isInWeightLimits(using: aircraftManager.chosenAircraft)
+        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight(with: aircraftManager.chosenAircraft) - aircraftManager.chosenAircraft.maxWeight)
         
-        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC, using: chosenAircraft)
+        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC, using: aircraftManager.chosenAircraft)
         missionPerformance.computedTakeOffRoll = runwayCalculations.0
         missionPerformance.computedOver50Roll = runwayCalculations.1
         
@@ -254,7 +242,7 @@ struct AircraftPerformanceView: View {
     }
     
     private func validateForm() -> Bool {
-        let retValue: Bool = (viewModel.mission.fuel <= chosenAircraft.maxFuelGallons)
+        let retValue: Bool = (viewModel.mission.fuel <= aircraftManager.chosenAircraft.maxFuelGallons)
         shouldShowAlert = !retValue
         return retValue
     }

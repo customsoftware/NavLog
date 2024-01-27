@@ -6,11 +6,20 @@
 //
 
 import Foundation
+import OSLog
 
 @Observable
 class AircraftManager {
-    var chosenAircraft: MomentDatum
+    var chosenAircraft: MomentDatum {
+        didSet {
+            guard !isRetrievingAc else { return }
+            saveChosenAircraft(chosenAircraft)
+        }
+    }
+    private var isRetrievingAc: Bool = false
     var isAdding: Bool = false
+    private let aircraftFileName: String = "chosenACName"
+    private let aircraftFileExtension: String = "mmt"
     private (set) var availableAircraft: [MomentDatum] = []
     private let airplaneDirectory: URL
     private let fileManager = FileManager.default
@@ -46,6 +55,35 @@ class AircraftManager {
             print(error.localizedDescription)
         }
     }
+    
+    /// This saves the chosen aircraft to UserDefaults
+    private func saveChosenAircraft(_ aircraft: MomentDatum) {
+        do {
+            let acData = try JSONEncoder().encode(aircraft)
+            try JSONArchiver().write(data: acData, to: aircraftFileName, with: aircraftFileExtension)
+        } catch let error {
+            Logger.api.info("Failed to archive selected aircraft: \(error.localizedDescription)")
+        }
+    }
+    
+    /// This retrieves chosen aircraft from user Defaults
+    func retrieveChosenAircraft()  {
+        var retValue: MomentDatum?
+        do {
+            guard let acData = try JSONArchiver().read(from: aircraftFileName, with: aircraftFileExtension) else {
+                return
+            }
+            retValue = try JSONDecoder().decode(MomentDatum.self, from: acData)
+        } catch let error {
+            Logger.api.info("Failed to retrieve archived aircraft: \(error.localizedDescription)")
+        }
+        
+        guard let ac = retValue else { return }
+        isRetrievingAc = true
+        chosenAircraft = ac
+        isRetrievingAc = false
+    }
+    
     
     func importMomentData(using url: URL) throws {
         do {

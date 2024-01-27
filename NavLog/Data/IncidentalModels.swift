@@ -158,6 +158,19 @@ enum DistanceMode: String, CaseIterable, Codable {
         }
         return retValue
     }
+    
+    var conversionValue: Double {
+        let retValue: Double
+        switch self {
+        case .standard:
+            retValue = 0.62137
+        case .nautical:
+            retValue = 0.539957
+        case .metric:
+            retValue = 0.001
+        }
+        return retValue
+    }
 }
 
 

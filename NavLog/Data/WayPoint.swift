@@ -11,8 +11,6 @@ import CoreLocation
 import Combine
 
 struct WayPoint: Equatable, Identifiable, Observable, Codable {
-    private let clicksToNauticalMile: Double = 0.539957
-    private let clicksToStatuteMile: Double = 0.539957
 
     static func == (lhs: WayPoint, rhs: WayPoint) -> Bool {
         lhs.sequence == rhs.sequence
@@ -106,20 +104,25 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
         return round(retValue)
     }
     
+    
+    /// This returns gallons per hour rounded to the nearest tenth of a gallon
     func estimatedFuelBurn(acData: AircraftPerformance) -> Double {
+        let secondsToHoursRatio: Double = 3600
         let duration = computeTimeToWaypoint()
         let retValue: Double
         switch operationMode {
         case .climb:
-            retValue = acData.aircraft.climbToAltitudeFuelBurnRate * (duration/3600)
+            retValue = acData.aircraft.climbToAltitudeFuelBurnRate * (duration/secondsToHoursRatio)
         case .cruise:
-            retValue = acData.aircraft.cruiseFuelBurnRate * (duration/3600)
+            retValue = acData.aircraft.cruiseFuelBurnRate * (duration/secondsToHoursRatio)
         case .descend:
-            retValue = acData.aircraft.descendingFuelBurnRate * (duration/3600)
+            retValue = acData.aircraft.descendingFuelBurnRate * (duration/secondsToHoursRatio)
         }
         return round(retValue * 100)/100
     }
     
+    
+    /// This renders a string equivalent of the time in seconds to the next waypoint. It returns the data in an mm:ss format. It assumes any leg to a waypoint will be less than one hour.
     func estimateTime() -> String {
         var retValue: String = ""
         let timeToWaypoint = computeTimeToWaypoint()
@@ -133,10 +136,16 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
         return retValue
     }
     
+    
+    /// This computes the heading the plane should stear towards to fly the desisred course.
+    /// - Parameters:
+    ///     - nextPoint: WayPoint - this is the waypoint the plane flies to
+    ///
+    ///     This method has been verified against a Numbers spreadsheet. Note the explanation for the Atan2 variable placement.
     mutating func computeCourseToWayPoint(_ nextPoint: WayPoint) -> (Int, Double) {
         let circle: Float = 360.0
         // This is location.distanct is in meters. Need to convert to nautical miles
-        let distance: Double = round((self.location.distance(from: nextPoint.location) * clicksToNauticalMile) / 10) / 100
+        let distance: Double = round((self.location.distance(from: nextPoint.location) * distanceMode.conversionValue) / 10) / 100
         
         let deltaLong = nextPoint.longitude - longitude
         let y = sin(deltaLong) * cos(nextPoint.latitude)
@@ -152,14 +161,5 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     
     func radToDegrees(_ radians: Double) -> Double {
         return (radians  * 180) / .pi
-    }
-    
-    func computeHeadingToWayPoint(_ nextPoint: WayPoint) -> Double {
-        var retValue = self.courseFrom
-        // We need magnetic variation
-        retValue = retValue + Int(self.magneticDeviation)
-        
-        // We need the effect of wind at altitude too
-        return Double(retValue)
     }
 }
