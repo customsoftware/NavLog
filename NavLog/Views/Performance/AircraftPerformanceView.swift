@@ -140,13 +140,10 @@ struct AircraftPerformanceView: View {
             .alert(isPresented: $shouldShowAlert) {
                 // Put alert here
                 Alert(title: Text("You can't load more than \(Int(aircraftManager.chosenAircraft.maxFuelGallons)) gallons."))
-                
             }
             .navigationTitle("Weight & Balance")
             .onAppear(perform:{
                 viewModel.weather.inCelsiusMode = temperatureInDegreesC
-                // Let's see if we know what airplane...
-                
             })
         })
     }

@@ -13,6 +13,7 @@ import OSLog
 
 struct NavigationLog: View {
     @State var showingImportView: Bool = false
+    @State var showingAlert: Bool = false
     @Bindable var navEngine = Core.services.navEngine
     @State var isShowingDone: Bool = false
     
@@ -40,6 +41,9 @@ struct NavigationLog: View {
                     Text("Import")
                 }
             })
+            Button("Refresh") {
+                navEngine.refreshNavLog()
+            }
             Button("Save") {
                 navEngine.saveLogToDisk()
                 isShowingDone = true

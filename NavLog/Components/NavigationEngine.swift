@@ -25,6 +25,13 @@ class NavigationEngine {
         
     }
     
+    func refreshNavLog() {
+        fixIASforMetricsChange()
+        fleshOutWayPoints()
+        AppMetricsSwift.settings.pushCurrentToOld()
+        AppMetricsSwift.settings.saveDefaults()
+    }
+    
     func saveLogToDisk() {
         do {
             let archiveData = try JSONEncoder().encode(activeWayPoints)
@@ -157,7 +164,6 @@ fileprivate extension NavigationEngine {
         return retValue
     }
     
-    
     func getWeatherForWayPoints(latitude: Double, longitude: Double) async throws -> Wind {
         var retValue = Wind(speed: 0, directionFrom: 0)
         let weatherString = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(latitude),\(longitude)/today/?key=BNDMZR7VESR5SJXPF4CE5ALKK"
@@ -262,10 +268,51 @@ fileprivate extension NavigationEngine {
                     //
                     
                     self.activeWayPoints[currentSequence] = aWayPoint
+                    self.saveLogToDisk()
+                    
                 }
             } catch let error {
                 Logger.api.error("Set up waypoints failed: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func fixIASforMetricsChange() {
+        guard AppMetricsSwift.settings.oldSpeedMode != AppMetricsSwift.settings.speedMode else { return }
+        let multiplier: Double
+        // We know these modes aren't the same.
+        //  Find the multiplier to use
+        switch AppMetricsSwift.settings.speedMode {
+        case .metric:
+            if AppMetricsSwift.settings.oldSpeedMode == .nautical {
+                // Convert nautical to metric
+                multiplier = 1.852
+            } else {
+                // Convert standard to metric
+                multiplier = 1.60934
+            }
+        case .standard:
+            if AppMetricsSwift.settings.oldSpeedMode == .nautical {
+                // Convert nautical to standard
+                multiplier = 1.15078
+            } else {
+                // Convert metric to standard
+                multiplier = 0.621371
+            }
+        case .nautical:
+            if AppMetricsSwift.settings.oldSpeedMode == .standard {
+                // Convert standard to nautical
+                multiplier = 0.868976
+            } else {
+                // Convert metric to nautical
+                multiplier = 0.539957
+            }
+        }
+        
+        activeWayPoints.forEach { aWayPoint in
+            let esg = Double(aWayPoint.estimatedGroundSpeed)
+            let currentSequence: Int = aWayPoint.sequence
+            activeWayPoints[currentSequence].estimatedGroundSpeed = Int(round(esg * multiplier))
         }
     }
     

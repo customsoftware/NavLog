@@ -48,6 +48,8 @@ struct AppMetricsSwiftUIView: View {
             }
             .pickerStyle(.segmented)
             Spacer()
+            Text("Because of how the application imports and stores these values, when you change any of these values, you MUST refresh the stored navigation log")
+            
         }
         .padding()
         .onDisappear(perform: {
@@ -69,19 +71,53 @@ class AppMetricsSwift: ObservableObject {
     private let altitudeKey: String = "kAltitudeKey"
     private let speedKey: String = "kSpeedKey"
     private let fuelKey: String = "kFuelKey"
+    private let oldDistanceKey: String = "kOldDistanceKey"
+    private let oldAltitudeKey: String = "kOldAltitudeKey"
+    private let oldSpeedKey: String = "kOldSpeedKey"
+    private let oldFuelKey: String = "kOldFuelKey"
     
     static let settings: AppMetricsSwift = AppMetricsSwift()
     
-    @Published var distanceMode: DistanceMode = .standard
+    @Published var distanceMode: DistanceMode = .standard {
+        didSet {
+            oldDistanceMode = oldValue
+        }
+    }
     
-    @Published var speedMode: SpeedMode = .standard
+    @Published var speedMode: SpeedMode = .standard {
+        didSet {
+            oldSpeedMode = oldValue
+        }
+    }
     
-    @Published var altitudeMode: AltitudeMode = .feet
+    @Published var altitudeMode: AltitudeMode = .feet {
+        didSet {
+            oldAltitudeMode = oldValue
+        }
+    }
     
-    @Published var fuelMode: CapacityMode = .gallon
+    @Published var fuelMode: CapacityMode = .gallon {
+        didSet {
+            oldFuelMode = oldValue
+        }
+    }
+    
+    @Published var oldDistanceMode: DistanceMode = .standard
+    
+    @Published var oldSpeedMode: SpeedMode = .standard
+    
+    @Published var oldAltitudeMode: AltitudeMode = .feet
+    
+    @Published var oldFuelMode: CapacityMode = .gallon
+    
     
     init(defaults: UserDefaults = UserDefaults.standard) {
         self.defaults = defaults
+        self.loadCurrentKeys()
+        self.loadOldKeys()
+    }
+    
+    func loadCurrentKeys() {
         if let distance = defaults.string(forKey: distanceKey) {
             switch distance {
             case "NM":
@@ -136,9 +172,67 @@ class AppMetricsSwift: ObservableObject {
                 Logger.viewCycle.critical("A new fuel capacity mode has been encountered")
             }
         } else {
-            Logger.viewCycle.warning("No saved speed")
+            Logger.viewCycle.warning("No saved fuel")
         }
-   
+    }
+    
+    func loadOldKeys() {
+        if let distance = defaults.string(forKey: oldDistanceKey) {
+            switch distance {
+            case "NM":
+                oldDistanceMode = .nautical
+            case "SM":
+                oldDistanceMode = .standard
+            case "KM":
+                oldDistanceMode = .metric
+            default:
+                Logger.viewCycle.critical("A new distance mode has been encountered")
+            }
+            
+        } else {
+            Logger.viewCycle.warning("No saved old distance")
+        }
+        
+        if let altitude = defaults.string(forKey: oldAltitudeKey) {
+            switch altitude {
+            case "feet":
+                oldAltitudeMode = .feet
+            case "meters":
+                oldAltitudeMode = .meters
+            default:
+                Logger.viewCycle.critical("A new altitude mode has been encountered")
+            }
+        } else {
+            Logger.viewCycle.warning("No saved old altitude")
+        }
+        
+        if let speed = defaults.string(forKey: oldSpeedKey) {
+            switch speed {
+            case "MPH":
+                oldSpeedMode = .standard
+            case "KPH":
+                oldSpeedMode = .metric
+            case "KTS":
+                oldSpeedMode = .nautical
+            default:
+                Logger.viewCycle.critical("A new speed mode has been encountered")
+            }
+        } else {
+            Logger.viewCycle.warning("No saved old speed")
+        }
+        
+        if let fuel = defaults.string(forKey: oldFuelKey) {
+            switch fuel {
+            case "gallons":
+                oldFuelMode = .gallon
+            case "liters":
+                oldFuelMode = .liter
+            default:
+                Logger.viewCycle.critical("A new fuel capacity mode has been encountered")
+            }
+        } else {
+            Logger.viewCycle.warning("No saved old fuel")
+        }
     }
     
     func saveDefaults() {
@@ -146,6 +240,17 @@ class AppMetricsSwift: ObservableObject {
         defaults.setValue(altitudeMode.text, forKey: altitudeKey)
         defaults.setValue(speedMode.modeSymbol, forKey: speedKey)
         defaults.setValue(fuelMode.text, forKey: fuelKey)
+        defaults.setValue(oldDistanceMode.modeSymbol, forKey: oldDistanceKey)
+        defaults.setValue(oldAltitudeMode.text, forKey: oldAltitudeKey)
+        defaults.setValue(oldSpeedMode.modeSymbol, forKey: oldSpeedKey)
+        defaults.setValue(oldFuelMode.text, forKey: oldFuelKey)
         defaults.synchronize()
+    }
+    
+    func pushCurrentToOld() {
+        oldFuelMode = fuelMode
+        oldSpeedMode = speedMode
+        oldAltitudeMode = altitudeMode
+        oldDistanceMode = distanceMode
     }
 }
