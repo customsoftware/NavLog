@@ -32,7 +32,7 @@ struct WayPointDetailSwiftUIView: View {
             Section(header: Text("General Parameters")) {
                 TextEntryFieldStringView(captionText: "Name", textWidth: fieldWidth, promptText: "Name of waypoint", isBold: true, textValue: $waypoint.name)
                 TextEntryIntFieldView(formatter: formatter, captionText: "Altitude: (" + metrics.altitudeMode.text + ")", textWidth: fieldWidth, promptText: "Altitude", isBold: true, textValue: $waypoint.altitude)
-                TextEntryIntFieldView(formatter: formatter, captionText: "Ground Speed: " + metrics.speedMode.modeSymbol, textWidth: fieldWidth, promptText: "Ground Speed", isBold: false, textValue: $waypoint.estimatedGroundSpeed)
+                TextEntryIntFieldView(formatter: formatter, captionText: "IAS: " + metrics.speedMode.modeSymbol, textWidth: fieldWidth, promptText: "Ground Speed", isBold: false, textValue: $waypoint.estimatedGroundSpeed)
                 TextEntryFieldView(formatter: formatter, captionText: "Distance: " + metrics.distanceMode.modeSymbol, textWidth: fieldWidth, promptText: "Distance to next waypoint", isBold: false, integerOnly: false, textValue: $waypoint.estimatedDistanceToNextWaypoint)
                 Text("Estimated Travel Time: \(Int(waypoint.computeTimeToWaypoint())) seconds")
                 Text("Trip Performance Regime")

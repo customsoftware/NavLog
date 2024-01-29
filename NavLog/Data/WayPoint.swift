@@ -37,11 +37,11 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     var courseFrom: Int
     /// This is the intended magnetic heading the plane must fly to follow the course
     func headingFrom() -> Int {
-        var retValue = self.courseFrom + Int(self.magneticDeviation)
+        var retValue = Double(self.courseFrom) + self.magneticDeviation
         if retValue < 0 {
             retValue += 360
         }
-        return retValue
+        return Int(round(retValue))
     }
     /// This is the distance in nautical miles to the next waypoint
     var estimatedDistanceToNextWaypoint: Double
@@ -58,7 +58,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     /// Distance to next location
     var distanceToNextWaypoint: Double = 0
     /// Magnetic deviation
-    var magneticDeviation: Double = -10.5
+    var magneticDeviation: Double = 0
     /// This indicates the waypoint as been passed (true) or not (false) it is determined when
     /// the distance to the next waypoint stops decreasing and begins to increase.
     var isCompleted: Bool = false
@@ -89,7 +89,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     func windPrintable(formatter: NumberFormatter) -> String {
         formatter.minimumIntegerDigits = 0
         var retValue = "\(formatter.string(from: wind.directionFrom as NSNumber) ?? "") @ \(formatter.string(from: wind.speed as NSNumber) ?? "")"
-        if retValue == "0 @ 0" {
+        if round(wind.speed) == 0 {
             retValue = "Calm"
         }
         return retValue
@@ -99,8 +99,49 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     func computeTimeToWaypoint() -> Double {
         guard estimatedGroundSpeed > 0,
               estimatedDistanceToNextWaypoint > 0 else { return 0 }
+        
+        var workingSpeed = Double(estimatedGroundSpeed)
+        
         // Speed is in mph or kph so divide by 3600 to get miles/second or kilometers/second
-        let retValue = (3600.0/Double(estimatedGroundSpeed)) * estimatedDistanceToNextWaypoint
+        // If speed is in mph and distance is kn NM, we need to convert one or the other so we're making the correct calculations
+        if (AppMetricsSwift.settings.distanceMode == .nautical &&
+            AppMetricsSwift.settings.speedMode == .nautical) ||
+           (AppMetricsSwift.settings.distanceMode == .standard &&
+            AppMetricsSwift.settings.speedMode == .standard) ||
+           (AppMetricsSwift.settings.distanceMode == .metric &&
+            AppMetricsSwift.settings.speedMode == .metric) {
+        } else {
+            // Convert speed to distance
+            if AppMetricsSwift.settings.distanceMode == .metric {
+                // Convert speed to kilometers per hour
+                if AppMetricsSwift.settings.speedMode == .nautical {
+                    // Convert kts/hour to kph
+                    workingSpeed = workingSpeed * 1.852
+                } else {
+                    // Convert mph to kph
+                    workingSpeed = workingSpeed * 1.60934
+                }
+            } else if AppMetricsSwift.settings.distanceMode == .standard {
+                // Convert speed to mile per hour
+                if AppMetricsSwift.settings.speedMode == .nautical {
+                    // Convert kts/hour to mph
+                    workingSpeed = workingSpeed * 1.15078
+                } else {
+                    // Convert kph to mph
+                    workingSpeed = workingSpeed * 0.621371
+                }
+            } else {
+                // Convert speed to nautical miles per hour
+                if AppMetricsSwift.settings.speedMode == .metric {
+                    // Convert kph to kts/hour
+                    workingSpeed = workingSpeed * 0.539957
+                } else {
+                    // Convert mph to kts/hour
+                    workingSpeed = workingSpeed * 0.868976
+                }
+            }
+        }
+        let retValue = (3600.0/workingSpeed) * estimatedDistanceToNextWaypoint
         return round(retValue)
     }
     
@@ -137,6 +178,12 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     }
     
     
+    func computeDistanceToNextWayPoint(_ nextPoint: WayPoint) -> Double {
+        let distanceInMeters = self.location.distance(from: nextPoint.location)
+        return round((distanceInMeters * AppMetricsSwift.settings.distanceMode.conversionValue) / 10) / 100
+    }
+    
+    
     /// This computes the heading the plane should stear towards to fly the desisred course.
     /// - Parameters:
     ///     - nextPoint: WayPoint - this is the waypoint the plane flies to
@@ -145,7 +192,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     mutating func computeCourseToWayPoint(_ nextPoint: WayPoint) -> (Int, Double) {
         let circle: Float = 360.0
         // This is location.distanct is in meters. Need to convert to nautical miles
-        let distance: Double = round((self.location.distance(from: nextPoint.location) * distanceMode.conversionValue) / 10) / 100
+        let distance = computeDistanceToNextWayPoint(nextPoint)
         
         let deltaLong = nextPoint.longitude - longitude
         let y = sin(deltaLong) * cos(nextPoint.latitude)

@@ -16,9 +16,9 @@ struct WeatherReport: Codable {
     var timezone: String
     var tzoffset: Int
     var description: String
-    var days: [WeatherDay]
-    var alerts: [String]?
-    var stations: [String: WeatherStationDetails]
+//    var days: [WeatherDay]
+//    var alerts: [String]?
+//    var stations: [String: WeatherStationDetails]
     var currentConditions: ReportCondition
 }
 
@@ -50,37 +50,36 @@ struct WeatherCondition: Codable {
     var source: String
 }
 
-
 struct ReportCondition: Codable {
-    var datetime: String
-    var datetimeEpoch: Double
+//    var datetime: String
+//    var datetimeEpoch: Double
     var temp: Double
-    var feelslike: Double
-    var humidity: Double
-    var dew: Double
-    var precip: Double
-    var precipprob: Double
-    var snow: Double
-    var snowdepth: Double
-    var preciptype: Double?
+//    var feelslike: Double
+//    var humidity: Double
+//    var dew: Double
+//    var precip: Double
+//    var precipprob: Double
+//    var snow: Double
+//    var snowdepth: Double
+//    var preciptype: Double?
     var windgust: Double
     var windspeed: Double
     var winddir: Double
     var pressure: Double
-    var visibility: Double
-    var cloudcover: Double
-    var solarradiation: Double
-    var solarenergy: Double
-    var uvindex: Double
-    var conditions: String
-    var icon: String
-    var stations: [String]?
-    var source: String
-    var sunrise: String
-    var sunriseEpoch: Double
-    var sunset: String
-    var sunsetEpoch: Double
-    var moonphase: Double
+//    var visibility: Double
+//    var cloudcover: Double
+//    var solarradiation: Double
+//    var solarenergy: Double
+//    var uvindex: Double
+//    var conditions: String
+//    var icon: String
+//    var stations: [String]?
+//    var source: String
+//    var sunrise: String
+//    var sunriseEpoch: Double
+//    var sunset: String
+//    var sunsetEpoch: Double
+//    var moonphase: Double
 }
 
 struct WeatherStationDetails: Codable {
