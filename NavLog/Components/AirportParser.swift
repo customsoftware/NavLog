@@ -12,6 +12,7 @@ import CoreLocation
 class AirportParser: ObservableObject {
     @Published var runways: [Runway] = []
     @Published var airports: [AirportData] = []
+    @Published var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
     
     private var cancellable = Set<AnyCancellable>()
     

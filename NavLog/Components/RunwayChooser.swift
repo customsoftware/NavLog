@@ -9,6 +9,7 @@ import Foundation
 
 class RunwayChooser: ObservableObject {
     @Published var runwayDirections: [Double: Runway] = [:]
+    @Published var selectedRunway: Runway = Runway(id: "", dimension: "", surface: "", alignment: "", direction: 0)
     
     /// Where there are multiple runways to choose from, use this method.
     /// - Parameters:

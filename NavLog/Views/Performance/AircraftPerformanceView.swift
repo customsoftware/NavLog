@@ -13,16 +13,10 @@ struct AircraftPerformanceView: View {
     @State private var shouldShowAlert: Bool = false
     @State private var missionPerformance = PerformanceResults()
     @State private var temperatureInDegreesC: Bool = true
-    @State private var selectedRunway: Runway = Runway(id: "", dimension: "", surface: "", alignment: "", direction: 0)
     @State private var currentLocation: CLLocation?
     @State private var nearbyAirports: [AirportData] = [AirportData]()
-    @State private var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
     @Bindable private var aircraftManager = Core.services.acManager
     @StateObject private var viewModel = AircraftPerformanceViewModel()
-    @StateObject private var complexParser = ComplexMetarParser()
-    @StateObject private var airportParser = AirportParser()
-    @StateObject private var runwayChooser = RunwayChooser()
-    @StateObject private var metrics = AppMetricsSwift.settings
     @State private var theWeather: AirportWeather? {
         didSet {
             guard let weather = theWeather else {
@@ -54,8 +48,8 @@ struct AircraftPerformanceView: View {
                     }
                     
                     if nearbyAirports.count > 0 {
-                        Picker("Nearby Airports", selection: $chosenAirport) {
-                            ForEach(airportParser.airports.sorted(by: { a1, a2 in
+                        Picker("Nearby Airports", selection: $viewModel.airportParser.chosenAirport) {
+                            ForEach(viewModel.airportParser.airports.sorted(by: { a1, a2 in
                                 a1.name! < a2.name!
                             }), id: \.self) {
                                 Text($0.name!).tag($0)
@@ -65,14 +59,14 @@ struct AircraftPerformanceView: View {
                         TextEntryFieldStringView(captionText: "Airport", textWidth: textWidth, promptText: "Airport", textValue: $viewModel.weather.airportCode)
                     }
                     
-                    TextEntryFieldView(formatter: formatter, captionText: "Elevation: (" + metrics.altitudeMode.text + ")", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
+                    TextEntryFieldView(formatter: formatter, captionText: "Elevation: (" + viewModel.metrics.altitudeMode.text + ")", textWidth: textWidth, promptText: "Elevation", textValue: $viewModel.weather.elevation)
                 }
                 
                 Section(header: Text("Weather")) {
                     TextEntryFieldView(formatter: formatter, captionText: "Pressure", textWidth: textWidth, promptText: "Pressure", integerOnly: false, textValue: $viewModel.weather.pressure)
                     TextEntryFieldView(formatter: formatter, captionText: "Temperature - C", textWidth: textWidth, promptText: "Temperature", integerOnly: false, textValue: $viewModel.weather.temp)
                     TextEntryFieldView(formatter: formatter, captionText: "Wind Direction", textWidth: textWidth, promptText: "Wind Direction", textValue: $viewModel.weather.windDirection)
-                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed: " + metrics.speedMode.modeSymbol, textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
+                    TextEntryFieldView(formatter: formatter, captionText: "Wind Speed: " + viewModel.metrics.speedMode.modeSymbol, textWidth: textWidth, promptText: "Wind Speed", textValue: $viewModel.weather.windSpeed)
                 }
                 
                 Section(header: Text("Mission Load")) {
@@ -101,7 +95,7 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: aircraftManager.chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
                     
                     // We need a way to let the user know if they put more fuel than the tank can hold...
-                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: aircraftManager.chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(viewModel.metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: aircraftManager.chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
                     
                     if aircraftManager.chosenAircraft.auxMaxFuelGallons > 0 {
                         TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: aircraftManager.chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)
@@ -116,9 +110,9 @@ struct AircraftPerformanceView: View {
                         
                     } label: { Text("3. Calculate Performance") }
                     
-                    if runwayChooser.runwayDirections.count > 0 {
-                        Picker("Runway Direction", selection: $selectedRunway) {
-                            ForEach(Array(airportParser.runways.sorted(by: { r1, r2 in
+                    if viewModel.runwayChooser.runwayDirections.count > 0 {
+                        Picker("Runway Direction", selection: $viewModel.runwayChooser.selectedRunway) {
+                            ForEach(Array(viewModel.airportParser.runways.sorted(by: { r1, r2 in
                                 r1.direction! < r2.direction!
                             })), id: \.self) {
                                 Text("\(Int($0.direction!)) - \($0.dimension)").tag($0)
@@ -149,13 +143,13 @@ struct AircraftPerformanceView: View {
     }
     
     private func findAirportData() {
-        if let chosenName = chosenAirport.name,
+        if let chosenName = viewModel.airportParser.chosenAirport.name,
            chosenName.count > 2,
            chosenName != viewModel.weather.airportCode {
             viewModel.weather.airportCode = chosenName
         }
         
-        guard (viewModel.weather.airportCode.count > 2 || chosenAirport.name!.count > 1),
+        guard (viewModel.weather.airportCode.count > 2 || viewModel.airportParser.chosenAirport.name!.count > 1),
               self.currentLocation == nil
         else {
             //  Here we could look for airports around us...
@@ -180,18 +174,18 @@ struct AircraftPerformanceView: View {
         }
         // Load the results into the view controls
         Task {
-            _ = try! await complexParser.fetchWeatherData(for: [viewModel.weather.airportCode])
-            theWeather = complexParser.weather.first
+            _ = try! await viewModel.complexParser.fetchWeatherData(for: [viewModel.weather.airportCode])
+            theWeather = viewModel.complexParser.weather.first
             
-            _ = try! await airportParser.fetchAirportData(for: viewModel.weather.airportCode)
-            let runways = airportParser.runways
+            _ = try! await viewModel.airportParser.fetchAirportData(for: viewModel.weather.airportCode)
+            let runways = viewModel.airportParser.runways
             if runways.count > 1 {
-                let bestAlignment = runwayChooser.chooseFrom(the: runways, wind: viewModel.weather.windDirection)
+                let bestAlignment = viewModel.runwayChooser.chooseFrom(the: runways, wind: viewModel.weather.windDirection)
                 if let direction = bestAlignment.1,
                    let aRunway = bestAlignment.0 {
                     viewModel.weather.runwayDirection = direction
                     viewModel.weather.runwayLength = Double(aRunway.runwayLength)
-                    selectedRunway = aRunway
+                    viewModel.runwayChooser.selectedRunway = aRunway
                 }
             }
             viewModel.weather.save()
@@ -200,9 +194,9 @@ struct AircraftPerformanceView: View {
     
     private func calculatePerformance() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        if selectedRunway.id != "" {
-            viewModel.weather.runwayDirection = Double(selectedRunway.direction ?? 0)
-            viewModel.weather.runwayLength = Double(selectedRunway.runwayLength)
+        if viewModel.runwayChooser.selectedRunway.id != "" {
+            viewModel.weather.runwayDirection = Double(viewModel.runwayChooser.selectedRunway.direction ?? 0)
+            viewModel.weather.runwayLength = Double(viewModel.runwayChooser.selectedRunway.runwayLength)
         }
         viewModel.weather.save()
         // I want all this done in the missionPerformance object, but it works for now.
@@ -223,15 +217,15 @@ struct AircraftPerformanceView: View {
     private func getLocalAirports() {
         guard let aLocation = Core.services.gpsEngine.currentLocation else { return }
         Task {
-            _ = try! await airportParser.fetchNearbyAirports(for: aLocation, closeIn: true)
-            if airportParser.airports.count > 0,
-               airportParser.airports.count < 2 {
-                viewModel.weather.airportCode = airportParser.airports.first!.name ?? "No name"
+            _ = try! await viewModel.airportParser.fetchNearbyAirports(for: aLocation, closeIn: true)
+            if viewModel.airportParser.airports.count > 0,
+               viewModel.airportParser.airports.count < 2 {
+                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.name ?? "No name"
                 currentLocation = nil
                 findAirportData()
-            } else if airportParser.airports.count > 1 {
-                nearbyAirports = airportParser.airports
-                viewModel.weather.airportCode = airportParser.airports.first!.name ?? "No name"
+            } else if viewModel.airportParser.airports.count > 1 {
+                nearbyAirports = viewModel.airportParser.airports
+                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.name ?? "No name"
                 currentLocation = nil
                 findAirportData()
             }

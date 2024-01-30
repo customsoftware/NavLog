@@ -12,6 +12,10 @@ import Combine
 class AircraftPerformanceViewModel: ObservableObject {
     @Published var weather: WeatherEnvironment = WeatherEnvironment()
     @Published var mission: MissionData = MissionData()
+    @Published var complexParser = ComplexMetarParser()
+    @Published var airportParser = AirportParser()
+    @Published var runwayChooser = RunwayChooser()
+    @Published var metrics = AppMetricsSwift.settings
     private var toCalc: TakeOffCalculator?
     private var landingCalc: LandingCalculator?
     private let standardBaroPressure: Double = 29.92
