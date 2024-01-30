@@ -37,7 +37,6 @@
       { "wind": 20, "weight": 2200, "multiple": 0.4286, "for50": false },
       { "wind": 20, "weight": 2200, "multiple": 0.5291, "for50": true }
   ],
-  "seatCount": 4,
   "landingProfile": {
       "baseRunwayRoll": 400,
       "divider": 2500,

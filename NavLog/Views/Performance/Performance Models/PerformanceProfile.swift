@@ -17,7 +17,6 @@ struct PerformanceProfile: Codable {
     var temperatureBand: Double
     var temperatureDeltaRate: Double
     var windrates: [WindMultiples]
-    var seatCount: Double
     var landingProfile: Landing
 }
 

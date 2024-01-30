@@ -40,7 +40,6 @@
 		906865002B1E00440077D18F /* AircraftStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906864FF2B1E00440077D18F /* AircraftStatsView.swift */; };
 		906865022B1E00970077D18F /* PerformanceSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906865012B1E00970077D18F /* PerformanceSwiftUIView.swift */; };
 		906865082B1E03BE0077D18F /* CardinalMoment.json in Resources */ = {isa = PBXBuildFile; fileRef = 906865062B1E03BE0077D18F /* CardinalMoment.json */; };
-		906865092B1E03BE0077D18F /* CardinalLanding.json in Resources */ = {isa = PBXBuildFile; fileRef = 906865072B1E03BE0077D18F /* CardinalLanding.json */; };
 		906EF4FD2B0572FA00A4E6C9 /* StandardTempCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */; };
 		906EF4FF2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */; };
 		906EF5022B06687900A4E6C9 /* SettingsMasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906EF5012B06687900A4E6C9 /* SettingsMasterView.swift */; };
@@ -149,7 +148,6 @@
 		906864FF2B1E00440077D18F /* AircraftStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftStatsView.swift; sourceTree = "<group>"; };
 		906865012B1E00970077D18F /* PerformanceSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceSwiftUIView.swift; sourceTree = "<group>"; };
 		906865062B1E03BE0077D18F /* CardinalMoment.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CardinalMoment.json; sourceTree = "<group>"; };
-		906865072B1E03BE0077D18F /* CardinalLanding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CardinalLanding.json; sourceTree = "<group>"; };
 		906EF4FC2B0572FA00A4E6C9 /* StandardTempCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTempCalculator.swift; sourceTree = "<group>"; };
 		906EF4FE2B05733400A4E6C9 /* AircraftPermormanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPermormanceViewModel.swift; sourceTree = "<group>"; };
 		906EF5012B06687900A4E6C9 /* SettingsMasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMasterView.swift; sourceTree = "<group>"; };
@@ -408,7 +406,6 @@
 				90A258562A96C27300B40DAD /* Info.plist */,
 				90A258522A96C27300B40DAD /* Preview Content */,
 				90B93FD92B0445CA00E163A7 /* CardinalTakeOff.json */,
-				906865072B1E03BE0077D18F /* CardinalLanding.json */,
 				906865062B1E03BE0077D18F /* CardinalMoment.json */,
 				901296812B5B2CFF00027972 /* NoName.json */,
 				908B95752B56E7B200AE0789 /* DA40 Moment.json */,
@@ -568,7 +565,6 @@
 			files = (
 				90CE24D12A99776A00552366 /* TestAircraft.json in Resources */,
 				901296822B5B2D0000027972 /* NoName.json in Resources */,
-				906865092B1E03BE0077D18F /* CardinalLanding.json in Resources */,
 				90A258542A96C27300B40DAD /* Preview Assets.xcassets in Resources */,
 				90227FFB2B066F80007879AB /* Launch Screen.storyboard in Resources */,
 				90B8641D2AD83F4E009D18E5 /* DynonPlan.gpx in Resources */,
