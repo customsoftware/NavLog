@@ -43,10 +43,10 @@ struct HeadingSummarySwiftUIView: View {
         let distanceInMeters = currentLocation.distance(from: wayPoint.location)
         let mode = AppMetricsSwift.settings.distanceMode
         if distanceInMeters < 2000 {
-            units = "feet"
+            units = mode.fineDetail
             retValue = round(distanceInMeters * mode.findConversionValue * 100)/100
         } else {
-            units = "miles"
+            units = mode.coarseDetail
             retValue = round(distanceInMeters * mode.conversionValue * 100)/100
         }
         return (retValue, units)

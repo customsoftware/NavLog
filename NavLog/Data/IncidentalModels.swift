@@ -152,14 +152,27 @@ enum DistanceMode: String, CaseIterable, Codable {
         case .standard:
             retValue = "feet"
         case .nautical:
-            retValue = "feed"
+            retValue = "feet"
         case .metric:
             retValue = "meters"
         }
         return retValue
     }
     
-    var conversionValue: Double {
+    var coarseDetail: String {
+        let retValue: String
+        switch self {
+        case .standard:
+            retValue = "miles"
+        case .nautical:
+            retValue = "miles"
+        case .metric:
+            retValue = "clicks"
+        }
+        return retValue
+    }
+    
+   var conversionValue: Double {
         let retValue: Double
         switch self {
         case .standard:
