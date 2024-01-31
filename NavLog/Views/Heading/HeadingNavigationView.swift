@@ -18,7 +18,7 @@ struct HeadingNavigationView: View {
     @State var altimeterTitle: String = "ALT"
     @State var speedTitle: String = "GS"
     @Binding var controllingWayPoint: WayPoint
-
+    
     @State var altimeterRange: Double = 1000
     @Binding var plannedAltimeter: Double
     @Binding var altOffset: Double

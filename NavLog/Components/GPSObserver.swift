@@ -22,7 +22,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     var canBeUsed: Bool = false
     var isRunning: Bool = false
     private var started: Bool = false
-    private (set) var currentLocation: CLLocation? {
+    @Published var currentLocation: CLLocation? {
         didSet {
             guard let aLocation = currentLocation else { return }
             speed = aLocation.speed

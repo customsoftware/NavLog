@@ -33,17 +33,18 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     var altitude: Int
     /// These are the forecast winds at this altitude and this location
     var wind: Wind
-    /// This is the intended magnetic course of the ground track to the next waypoint
+    /// This is the intended true course of the ground track to the next waypoint
     var courseFrom: Int
-    /// This is the intended magnetic heading the plane must fly to follow the course
+    /// This is the wind corrected headingthe plane must fly to follow the course. Currently not completed so it mirrors
+    /// just the courseFrom property
     func headingFrom() -> Int {
-        var retValue = Double(self.courseFrom) + self.magneticDeviation
+        var retValue = Double(self.courseFrom)
         if retValue < 0 {
             retValue += 360
         }
         return Int(round(retValue))
     }
-    /// This is the distance in nautical miles to the next waypoint
+    /// This is the distance in meters to the next waypoint.
     var estimatedDistanceToNextWaypoint: Double
     /// This is the estimated ground speed the plane will be flying at towards the next waypoint
     var estimatedGroundSpeed: Int
@@ -57,7 +58,8 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     var sequence: Int = 0
     /// Distance to next location
     var distanceToNextWaypoint: Double = 0
-    /// Magnetic deviation
+    /// Magnetic deviation - CLLocation.course is based upon true north, so magnetic north is NOT needed for planning
+    /// purposes. It is stored just incase of some future need.
     var magneticDeviation: Double = 0
     /// This indicates the waypoint as been passed (true) or not (false) it is determined when
     /// the distance to the next waypoint stops decreasing and begins to increase.
@@ -95,7 +97,8 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
         return retValue
     }
     
-    /// This computes travel time in seconds to next waypoint
+    /// This computes travel time in seconds to next waypoint. The value is rounded to the nearest second and uses
+    /// stored properties of this waypoint
     func computeTimeToWaypoint() -> Double {
         guard estimatedGroundSpeed > 0,
               estimatedDistanceToNextWaypoint > 0 else { return 0 }
@@ -163,7 +166,8 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     }
     
     
-    /// This renders a string equivalent of the time in seconds to the next waypoint. It returns the data in an mm:ss format. It assumes any leg to a waypoint will be less than one hour.
+    /// This renders a string equivalent of the time in seconds to the next waypoint. It returns the data in an mm:ss 
+    /// format. It assumes any leg to a waypoint will be less than one hour.
     func estimateTime() -> String {
         var retValue: String = ""
         let timeToWaypoint = computeTimeToWaypoint()
@@ -178,6 +182,11 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     }
     
     
+    /// This computes distance between two CLLocations. It uses built in Apple function.
+    /// - Parameters:
+    ///     - nextPoint: WayPoint - this is the next plotted waypoint in the trip after this particular waypoint.
+    ///  - Returns:
+    ///     - Distance in meters between the two locations rounded to the nearest hundredth of a meter.
     func computeDistanceToNextWayPoint(_ nextPoint: WayPoint) -> Double {
         let distanceInMeters = self.location.distance(from: nextPoint.location)
         return round((distanceInMeters * AppMetricsSwift.settings.distanceMode.conversionValue) / 10) / 100
@@ -188,23 +197,25 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     /// - Parameters:
     ///     - nextPoint: WayPoint - this is the waypoint the plane flies to
     ///
-    ///     This method has been verified against a Numbers spreadsheet. Note the explanation for the Atan2 variable placement.
+    ///     This method has been verified against a Numbers spreadsheet. Note the explanation for the Atan2 
+    ///     variable placement.
+    ///     KTC: - Online resource for using atan2 in this process say it should be atan2(x, y) but testing shows for 
+    ///     Swift 5.2 at least, it's reversed.
     mutating func computeCourseToWayPoint(_ nextPoint: WayPoint) -> (Int, Double) {
         let circle: Float = 360.0
-        // This is location.distanct is in meters. Need to convert to nautical miles
+        // This is location.distance is in meters
         let distance = computeDistanceToNextWayPoint(nextPoint)
         
         let deltaLong = nextPoint.longitude - longitude
         let y = sin(deltaLong) * cos(nextPoint.latitude)
         let x = cos(latitude) * sin(nextPoint.latitude) - sin(latitude) * cos(nextPoint.latitude) * cos(deltaLong)
-        // KTC: - Online resource for using atan2 in this process say it should be
-        //  atan2(x, y) but testing shows for Swift 5.2 at least, it's reversed.
         let radValue = atan2(y, x)
         let degreeValue = radToDegrees(radValue)
         let retValue = 360 - ((Float(degreeValue) + circle).truncatingRemainder(dividingBy: circle))
         
         return (Int(retValue), distance)
     }
+    
     
     func radToDegrees(_ radians: Double) -> Double {
         return (radians  * 180) / .pi

@@ -133,7 +133,7 @@ enum DistanceMode: String, CaseIterable, Codable {
     
     // This method works on the assumption that the GPS system in IOS works in meters only
     //  So this is the value to convert a meter into the desired scale: mile, nautical mile or kilometer
-    var modeModifier: Double {
+    var findConversionValue: Double {
         let retValue: Double
         switch self {
         case .standard:
@@ -163,9 +163,9 @@ enum DistanceMode: String, CaseIterable, Codable {
         let retValue: Double
         switch self {
         case .standard:
-            retValue = 0.62137
+            retValue = 0.000621371
         case .nautical:
-            retValue = 0.539957
+            retValue = 0.000539957
         case .metric:
             retValue = 0.001
         }

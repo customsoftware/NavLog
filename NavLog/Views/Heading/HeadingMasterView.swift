@@ -36,8 +36,10 @@ struct HeadingMasterView: View {
                         timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
                         fuelRemaining: $fuelTimeRemaining)
                     .padding(.bottom, 15)
-                    HeadingSummarySwiftUIView(activeWayPoint: navEngine.activeWayPoints[activeWayPointIndex])
-                        .padding(.bottom, 5)
+                    if gpsIsRunning  {
+                        HeadingSummarySwiftUIView(nextWayPoint: getNextWayPoint())
+                            .padding(.bottom, 5)
+                    }
                     HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $navEngine.activeWayPoints[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: $navEngine.activeWayPoints.count, gpsIsRunning: $gpsIsRunning)
                     
                     NavigationLink {
@@ -55,6 +57,14 @@ struct HeadingMasterView: View {
         }
     }
         
+    func getNextWayPoint() -> WayPoint? {
+        var retValue: WayPoint?
+        let nextIndex = activeWayPointIndex + 1
+        guard nextIndex < navEngine.activeWayPoints.count else { return retValue }
+        retValue = navEngine.activeWayPoints[nextIndex]
+        return retValue
+    }
+    
     
     func getDisplayValues() -> CourseState {
         let currentLocation = Core.services.gpsEngine.currentLocation
