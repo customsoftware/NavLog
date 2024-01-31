@@ -26,7 +26,7 @@ struct HeadingSummarySwiftUIView: View {
             VStack(alignment: .leading) {
                 Text("Distance to Next:")
                     .font(.caption2)
-                Text("\(Int(computeDistanceToWayPoint()))")
+                Text("\(Int(computeDistanceToWayPoint().0)) \(computeDistanceToWayPoint().1)")
                     .font(.subheadline)
                     .bold()
             }
@@ -34,19 +34,22 @@ struct HeadingSummarySwiftUIView: View {
         }
     }
     
-    func computeDistanceToWayPoint() -> Double {
+    func computeDistanceToWayPoint() -> (Double, String) {
         var retValue: Double = 0.0
+        var units: String = ""
         guard let currentLocation = gpsTracker.currentLocation,
-              let wayPoint = nextWayPoint else { return retValue }
+              let wayPoint = nextWayPoint else { return (retValue, units) }
         
         let distanceInMeters = currentLocation.distance(from: wayPoint.location)
         let mode = AppMetricsSwift.settings.distanceMode
         if distanceInMeters < 2000 {
+            units = "feet"
             retValue = round(distanceInMeters * mode.findConversionValue * 100)/100
         } else {
+            units = "miles"
             retValue = round(distanceInMeters * mode.conversionValue * 100)/100
         }
-        return retValue
+        return (retValue, units)
     }
 }
 
