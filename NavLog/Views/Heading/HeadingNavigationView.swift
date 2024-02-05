@@ -21,11 +21,11 @@ struct HeadingNavigationView: View {
     let nextWayPoint: WayPoint?
     
     @State var altimeterRange: Double = 1000
-    @Binding var plannedAltimeter: Double
+    var plannedAltimeter: Double
     @Binding var altOffset: Double
 
     @State var speedRange: Double = 100
-    @Binding var plannedSpeed: Double
+    var plannedSpeed: Double
 
     @Binding var gpsIsActive: Bool
     @Binding var timeToWayPoint: Double // This is in seconds
@@ -69,7 +69,7 @@ struct HeadingNavigationView: View {
                             Text(" ")
                         }
                         
-                        SliderBarView(currentValue: gpsTracker.altitude, range: altimeterRange, center: plannedAltimeter, mode: .altitude)
+                        SliderBarView(currentValue: (gpsIsActive ? gpsTracker.altitude : 0), range: altimeterRange, center: plannedAltimeter, mode: .altitude)
                     }
                     Spacer()
                     VStack(alignment: .leading) {
@@ -83,7 +83,7 @@ struct HeadingNavigationView: View {
                             Text(" ")
                         }
                         
-                        SliderBarView(currentValue: gpsTracker.speed, range: speedRange, center: plannedSpeed, mode: .groundSpeed)
+                        SliderBarView(currentValue: (gpsIsActive ? gpsTracker.speed : 0), range: speedRange, center: plannedSpeed, mode: .groundSpeed)
                     }
                 }
                 .padding(.leading, 30)
@@ -113,6 +113,7 @@ struct HeadingNavigationView: View {
                             .rotationEffect(.degrees(270))
                             .font(.system(size: 32))
                     }
+                    .padding([.top], 10)
                 })
                 .foregroundColor(Color.accentColor)
                 .offset(x: convertDegreeToXOffset(size.width), y: -40)
@@ -222,10 +223,10 @@ struct HeadingNavigationView: View {
                           Core.services.navEngine.loadWayPoints().first!,
                           nextWayPoint: nil,
                           altimeterRange: 1000,
-                          plannedAltimeter: .constant(5500),
+                          plannedAltimeter: 5500,
                           altOffset: .constant(25),
                           speedRange: 100,
-                          plannedSpeed: .constant(110),
+                          plannedSpeed: 110,
                           gpsIsActive: .constant(true),
                           timeToWayPoint: .constant(76),
                           fuelRemaining: .constant(225),

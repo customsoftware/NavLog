@@ -73,6 +73,18 @@ enum AltitudeMode: CaseIterable {
         
         return retValue
     }
+    
+    var modeModifier: Double {
+        let retValue: Double
+        switch self {
+        case .feet:
+            retValue = 3.28084
+        case .meters:
+            retValue = 0.3048
+        }
+        
+        return retValue
+    }
 }
 
 
@@ -137,11 +149,11 @@ enum DistanceMode: String, CaseIterable, Codable {
         let retValue: Double
         switch self {
         case .standard:
-            retValue = 2.23694
+            retValue = 0.000621371
         case .nautical:
-            retValue = 1.94384
+            retValue = 0.000539957
         case .metric:
-            retValue = 1
+            retValue = 0.001
         }
         return retValue
     }

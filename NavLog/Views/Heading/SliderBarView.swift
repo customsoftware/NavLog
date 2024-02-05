@@ -37,7 +37,7 @@ struct SliderBarView: View {
     
     var body: some View {
         VStack {
-            Text(mode.title)
+            Text(mode.title + " " + computeDisplayValue())
                 .offset(y: 10)
             // Upper bounding line
             Rectangle()
@@ -71,13 +71,17 @@ struct SliderBarView: View {
     /// A negative return value moves the caret up. A positive value moves it down. This way the app can tell if you are higher/faster or
     /// tlower/slower than the desired value, which is the center
     func computeDisplayValueInRange() -> CGFloat {
-        
         var workingValue: Double = 0
         switch mode {
         case .altitude:
-            workingValue = currentValue * GPSObserver.metersToFeet
+            workingValue = currentValue * AppMetricsSwift.settings.altitudeMode.modeModifier // TODO: Need to set this to be whatever altitude mode is set
         case .groundSpeed:
-            workingValue = currentValue * GPSObserver.metersToStandardMiles
+            workingValue = currentValue * AppMetricsSwift.settings.distanceMode.findConversionValue // TODO: Need to set this to be whatever speed mode is set
+        }
+        
+        guard workingValue != 0 else {
+            // This should be the bottom of the range
+            return (height / 2)
         }
         
         let centerPoint = range / 2
@@ -88,6 +92,28 @@ struct SliderBarView: View {
         }
         
         return (height * (center - workingValue)) / range
+    }
+    
+    func computeDisplayValue() -> String {
+        let retValue: String
+        var workingValue: Double = 0
+        switch mode {
+        case .altitude:
+            workingValue = currentValue * AppMetricsSwift.settings.altitudeMode.modeModifier // TODO: Need to set this to be whatever altitude mode is set
+            // Round to nearest hundred feet
+            workingValue = round(workingValue/100)
+            if workingValue < 100 {
+                retValue = "0\(Int(workingValue))"
+            } else {
+                retValue = "\(Int(workingValue))"
+            }
+        case .groundSpeed:
+            workingValue = currentValue * AppMetricsSwift.settings.distanceMode.findConversionValue // TODO: Need to set this to be whatever speed mode is set
+            // round to the integer
+            retValue = "\(Int(workingValue))"
+        }
+        
+        return retValue
     }
 }
 
