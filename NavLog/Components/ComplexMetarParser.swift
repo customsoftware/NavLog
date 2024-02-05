@@ -24,7 +24,8 @@ class ComplexMetarParser: ObservableObject {
         guard airportList.isEmpty == false else { throw HTTPError.badURL }
         
         let reportTime = getTime()
-        let queryString = ParseTestData.baseQueryString.replacingOccurrences(of: ParseTestData.airportSpaceHolder, with: airportList).replacingOccurrences(of: ParseTestData.zuluTimeSpaceHolder, with: reportTime)
+//        let queryString = ParseTestData.baseQueryString.replacingOccurrences(of: ParseTestData.airportSpaceHolder, with: airportList).replacingOccurrences(of: ParseTestData.zuluTimeSpaceHolder, with: reportTime)
+        let queryString = ParseTestData.baseQueryString.replacingOccurrences(of: ParseTestData.airportSpaceHolder, with: airportList)
         
         // Query the API
         guard let url = URL(string: queryString) else { throw HTTPError.badURL }
@@ -147,7 +148,8 @@ class ComplexMetarParser: ObservableObject {
 
 
 struct ParseTestData {
-    static let baseQueryString: String = "https://aviationweather.gov/api/data/metar?ids=<<airportString>>&format=json&date=<<zuluDateString>>"
+//    static let baseQueryString: String = "https://aviationweather.gov/api/data/metar?ids=<<airportString>>&format=json&date=<<zuluDateString>>"
+    static let baseQueryString: String = "https://aviationweather.gov/api/data/metar?ids=<<airportString>>&format=json"
     static let airportSpaceHolder: String = "<<airportString>>"
     static let zuluTimeSpaceHolder: String = "<<zuluDateString>>"
     static let testSingleAirportString: String = "KPVU"
