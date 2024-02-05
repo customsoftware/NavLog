@@ -4,6 +4,7 @@
 //
 //  Created by Kenneth Cluff on 8/25/23.
 //
+//  This is worth reading: https://cocoacasts.com/combine-essentials-how-to-use-combine%27s-scan-and-tryscan-operators
 
 import Foundation
 import SwiftUI

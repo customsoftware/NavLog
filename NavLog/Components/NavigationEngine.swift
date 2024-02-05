@@ -133,7 +133,30 @@ class NavigationEngine {
         // We need the app to wait for this to finish
         return activeWayPoints
     }
+    
+    func computeCourseBetweeen(currentLocation: CLLocation, and destination: CLLocation) -> Double {
+        let circle = 360.0
+        var retValue: Double = 0.0
+        let deltaLong = currentLocation.coordinate.longitude - destination.coordinate.longitude
+        let y = sin(deltaLong) * cos(currentLocation.coordinate.latitude)
+        let x = cos(destination.coordinate.latitude) * sin(currentLocation.coordinate.latitude) - sin(destination.coordinate.latitude) * cos(currentLocation.coordinate.latitude) * cos(deltaLong)
+        let radValue = atan2(y, x)
+        let degreeValue = Core.services.radToDegrees(radValue)
+        retValue = 360 - (degreeValue + circle).truncatingRemainder(dividingBy: circle)
+        return retValue
+    }
 }
+
+//let circle = 360.0
+//var retValue: Double = 0.0
+//let deltaLong = destination.coordinate.longitude - currentLocation.coordinate.longitude
+//let y = sin(deltaLong) * cos(destination.coordinate.latitude)
+//let x = cos(currentLocation.coordinate.latitude) * sin(destination.coordinate.latitude) - sin(currentLocation.coordinate.latitude) * cos(destination.coordinate.latitude) * cos(deltaLong)
+//let radValue = atan2(y, x)
+//let degreeValue = Core.services.radToDegrees(radValue)
+//retValue = 360 - (degreeValue + circle).truncatingRemainder(dividingBy: circle)
+//return retValue
+
 
 fileprivate extension NavigationEngine {
     
@@ -206,7 +229,6 @@ fileprivate extension NavigationEngine {
     }
     
     func fleshOutWayPoints() {
-        
         activeWayPoints = activeWayPoints.sorted(by: { w1, w2 in
             w1.sequence < w2.sequence
         })

@@ -56,6 +56,11 @@ class Core {
                            distanceToWayPoint: distance)
     }
 
+    
+    
+    func radToDegrees(_ radians: Double) -> Double {
+        return (radians  * 180) / .pi
+    }
 }
 
 extension Logger {

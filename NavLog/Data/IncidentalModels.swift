@@ -195,6 +195,25 @@ enum DisplayMode: String, CaseIterable {
 }
 
 
+enum NavigationMode: CaseIterable {
+    case matchHeading
+    case steerToWayPoint
+    
+    var text: String {
+        let retValue: String
+        switch self {
+        case .matchHeading:
+            retValue = "Match HDG"
+            // This displays the aircraft heading in the offset bar and the desired heading in the fixed center bar.
+        case .steerToWayPoint:
+            retValue = "Steer TO"
+            // This displays the heading to the waypoint in the center bar and the aircraft heading in the offset bar.
+        }
+        
+        return retValue
+    }
+}
+
 enum OperationMode: Int, CaseIterable, Codable {
     case climb
     case cruise

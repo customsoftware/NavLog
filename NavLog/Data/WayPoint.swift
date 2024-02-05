@@ -210,14 +210,10 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
         let y = sin(deltaLong) * cos(nextPoint.latitude)
         let x = cos(latitude) * sin(nextPoint.latitude) - sin(latitude) * cos(nextPoint.latitude) * cos(deltaLong)
         let radValue = atan2(y, x)
-        let degreeValue = radToDegrees(radValue)
+        let degreeValue = Core.services.radToDegrees(radValue)
         let retValue = 360 - ((Float(degreeValue) + circle).truncatingRemainder(dividingBy: circle))
         
         return (Int(retValue), distance)
     }
-    
-    
-    func radToDegrees(_ radians: Double) -> Double {
-        return (radians  * 180) / .pi
-    }
+
 }

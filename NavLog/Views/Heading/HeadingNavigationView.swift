@@ -17,7 +17,8 @@ struct HeadingNavigationView: View {
     
     @State var altimeterTitle: String = "ALT"
     @State var speedTitle: String = "GS"
-    @Binding var controllingWayPoint: WayPoint
+    let controllingWayPoint: WayPoint
+    let nextWayPoint: WayPoint?
     
     @State var altimeterRange: Double = 1000
     @Binding var plannedAltimeter: Double
@@ -29,6 +30,7 @@ struct HeadingNavigationView: View {
     @Binding var gpsIsActive: Bool
     @Binding var timeToWayPoint: Double // This is in seconds
     @Binding var fuelRemaining: Double // This is minutes to fuel exhaustion
+    var navMode: NavigationMode
     
     var body: some View {
         ZStack(alignment: .topLeading, content: {
@@ -37,7 +39,7 @@ struct HeadingNavigationView: View {
                 .cornerRadius(15.0)
                 .foregroundColor(Color(.systemBackground))
             VStack(alignment: .center, content: {
-                Text("\(controllingWayPoint.headingFrom())")
+                Text("\(getCenterBarCourse())")
                     .font(.bold(.body)())
                     .frame(minWidth: 280, idealWidth: 300, maxWidth: .infinity, minHeight: 40, idealHeight: 40, maxHeight: 40, alignment: .center)
                     .foregroundColor(Color(.label))
@@ -91,7 +93,7 @@ struct HeadingNavigationView: View {
             
             /// The key to this working is its offset must be according to deviation of actual heading, obtained by GPS from planned heading is is programmed in. To do this we need to know the width of the containing view
             if gpsIsActive,
-               Int(gpsTracker.course) != -1 {
+               getSteeringBarCourse() != -1 {
                 
                 VStack(content: {
                     GeometryReader { proxy in
@@ -101,35 +103,53 @@ struct HeadingNavigationView: View {
                             }
                     }
                     
-                    Text("\(String(Int(gpsTracker.course)))")
+                    Text("\(String(getSteeringBarCourse()))")
                         .bold()
                     ZStack (alignment: .center) {
                         Rectangle() // This is the current line
                             .frame(width: 2, height: 125)
                         Image(systemName: "airplane")
-                        .symbolRenderingMode(.monochrome)
-                        .rotationEffect(.degrees(270))
-                        .font(.system(size: 32))
+                            .symbolRenderingMode(.monochrome)
+                            .rotationEffect(.degrees(270))
+                            .font(.system(size: 32))
                     }
                 })
                 .foregroundColor(Color.accentColor)
                 .offset(x: convertDegreeToXOffset(size.width), y: -40)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 0)
-//            } else {
-//                VStack(content: {
-//                    Text(" ")
-//                        .bold()
-//                    ZStack (alignment: .center) {
-//                        Rectangle() // This is the current line
-//                            .frame(width: 0, height: 125)
-//                    }
-//                })
-//                .foregroundColor(Color.accentColor)
-////                .offset(x: 100, y: 100)
-//                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 0)
             }
         })
         .clipped()
+    }
+    
+    private func getCenterBarCourse() -> Int {
+        let retValue: Int
+        switch navMode {
+        case .matchHeading:
+            retValue = Int(controllingWayPoint.headingFrom())
+        case .steerToWayPoint:
+            // We need to compute the course from where we are to the next waypoint
+            guard let nextWP = nextWayPoint,
+                  let currentLoc = gpsTracker.currentLocation else { return 0 }
+            let newHeading = Core.services.navEngine.computeCourseBetweeen(currentLocation: nextWP.location, and: currentLoc)
+            retValue = Int(newHeading)
+        }
+        return retValue
+    }
+    
+    private func getSteeringBarCourse() -> Int {
+        let retValue: Int
+//        switch navMode {
+//        case .matchHeading:
+            retValue = Int(gpsTracker.course)
+//        case .steerToWayPoint:
+//            // We need to compute the course from where we are to the next waypoint
+//            guard let nextWP = nextWayPoint,
+//                  let currentLoc = gpsTracker.currentLocation else { return 0 }
+//            let newHeading = Core.services.navEngine.computeCourseBetweeen(currentLocation: nextWP.location, and: currentLoc)
+//            retValue = Int(newHeading)
+//        }
+        return retValue
     }
     
     private func getDirectionToTurn(width: CGFloat) -> String {
@@ -147,7 +167,7 @@ struct HeadingNavigationView: View {
         var retValue: CGFloat = 0
         
         let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
-        let currentHeading: Double = gpsTracker.course
+        let currentHeading: Double = Double(getSteeringBarCourse())
         let reciprocal: Double = plannedHeading - 180
         
         let offset: Double
@@ -198,7 +218,9 @@ struct HeadingNavigationView: View {
 }
 
 #Preview {
-    HeadingNavigationView(controllingWayPoint: .constant(Core.services.navEngine.loadWayPoints().first!),
+    HeadingNavigationView(controllingWayPoint:
+                          Core.services.navEngine.loadWayPoints().first!,
+                          nextWayPoint: nil,
                           altimeterRange: 1000,
                           plannedAltimeter: .constant(5500),
                           altOffset: .constant(25),
@@ -206,5 +228,6 @@ struct HeadingNavigationView: View {
                           plannedSpeed: .constant(110),
                           gpsIsActive: .constant(true),
                           timeToWayPoint: .constant(76),
-                          fuelRemaining: .constant(225))
+                          fuelRemaining: .constant(225),
+                          navMode: NavigationMode.matchHeading)
 }
