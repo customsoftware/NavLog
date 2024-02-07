@@ -44,10 +44,10 @@ struct HeadingSummarySwiftUIView: View {
         let mode = AppMetricsSwift.settings.distanceMode
         if distanceInMeters < 2000 {
             units = mode.fineDetail
-            retValue = round(distanceInMeters * mode.findConversionValue * 100)/100
+            retValue = round(distanceInMeters * mode.fineConversionValue * 100)/100
         } else {
             units = mode.coarseDetail
-            retValue = round(distanceInMeters * mode.conversionValue * 100)/100
+            retValue = round(distanceInMeters * mode.coarseConversionValue * 100)/100
         }
         return (retValue, units)
     }

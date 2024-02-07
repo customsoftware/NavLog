@@ -189,7 +189,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     ///     - Distance in meters between the two locations rounded to the nearest hundredth of a meter.
     func computeDistanceToNextWayPoint(_ nextPoint: WayPoint) -> Double {
         let distanceInMeters = self.location.distance(from: nextPoint.location)
-        return round((distanceInMeters * AppMetricsSwift.settings.distanceMode.conversionValue) / 10) / 100
+        return round((distanceInMeters * AppMetricsSwift.settings.distanceMode.coarseConversionValue) / 10) / 100
     }
     
     
