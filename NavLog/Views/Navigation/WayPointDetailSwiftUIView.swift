@@ -71,14 +71,16 @@ struct WayPointDetailSwiftUIView: View {
                 .frame(width: 320, height: 220)
             }
         }
-        .toolbar(content: {
-            Button("Previous") {
-                // DO something
-            }
-            Button("Next") {
-                // DO something
-            }
-        })
+//        .toolbar(content: {
+//            Button("Previous") {
+//                self.waypoint = Core.services.navEngine.activeWayPoints[waypoint.sequence]
+//            }
+//            .disabled(waypoint.sequence == 0)
+//            Button("Next") {
+//                self.waypoint = Core.services.navEngine.activeWayPoints[waypoint.sequence + 1]
+//             }
+//            .disabled((Core.services.navEngine.activeWayPoints.count - 1) == waypoint.sequence)
+//        })
         .onAppear(perform: {
             region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: waypoint.location.coordinate.latitude, longitude: waypoint.location.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.125, longitudeDelta: 0.125))
             
