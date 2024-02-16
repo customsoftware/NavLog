@@ -12,8 +12,7 @@ struct HeadingMasterView: View {
     @Binding var altimeterOffset: Double
     @State var activeWayPointIndex: Int = 0
     @State var gpsIsRunning: Bool = false
-    @State var fuelTimeRemaining: Double = Core.services.navEngine.activeLog?.fuelRemaining() ?? 0
-    @State var navigationMode: NavigationMode = .matchHeading
+    @State var navigationMode: NavigationMode = .steerToWayPoint
     
     
     var body: some View {
@@ -31,11 +30,9 @@ struct HeadingMasterView: View {
                         altimeterRange: 1000,
                         plannedAltimeter: currentValues.plannedAltitude,
                         altOffset: .constant(0),
-                        speedRange: 100,
+                        speedRange: 200,
                         plannedSpeed: currentValues.plannedGroundSpeed,
-                        gpsIsActive: $gpsIsRunning,
-                        timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
-                        fuelRemaining: $fuelTimeRemaining, 
+                        gpsIsActive: gpsIsRunning,
                         navMode: navigationMode)
                     .padding(.bottom, 15)
                     if gpsIsRunning  {

@@ -15,6 +15,7 @@
 		902280002B0698E8007879AB /* PerformanceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFF2B0698E8007879AB /* PerformanceResults.swift */; };
 		902280022B06994C007879AB /* MomentDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902280012B06994C007879AB /* MomentDatum.swift */; };
 		90244FCE2B4DAD8C00A75C1E /* RunwayChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */; };
+		9025E4672B7FA60100035482 /* NavTool in Frameworks */ = {isa = PBXBuildFile; productRef = 9025E4662B7FA60100035482 /* NavTool */; };
 		903BD5142B615B1800118B65 /* AppMetricsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5132B615B1800118B65 /* AppMetricsSwiftUIView.swift */; };
 		903BD5162B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5152B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift */; };
 		903BD5182B61B97100118B65 /* JSONArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5172B61B97100118B65 /* JSONArchiver.swift */; };
@@ -226,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9025E4672B7FA60100035482 /* NavTool in Frameworks */,
 				90980CDC2B02A3A600F0E5F0 /* libDeclinationLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,6 +503,9 @@
 			dependencies = (
 			);
 			name = NavLog;
+			packageProductDependencies = (
+				9025E4662B7FA60100035482 /* NavTool */,
+			);
 			productName = NavLog;
 			productReference = 90A258472A96C27000B40DAD /* NavLog.app */;
 			productType = "com.apple.product-type.application";
@@ -551,6 +556,9 @@
 				Base,
 			);
 			mainGroup = 90A2583E2A96C27000B40DAD;
+			packageReferences = (
+				90E966292B7FA21C00290F2F /* XCLocalSwiftPackageReference "../../NavTool" */,
+			);
 			productRefGroup = 90A258482A96C27000B40DAD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -977,6 +985,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		90E966292B7FA21C00290F2F /* XCLocalSwiftPackageReference "../../NavTool" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../NavTool;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9025E4662B7FA60100035482 /* NavTool */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90E966292B7FA21C00290F2F /* XCLocalSwiftPackageReference "../../NavTool" */;
+			productName = NavTool;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 90A2583F2A96C27000B40DAD /* Project object */;
 }
