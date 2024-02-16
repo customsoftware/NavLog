@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import OSLog
+import NavTool
 
 @Observable
 class NavigationEngine {
@@ -141,7 +142,7 @@ class NavigationEngine {
         let y = sin(deltaLong) * cos(currentLocation.coordinate.latitude)
         let x = cos(destination.coordinate.latitude) * sin(currentLocation.coordinate.latitude) - sin(destination.coordinate.latitude) * cos(currentLocation.coordinate.latitude) * cos(deltaLong)
         let radValue = atan2(y, x)
-        let degreeValue = Core.services.radToDegrees(radValue)
+        let degreeValue = NavTool.shared.convertToDegrees(radians: radValue)
         retValue = 360 - (degreeValue + circle).truncatingRemainder(dividingBy: circle)
         return retValue
     }

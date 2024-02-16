@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import NavTool
 
 class TakeOffCalculator {
     var performanceModel: PerformanceProfile?
@@ -217,7 +217,7 @@ fileprivate extension TakeOffCalculator {
         
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = TrigTool.deg2rad(relativeWindDirection)
+        let radWind = NavTool.shared.convertToRadians(degrees: relativeWindDirection)
         
         let cosOfWind = cos(radWind)
         
@@ -257,8 +257,7 @@ fileprivate extension TakeOffCalculator {
         
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = TrigTool.deg2rad(relativeWindDirection)
-        
+        let radWind = NavTool.shared.convertToRadians(degrees: relativeWindDirection)        
         let cosOfWind = cos(radWind)
         
         // I need the cos of the wind speed over the relativeWindDirection
@@ -324,16 +323,5 @@ fileprivate extension TakeOffCalculator {
         }
         
         return retValue
-    }
-}
-
-struct TrigTool {
-    
-    static func deg2rad(_ number: Double) -> Double {
-        return number * .pi / 180
-    }
-    
-    static func rad2deg(_ number: Double) -> Double {
-        return number * 180 / .pi
     }
 }

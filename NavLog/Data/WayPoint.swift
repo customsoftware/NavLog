@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import Combine
+import NavTool
 
 struct WayPoint: Equatable, Identifiable, Observable, Codable {
 
@@ -210,7 +211,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
         let y = sin(deltaLong) * cos(nextPoint.latitude)
         let x = cos(latitude) * sin(nextPoint.latitude) - sin(latitude) * cos(nextPoint.latitude) * cos(deltaLong)
         let radValue = atan2(y, x)
-        let degreeValue = Core.services.radToDegrees(radValue)
+        let degreeValue = NavTool.shared.convertToDegrees(radians: radValue)
         let retValue = 360 - ((Float(degreeValue) + circle).truncatingRemainder(dividingBy: circle))
         
         return (Int(retValue), distance)

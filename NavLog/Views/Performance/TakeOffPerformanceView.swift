@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import NavTool
 
 struct TakeOffPerformanceView: View {
     var performance: PerformanceResults
@@ -54,7 +55,7 @@ struct TakeOffPerformanceView: View {
     private func computeCrossWind() -> String {
         let retValue: String
         let deltaWind = abs(environment.windDirection - (environment.runwayDirection * 10))
-        let deltaWindRadians = deltaWind * (Double.pi/180)
+        let deltaWindRadians = NavTool.shared.convertToRadians(degrees: deltaWind)
         let crossWindRadians = sin(deltaWindRadians)
         let crossWindSpeed = abs(round(crossWindRadians * environment.windSpeed))
         retValue = "\(Int(crossWindSpeed))"
