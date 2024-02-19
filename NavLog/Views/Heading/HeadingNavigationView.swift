@@ -9,6 +9,7 @@
 
 import SwiftUI
 import CoreLocation
+import NavTool
 
 struct HeadingNavigationView: View {
     
@@ -121,6 +122,8 @@ struct HeadingNavigationView: View {
               let currentLoc = gpsTracker.currentLocation  else { return retValue }
         let speed = currentLoc.speed
         let distance = currentLoc.distance(from: nextWP.location)
+        guard speed > 0,
+              distance > 0 else { return retValue }
         retValue = distance / speed
         return retValue
     }
@@ -141,14 +144,12 @@ struct HeadingNavigationView: View {
     }
     
     private func getDirectionToTurn() -> String {
-        let x = convertDegreeToXOffset()
-        let string: String
-        if x >= 0 {
-            string = "Turn Left"
-        } else {
-            string = "Turn Right"
-        }
-        return string
+        var retValue: String = ""
+        let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
+        let currentHeading: Double = gpsTracker.course
+        let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
+        retValue = "Turn \(turn.textOfTurn)"
+        return retValue
     }
     
     func convertDegreeToXOffset() -> CGFloat {
@@ -156,7 +157,7 @@ struct HeadingNavigationView: View {
         
         let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
         let currentHeading: Double = gpsTracker.course
-        let reciprocal: Double = plannedHeading - 180
+        let reciprocal: Double = plannedHeading < 180 ? plannedHeading + 180 : plannedHeading - 180
         
         let offset: Double
         if currentHeading < reciprocal {
@@ -174,7 +175,7 @@ struct HeadingNavigationView: View {
             retValue = -range
         }
         
-        return (retValue * 2)
+        return (retValue * -2)
     }
     
     private func convertLocationAltitudeToDouble(_ location: CLLocation?) -> Double {
