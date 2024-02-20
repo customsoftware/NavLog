@@ -86,17 +86,12 @@ struct SliderBarView: View {
         
         var retValue = height * ((center - workingValue) / range)
         
-        // TODO: If retValue is higher than max or lower than min, it needs to be set to max/min as appropriate
-        //        if mode == .groundSpeed {
-//        print("Before: Pip Height: \(retValue), Height: \(height), Range: \(range) - Mode: \(mode.title)")
         if retValue > (height / 2) {
             // Tests for low...
             retValue = (height / 2)
         } else if retValue < (-1 * (height / 2)) {
             retValue = (height / 2 ) * -1
         }
-//        print("After: Pip Height: \(retValue), Height: \(height), Range: \(range) - Mode: \(mode.title)")
-        //        }
         return retValue
   }
     
@@ -117,7 +112,6 @@ struct SliderBarView: View {
             workingValue = currentValue // * AppMetricsSwift.settings.speedMode.modeModifier // TODO: Need to set this to be whatever speed mode is set
             // round to the integer
             retValue = "\(Int(workingValue))"
-//            print("Ground speed: \(workingValue) - Current Value: \(currentValue)")
         }
         
         return retValue
@@ -125,5 +119,5 @@ struct SliderBarView: View {
 }
 
 #Preview {
-    SliderBarView(currentValue: 170, range: 100, center: 110, mode: .groundSpeed)
+    SliderBarView(currentValue: 200, range: 100, center: 110, mode: .groundSpeed)
 }
