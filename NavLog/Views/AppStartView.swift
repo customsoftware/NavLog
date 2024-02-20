@@ -27,7 +27,7 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = false
                 }
             
-            HeadingMasterView(wayPointList: $wayPointList, altimeterOffset: $altimeterOffset)
+            HeadingMasterView(navEngine: Core.services.navEngine, altimeterOffset: $altimeterOffset)
                 .tabItem {
                     Label("Map", systemImage: "map.circle")
                         .foregroundColor(.black)
@@ -37,14 +37,15 @@ struct AppStartView: View {
                     UIApplication.shared.isIdleTimerDisabled = true
                 }
 
-//            NavigationLog()
-//                .tabItem {
-//                    Label("Log", systemImage: "road.lanes")
-//                }
-//                .onAppear {
-//                    print("Started timer")
-//                    UIApplication.shared.isIdleTimerDisabled = false
-//                }
+            NavLogWrapperSwiftUIView()
+                .tabItem {
+                    Label("Log", systemImage: "road.lanes")
+                }
+                .onAppear {
+                    print("Started timer")
+                    UIApplication.shared.isIdleTimerDisabled = false
+                }
+            
             SettingsMasterView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape")
@@ -86,3 +87,12 @@ struct AppStartView: View {
 #Preview {
     AppStartView()
 }
+
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif

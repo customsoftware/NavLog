@@ -8,20 +8,52 @@
 import SwiftUI
 
 struct SettingsMasterView: View {
+    @State private var isShowingDetail = false
+
+    
     var body: some View {
         NavigationStack {
             List {
-                Text("Aircraft")
                 NavigationLink {
                     AircraftParametersView()
                 } label: {
                     Text("W&B Key Properties")
                 }
-                Text("Performance")
-                Text("Legal")
                 
+                NavigationLink {
+                    AircraftStatsView()
+                } label: {
+                    // This is for landing performance
+                    Text("Landing Performance")
+                }
+                
+                NavigationLink {
+                    PerformanceSwiftUIView()
+                } label: {
+                    // This is for take off
+                    Text("Take off Performance")
+                }
+                
+                NavigationLink {
+                    AircraftPerformanceSwiftUIView()
+                } label: {
+                    Text("Aircraft")
+                }
+                
+                NavigationLink {
+                    AppMetricsSwiftUIView()
+                } label: {
+                    Text("Metrics")
+                }
+                
+                NavigationLink {
+                    LegalSwiftUIView()
+                } label: {
+                    Text("Legal")
+                }
+              
             }
-            .navigationTitle("Application Settings")
+            .navigationTitle("Settings")
         }
     }
 }
@@ -29,3 +61,6 @@ struct SettingsMasterView: View {
 #Preview {
     SettingsMasterView()
 }
+
+
+

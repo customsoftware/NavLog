@@ -1,0 +1,22 @@
+{
+    "aircraft": "Cardinal",
+    "aircraft_engine": "O-360",
+    "max_weight": 2350,
+    "empty_weight": 1480,
+    "aircraft_arm": 0.11464,
+    "oil_moment": 0.7,
+    "oil_weight": 15,
+    "max_front_weight": 400,
+    "front_moment": 37.5,
+    "max_middle_weight": 0,
+    "middle_moment": 0,
+    "max_back_weight": 400,
+    "back_moment": 54,
+    "max_cargo_weight": 120,
+    "cargo_moment": 19.5,
+    "max_fuel_gallons": 48,
+    "fuel_moment": 32.7,
+    "aux_max_fuel_gallons": 0,
+    "aux_fuel_moment": 0,
+    "seat_count": 4
+}

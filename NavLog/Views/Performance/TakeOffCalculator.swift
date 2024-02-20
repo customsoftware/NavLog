@@ -6,15 +6,14 @@
 //
 
 import Foundation
-
+import NavTool
 
 class TakeOffCalculator {
     var performanceModel: PerformanceProfile?
     
-    func calculateTakeOffWith(tempIsFarenheit: Bool, acftWeight: Double, environment: Environment) -> Double {
+    func calculateTakeOffWith(tempIsFarenheit: Bool, acftWeight: Double, environment: WeatherEnvironment) -> Double {
         
         let airportElevation = environment.elevation
-        let tempF = environment.temp
         
         var workingTemp = environment.temp
         if !tempIsFarenheit {
@@ -52,7 +51,7 @@ class TakeOffCalculator {
         return newRunwayLength
     }
     
-    func calculateTakeOffOver50With(environment: Environment, aircraftWeight: Double, calculatedRunwayLength: Double) -> Double {
+    func calculateTakeOffOver50With(environment: WeatherEnvironment, aircraftWeight: Double, calculatedRunwayLength: Double) -> Double {
         var newRunwayLength = calculatedRunwayLength
         let multiple = returnClosest50Elevation(to: environment.elevation)
         
@@ -77,11 +76,17 @@ class TakeOffCalculator {
         }
     }
     
-    private func returnClosestTakeOff(with acftWeight: Double) -> TakeOffWeight? {
+}
+
+fileprivate extension TakeOffCalculator {
+    
+    func returnClosestTakeOff(with acftWeight: Double) -> TakeOffWeight? {
+        
+        guard let profile = performanceModel else { return nil }
+        
         var retValue: TakeOffWeight?
         var weightDelta: Double = acftWeight
-        guard let model = performanceModel else { return retValue }
-        let array : [TakeOffWeight] = model.takeoff
+        let array : [TakeOffWeight] = profile.takeoff
         _ = array.map({ aTOWeight in
             let newDelta = abs(aTOWeight.weight - acftWeight)
             if newDelta < weightDelta {
@@ -93,11 +98,11 @@ class TakeOffCalculator {
         return retValue
     }
     
-    private func getNextTakeOffWeight(_ toWeight: TakeOffWeight) -> TakeOffWeight {
+    func getNextTakeOffWeight(_ toWeight: TakeOffWeight) -> TakeOffWeight {
         let retValue = toWeight
-        guard let model = performanceModel else { return retValue }
+        guard let performanceModel = self.performanceModel else { return retValue }
         
-        let array : [TakeOffWeight] = model.takeoff
+        let array : [TakeOffWeight] = performanceModel.takeoff
         let foundValue = array.first(where: { aMap in
             aMap.weight > toWeight.weight
         })
@@ -105,12 +110,14 @@ class TakeOffCalculator {
         return found
     }
     
-    private func returnClosestElevation(to airportElevation: Double) -> [Multiple] {
+    func returnClosestElevation(to airportElevation: Double) -> [Multiple] {
         var retValue: [Multiple] = []
+        
+        guard let performanceModel = self.performanceModel else { return retValue }
+        
         var elevationDelta: Double = airportElevation
         
-        guard let model = performanceModel else { return retValue }
-        let multipliers: [Multiple] = model.multipliers
+        let multipliers: [Multiple] = performanceModel.multipliers
         _ = multipliers.map({ aMultiple in
             let newDelta = abs(aMultiple.elevation - airportElevation)
             if newDelta < elevationDelta {
@@ -119,15 +126,20 @@ class TakeOffCalculator {
             }
         })
         
+        // If we're at zero-zero, just use sea leavel
+        if retValue.count == 0 {
+            retValue.append(performanceModel.multipliers[0])
+        }
         return retValue
     }
     
-    private func returnClosest50Elevation(to airportElevation: Double) -> [Multiple] {
+    func returnClosest50Elevation(to airportElevation: Double) -> [Multiple] {
         var retValue: [Multiple] = []
+        guard let performanceModel = self.performanceModel else { return retValue }
+        
         var elevationDelta: Double = airportElevation
         
-        guard let model = performanceModel else { return retValue }
-        let multipliers: [Multiple] = model.multipliers50
+        let multipliers: [Multiple] = performanceModel.multipliers50
         _ = multipliers.map({ aMultiple in
             let newDelta = abs(aMultiple.elevation - airportElevation)
             if newDelta <= elevationDelta {
@@ -139,7 +151,7 @@ class TakeOffCalculator {
         return retValue
     }
     
-    private func adjustRunwayLength(originalLength: Double, multipliers: [Multiple]) -> Double {
+    func adjustRunwayLength(originalLength: Double, multipliers: [Multiple]) -> Double {
         var newLength = originalLength
         
         multipliers.forEach { aMultiple in
@@ -148,7 +160,7 @@ class TakeOffCalculator {
         return round(newLength)
     }
     
-    private func adjustRunwayLengthToAltitude(_ newRunwayLength: Double, originalRoll: Double, baseElevation: Double, airportElevation: Double) -> Double {
+    func adjustRunwayLengthToAltitude(_ newRunwayLength: Double, originalRoll: Double, baseElevation: Double, airportElevation: Double) -> Double {
         let deltaLength = newRunwayLength - originalRoll
         let deltaElevation = (airportElevation - baseElevation)
         
@@ -162,8 +174,10 @@ class TakeOffCalculator {
         return round(adjustmentToBaseElevation + newRunwayLength)
     }
     
-    private func adjustRunwayLengthToTemperature(_ runwayLength: Double, airportElevation: Double, currentTemperatureF: Double) -> Double {
+    func adjustRunwayLengthToTemperature(_ runwayLength: Double, airportElevation: Double, currentTemperatureF: Double) -> Double {
         var newRunwayLength = runwayLength
+        guard let performanceModel = self.performanceModel else { return newRunwayLength }
+        
         // Get standard temperature for absolute elevation
         let standardTempC = StandardTempCalculator.computeStandardTempForAltitude(airportElevation)
         // Convert it to farenheit
@@ -172,20 +186,17 @@ class TakeOffCalculator {
         // Get delta from standard temp to current temp
         let deltaTemp = currentTemperatureF - standardTempF
         
-        if let band = performanceModel?.temperatureBand,
-           let rate = performanceModel?.temperatureDeltaRate {
-            // Get multiplier fraction
-            let deltaFraction = deltaTemp/band
-            // Get change rate
-            let deltaRate = 1 + (deltaFraction * rate)
-            // Adjust runwayLength
-            newRunwayLength = newRunwayLength * deltaRate
-        }
+        // Get multiplier fraction
+        let deltaFraction = deltaTemp/performanceModel.temperatureBand
+        // Get change rate
+        let deltaRate = 1 + (deltaFraction * performanceModel.temperatureDeltaRate)
+        // Adjust runwayLength
+        newRunwayLength = newRunwayLength * deltaRate
         
         return round(newRunwayLength)
     }
     
-    private func adjustRunwayLengthForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
+    func adjustRunwayLengthForWind(environment: WeatherEnvironment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
         var newRunwayLength = calculatedRunway
         
         // Compute the relative wind
@@ -206,7 +217,7 @@ class TakeOffCalculator {
         
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = deg2rad(relativeWindDirection)
+        let radWind = NavTool.shared.convertToRadians(degrees: relativeWindDirection)
         
         let cosOfWind = cos(radWind)
         
@@ -225,7 +236,7 @@ class TakeOffCalculator {
         return newRunwayLength
     }
     
-    private func adjustRunwayLengthOver50ForWind(environment: Environment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
+    func adjustRunwayLengthOver50ForWind(environment: WeatherEnvironment, aircraftWeight: Double, calculatedRunway: Double) -> Double {
         var newRunwayLength = calculatedRunway
         
         // Compute the relative wind
@@ -246,8 +257,7 @@ class TakeOffCalculator {
         
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = deg2rad(relativeWindDirection)
-        
+        let radWind = NavTool.shared.convertToRadians(degrees: relativeWindDirection)        
         let cosOfWind = cos(radWind)
         
         // I need the cos of the wind speed over the relativeWindDirection
@@ -264,26 +274,19 @@ class TakeOffCalculator {
         
         return newRunwayLength
     }
+
     
-    private func deg2rad(_ number: Double) -> Double {
-        return number * .pi / 180
-    }
-    
-    private func rad2deg(_ number: Double) -> Double {
-        return number * 180 / .pi
-    }
-    
-    private func getBestMatchingWind(for windSpeed: Double, aircraftWeight: Double, over50: Bool) -> WindMultiples? {
+    func getBestMatchingWind(for windSpeed: Double, aircraftWeight: Double, over50: Bool) -> WindMultiples? {
         var retValue: WindMultiples?
-        guard let performance = performanceModel else { return retValue }
-        
         var windDelta: Double = 100
         var weightDelta: Double = 2000
+        
+        guard let performanceModel = self.performanceModel else { return retValue }
         
         var matches: [WindMultiples] = []
         // Find the best wind delta
         var foundWindMatch: WindMultiples?
-        performance.windrates.forEach({ windMultiple in
+        performanceModel.windrates.forEach({ windMultiple in
             if windMultiple.wind <= windDelta {
                 windDelta = abs(windSpeed - windMultiple.wind)
                 foundWindMatch = windMultiple
@@ -292,7 +295,7 @@ class TakeOffCalculator {
         
         // Get the rest of the matches
         if let aMatch = foundWindMatch {
-            performance.windrates.forEach({ windMultiple in
+            performanceModel.windrates.forEach({ windMultiple in
                 if aMatch.wind == windMultiple.wind {
                     matches.append(windMultiple)
                 }

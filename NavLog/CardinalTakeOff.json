@@ -36,6 +36,15 @@
       { "wind": 10, "weight": 2200, "multiple": 0.7495, "for50": true },
       { "wind": 20, "weight": 2200, "multiple": 0.4286, "for50": false },
       { "wind": 20, "weight": 2200, "multiple": 0.5291, "for50": true }
-  ]
+  ],
+  "landingProfile": {
+      "baseRunwayRoll": 400,
+      "divider": 2500,
+      "loRatio": 0.008,
+      "hiRatio": 0.01,
+      "over50Ratio": 2.841,
+      "windIndex": 4,
+      "windRate": 0.1
+  }
 }
 

@@ -13,8 +13,9 @@ import MapKit
 struct WaypointListItem: View {
     
     @Binding var wayPoint: WayPoint
+    @StateObject var metrics = AppMetricsSwift.settings
     
-    let formatter = Formatter()
+    private let formatter = NumberFormatter()
     
     var body: some View {
         
@@ -37,7 +38,7 @@ struct WaypointListItem: View {
                     Text("\(wayPoint.altitude)")
                         .font(.headline)
                     Text("Wind")
-                    Text("\(wayPoint.windPrintable())")
+                    Text("\(wayPoint.windPrintable(formatter: formatter))")
                         .font(.headline)
                 })
                 .frame(width: 85)
@@ -52,13 +53,13 @@ struct WaypointListItem: View {
                 .frame(width: 85)
                 Spacer()
             }
-            .padding(.leading, 10)
+            .padding(.leading, 20)
             HStack {
                 HStack {
                     Text("D")
-                    Text(String(format: "%g", wayPoint.estimatedDistanceToNextWaypoint))
+                    Text(String(format: "%.1f", wayPoint.estimatedDistanceToNextWaypoint))
                         .font(.headline)
-                    Text(wayPoint.shortDistanceMode())
+                    Text(metrics.distanceMode.modeSymbol)
                 }
                 HStack {
                     Text("T")
@@ -67,14 +68,14 @@ struct WaypointListItem: View {
                 }
                 HStack {
                     Text("F")
-                    Text(String(format: "%g", wayPoint.computedFuelBurnToNextWayPoint))
+                    Text(String(format: "%.1f", wayPoint.estimatedFuelBurn(acData: AircraftPerformance.shared)))
                         .font(.headline)
-                    Text("gal")
+                    Text(metrics.fuelMode.shortText)
                 }
                 Spacer()
             }
             .padding(.top, 5)
-            .padding(.leading, 5)
+            .padding(.leading, 20)
             Spacer()
         }
     }

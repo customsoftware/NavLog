@@ -8,12 +8,31 @@
 import Foundation
 import SwiftUI
 import CoreLocation
+import OSLog
 
-class Core: ObservableObject {
+@Observable
+class Core {
     static let services = Core()
-    @Published var gpsEngine = GPSObserver()
-    let navEngine = NavigationEngine()
     
+    var gpsEngine = GPSObserver()
+    let navEngine = NavigationEngine()
+    let acManager = AircraftManager()
+//    let takeOffCalc = TakeOffCalculator()
+//    let landingCalc = LandingCalculator()
+    let orientation = AircraftOrientationManager()
+    var canComputeTakeoff: Bool = false
+    var canComputeLanding: Bool = false
+    
+    init() {
+//        takeOffCalc.loadProfile()
+//        if let performanceModel = takeOffCalc.performanceModel {
+//            landingCalc.configureWith(landingProfile: performanceModel.landingProfile)
+//            canComputeLanding = true
+//            canComputeTakeoff = true
+//       }
+        
+        acManager.retrieveChosenAircraft()
+    }
     
     static func currentDisplayValues(currentLocation: CLLocation?, currentWayPoint: WayPoint?) -> CourseState {
          
@@ -36,5 +55,15 @@ class Core: ObservableObject {
                            plannedTimeToNextWaypoint: plannedTime,
                            distanceToWayPoint: distance)
     }
+}
 
+extension Logger {
+    // Use this to uniquely ID log events
+    private static var subsystems = Bundle.main.bundleIdentifier!
+    
+    static let viewCycle = Logger(subsystem: subsystems, category: "viewCycle")
+    
+    static let api = Logger(subsystem: subsystems, category: "API")
+
+    static let gps = Logger(subsystem: subsystems, category: "GPS")
 }

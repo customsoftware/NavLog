@@ -4,6 +4,7 @@
 //
 //  Created by Kenneth Cluff on 8/25/23.
 //
+//  This is worth reading: https://cocoacasts.com/combine-essentials-how-to-use-combine%27s-scan-and-tryscan-operators
 
 import Foundation
 import SwiftUI
@@ -15,17 +16,19 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     static let metersToKnots: Double = 1.94384
     static let metersToStandardMiles: Double = 2.23694
     static let metersToFeet: Double = 3.28084
+    static let metersToMeters: Double = 1.0
     
+    @StateObject private var metrics = AppMetricsSwift.settings
     var locationManger = CLLocationManager()
     var canBeUsed: Bool = false
     var isRunning: Bool = false
     private var started: Bool = false
-    private (set) var currentLocation: CLLocation? {
+    @Published var currentLocation: CLLocation? {
         didSet {
             guard let aLocation = currentLocation else { return }
             speed = aLocation.speed
             altitude = aLocation.ellipsoidalAltitude
-            course = aLocation.course
+            course = aLocation.course < 0 ? abs(aLocation.course) : aLocation.course
             latitude = aLocation.coordinate.latitude
             longitude = aLocation.coordinate.longitude
         }
@@ -35,6 +38,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var course: Double = 0
     @Published var latitude: Double = 0
     @Published var longitude: Double = 0
+    @Published var heading: Double = 0
     
     override init() {
         super.init()
@@ -73,7 +77,7 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         // Get CLLocation
         var retValue: Double = 0
-        switch aircraft.distanceMode {
+        switch metrics.distanceMode {
         case .standard:
             retValue = reportedSpeed * GPSObserver.metersToStandardMiles
         case .nautical:
@@ -89,6 +93,12 @@ class GPSObserver: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         resolvePermissions(manager)
     }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        heading = newHeading.trueHeading
+    }
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.last
