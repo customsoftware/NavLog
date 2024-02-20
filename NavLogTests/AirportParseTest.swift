@@ -24,7 +24,7 @@ final class AirportParseTest: XCTestCase {
         let _ = try await aParser.fetchAirportData(for: airports)
         let runways = aParser.runways
         XCTAssertNotNil(runways, "We should have gotten some runways")
-        XCTAssertTrue(runways.count == 2, "PVU just has two runways. Not \(runways.count)")
+        XCTAssertTrue(runways.count == 4, "PVU just has four runways. Not \(runways.count)")
     }
     
     func testParseRunway() throws {

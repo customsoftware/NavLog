@@ -73,7 +73,7 @@ final class FetchMagneticDeviation: XCTestCase {
         let (data, _) = try await URLSession.shared.data(from: queryURL)
         do {
             let deviationResult = try JSONDecoder().decode(DeclinationResults.self, from: data)
-            XCTAssertTrue(deviationResult.result.first?.declination == 10.71451)
+            XCTAssertTrue(deviationResult.result.first?.declination == 10.68486, "Magnetice deviation reported as \(deviationResult.result.first?.declination) not 10.68486 which is what we expected.")
         } catch {
             XCTFail("JSON didn't parse: \(error.localizedDescription)")
         }

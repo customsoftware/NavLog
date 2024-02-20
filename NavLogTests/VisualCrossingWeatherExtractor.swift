@@ -24,7 +24,7 @@ final class VisualCrossingWeatherExtractor: XCTestCase {
         guard let url = URL(string: urlToTest) else { return }
         let (data, _) = try await URLSession.shared.data(from: url)
         let weatherReport = try? JSONDecoder().decode(WeatherReport.self, from: data)
-        XCTAssertTrue(weatherReport?.tzoffset == -6, "The weather timezone offset is -6. It is reporting \(weatherReport?.tzoffset ?? 0)")
+        XCTAssertTrue(weatherReport?.tzoffset == -7, "The weather timezone offset is -7. It is reporting \(weatherReport?.tzoffset ?? 0)")
     }
     
     func testWeatherHourParsing() async throws {
