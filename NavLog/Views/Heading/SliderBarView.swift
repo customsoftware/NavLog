@@ -76,7 +76,7 @@ struct SliderBarView: View {
         case .altitude:
             workingValue = currentValue * AppMetricsSwift.settings.altitudeMode.modeModifier // TODO: Need to set this to be whatever altitude mode is set
         case .groundSpeed:
-            workingValue = currentValue * AppMetricsSwift.settings.distanceMode.fineConversionValue // TODO: Need to set this to be whatever speed mode is set
+            workingValue = currentValue //* AppMetricsSwift.settings.distanceMode.fineConversionValue // TODO: Need to set this to be whatever speed mode is set
         }
         
         guard workingValue != 0 else {
@@ -84,15 +84,21 @@ struct SliderBarView: View {
             return (height / 2)
         }
         
-        let centerPoint = range / 2
-        if workingValue > (center + centerPoint) {
-            workingValue = center + centerPoint
-        } else if workingValue < (center - centerPoint) {
-            workingValue = center - centerPoint
-        }
+        var retValue = height * ((center - workingValue) / range)
         
-        return (height * (center - workingValue)) / range
-    }
+        // TODO: If retValue is higher than max or lower than min, it needs to be set to max/min as appropriate
+        //        if mode == .groundSpeed {
+//        print("Before: Pip Height: \(retValue), Height: \(height), Range: \(range) - Mode: \(mode.title)")
+        if retValue > (height / 2) {
+            // Tests for low...
+            retValue = (height / 2)
+        } else if retValue < (-1 * (height / 2)) {
+            retValue = (height / 2 ) * -1
+        }
+//        print("After: Pip Height: \(retValue), Height: \(height), Range: \(range) - Mode: \(mode.title)")
+        //        }
+        return retValue
+  }
     
     func computeDisplayValue() -> String {
         let retValue: String
@@ -108,10 +114,10 @@ struct SliderBarView: View {
                 retValue = "\(Int(workingValue))"
             }
         case .groundSpeed:
-            workingValue = currentValue * AppMetricsSwift.settings.speedMode.modeModifier // TODO: Need to set this to be whatever speed mode is set
+            workingValue = currentValue // * AppMetricsSwift.settings.speedMode.modeModifier // TODO: Need to set this to be whatever speed mode is set
             // round to the integer
             retValue = "\(Int(workingValue))"
-            print("Ground speed: \(workingValue) - Current Value: \(currentValue)")
+//            print("Ground speed: \(workingValue) - Current Value: \(currentValue)")
         }
         
         return retValue
@@ -119,5 +125,5 @@ struct SliderBarView: View {
 }
 
 #Preview {
-    SliderBarView(currentValue: 40, range: 100, center: 110, mode: .groundSpeed)
+    SliderBarView(currentValue: 170, range: 100, center: 110, mode: .groundSpeed)
 }

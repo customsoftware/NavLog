@@ -157,10 +157,10 @@ struct HeadingNavigationView: View {
         
         let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
         let currentHeading: Double = gpsTracker.course
-        let reciprocal: Double = plannedHeading < 180 ? plannedHeading + 180 : plannedHeading - 180
+        let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
         
         let offset: Double
-        if currentHeading < reciprocal {
+        if turn == .left {
             offset = (currentHeading + 360) - plannedHeading
         } else {
             offset = currentHeading - plannedHeading
@@ -175,7 +175,7 @@ struct HeadingNavigationView: View {
             retValue = -range
         }
         
-        return (retValue * -2)
+        return (retValue * 2)
     }
     
     private func convertLocationAltitudeToDouble(_ location: CLLocation?) -> Double {
