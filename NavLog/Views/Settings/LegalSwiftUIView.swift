@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavTool
 
 struct LegalSwiftUIView: View {
     var body: some View {
@@ -13,6 +14,8 @@ struct LegalSwiftUIView: View {
             .padding()
             .navigationTitle("Legalese")
         Spacer()
+        Text("External Library: \(NavTool.shared.appName). Version: \(NavTool.shared.version)")
+            .padding()
     }
 }
 

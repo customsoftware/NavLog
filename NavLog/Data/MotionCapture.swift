@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NavTool
 
 struct MotionCapture: Codable {
     private static let metersToFeetMultiple = 3.28084
@@ -17,15 +18,15 @@ struct MotionCapture: Codable {
     
     
     var rollDegrees: Double {
-        return degrees(radians: roll).rounded()
+        return NavTool.shared.convertToDegrees(radians: roll).rounded()
     }
     
     var pitchDegrees: Double {
-        return degrees(radians: pitch).rounded()
+        return NavTool.shared.convertToDegrees(radians: pitch).rounded()
     }
     
     var yawDegrees: Double {
-        return degrees(radians: yaw).rounded()
+        return NavTool.shared.convertToDegrees(radians: yaw).rounded()
     }
     
     var altitudeFeet: Double {
@@ -34,10 +35,6 @@ struct MotionCapture: Codable {
 
     var altitudeKilometers: Double {
         return (altitude ?? 0) / 1000
-    }
-
-    private func degrees(radians:Double) -> Double {
-        return 180 / Double.pi * radians
     }
 }
 

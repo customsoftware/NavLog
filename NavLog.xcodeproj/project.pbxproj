@@ -15,6 +15,7 @@
 		902280002B0698E8007879AB /* PerformanceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90227FFF2B0698E8007879AB /* PerformanceResults.swift */; };
 		902280022B06994C007879AB /* MomentDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902280012B06994C007879AB /* MomentDatum.swift */; };
 		90244FCE2B4DAD8C00A75C1E /* RunwayChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90244FCD2B4DAD8C00A75C1E /* RunwayChooser.swift */; };
+		9025E4672B7FA60100035482 /* NavTool in Frameworks */ = {isa = PBXBuildFile; productRef = 9025E4662B7FA60100035482 /* NavTool */; };
 		903BD5142B615B1800118B65 /* AppMetricsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5132B615B1800118B65 /* AppMetricsSwiftUIView.swift */; };
 		903BD5162B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5152B61ABDE00118B65 /* AircraftPerformanceSwiftUIView.swift */; };
 		903BD5182B61B97100118B65 /* JSONArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903BD5172B61B97100118B65 /* JSONArchiver.swift */; };
@@ -70,6 +71,7 @@
 		90B2B9C62A9FDA0E0083F8D5 /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */; };
 		90B2B9C82A9FE6C90083F8D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C72A9FE6C90083F8D5 /* Constants.swift */; };
 		90B2B9CA2AA039760083F8D5 /* NavLogTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */; };
+		90B2BA312B73CA5D005B23F5 /* UOMConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B2BA302B73CA5D005B23F5 /* UOMConversionTests.swift */; };
 		90B8641D2AD83F4E009D18E5 /* DynonPlan.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 90B8641C2AD83F4E009D18E5 /* DynonPlan.gpx */; };
 		90B8641F2AD83FF9009D18E5 /* GarminPlan.fpl in Resources */ = {isa = PBXBuildFile; fileRef = 90B8641E2AD83FF9009D18E5 /* GarminPlan.fpl */; };
 		90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B864222AD95F0D009D18E5 /* FlightPlan.swift */; };
@@ -184,6 +186,7 @@
 		90B2B9C52A9FDA0E0083F8D5 /* DisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
 		90B2B9C72A9FE6C90083F8D5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		90B2B9C92AA039760083F8D5 /* NavLogTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavLogTimeTests.swift; sourceTree = "<group>"; };
+		90B2BA302B73CA5D005B23F5 /* UOMConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UOMConversionTests.swift; sourceTree = "<group>"; };
 		90B8641C2AD83F4E009D18E5 /* DynonPlan.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = DynonPlan.gpx; sourceTree = "<group>"; };
 		90B8641E2AD83FF9009D18E5 /* GarminPlan.fpl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = GarminPlan.fpl; sourceTree = "<group>"; };
 		90B864222AD95F0D009D18E5 /* FlightPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightPlan.swift; sourceTree = "<group>"; };
@@ -224,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9025E4672B7FA60100035482 /* NavTool in Frameworks */,
 				90980CDC2B02A3A600F0E5F0 /* libDeclinationLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +442,7 @@
 				904B2EF22B12687D00F526D7 /* AttitudeEvaluationTests.swift */,
 				90EC51E72B48648D002C8C20 /* METARExtractorTests.swift */,
 				90EC522F2B4CD4A7002C8C20 /* AirportParseTest.swift */,
+				90B2BA302B73CA5D005B23F5 /* UOMConversionTests.swift */,
 			);
 			path = NavLogTests;
 			sourceTree = "<group>";
@@ -498,6 +503,9 @@
 			dependencies = (
 			);
 			name = NavLog;
+			packageProductDependencies = (
+				9025E4662B7FA60100035482 /* NavTool */,
+			);
 			productName = NavLog;
 			productReference = 90A258472A96C27000B40DAD /* NavLog.app */;
 			productType = "com.apple.product-type.application";
@@ -548,6 +556,9 @@
 				Base,
 			);
 			mainGroup = 90A2583E2A96C27000B40DAD;
+			packageReferences = (
+				90E966292B7FA21C00290F2F /* XCLocalSwiftPackageReference "../../NavTool" */,
+			);
 			productRefGroup = 90A258482A96C27000B40DAD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -671,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90A258602A96C27300B40DAD /* NavLogDistanceTests.swift in Sources */,
+				90B2BA312B73CA5D005B23F5 /* UOMConversionTests.swift in Sources */,
 				90B8642F2ADB33AA009D18E5 /* ParserTesting.swift in Sources */,
 				904B2EF32B12687D00F526D7 /* AttitudeEvaluationTests.swift in Sources */,
 				907D91782ADF4397000206E3 /* VisualCrossingWeatherExtractor.swift in Sources */,
@@ -973,6 +985,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		90E966292B7FA21C00290F2F /* XCLocalSwiftPackageReference "../../NavTool" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../NavTool;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9025E4662B7FA60100035482 /* NavTool */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90E966292B7FA21C00290F2F /* XCLocalSwiftPackageReference "../../NavTool" */;
+			productName = NavTool;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 90A2583F2A96C27000B40DAD /* Project object */;
 }

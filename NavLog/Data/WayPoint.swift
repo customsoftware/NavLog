@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import Combine
+import NavTool
 
 struct WayPoint: Equatable, Identifiable, Observable, Codable {
 
@@ -189,7 +190,7 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
     ///     - Distance in meters between the two locations rounded to the nearest hundredth of a meter.
     func computeDistanceToNextWayPoint(_ nextPoint: WayPoint) -> Double {
         let distanceInMeters = self.location.distance(from: nextPoint.location)
-        return round((distanceInMeters * AppMetricsSwift.settings.distanceMode.conversionValue) / 10) / 100
+        return round((distanceInMeters * AppMetricsSwift.settings.distanceMode.coarseConversionValue) * 10) / 10
     }
     
     
@@ -210,14 +211,10 @@ struct WayPoint: Equatable, Identifiable, Observable, Codable {
         let y = sin(deltaLong) * cos(nextPoint.latitude)
         let x = cos(latitude) * sin(nextPoint.latitude) - sin(latitude) * cos(nextPoint.latitude) * cos(deltaLong)
         let radValue = atan2(y, x)
-        let degreeValue = radToDegrees(radValue)
+        let degreeValue = NavTool.shared.convertToDegrees(radians: radValue)
         let retValue = 360 - ((Float(degreeValue) + circle).truncatingRemainder(dividingBy: circle))
         
         return (Int(retValue), distance)
     }
-    
-    
-    func radToDegrees(_ radians: Double) -> Double {
-        return (radians  * 180) / .pi
-    }
+
 }

@@ -73,6 +73,18 @@ enum AltitudeMode: CaseIterable {
         
         return retValue
     }
+    
+    var modeModifier: Double {
+        let retValue: Double
+        switch self {
+        case .feet:
+            retValue = 3.28084
+        case .meters:
+            retValue = 0.3048
+        }
+        
+        return retValue
+    }
 }
 
 
@@ -96,7 +108,7 @@ enum SpeedMode: String, CaseIterable {
     }
     
     // This method works on the assumption that the GPS system in IOS works in meters only
-    //  So this is the value to convert a meter into the desired scale: mile, nautical mile or kilometer
+    //  So this is the value to convert a meters/hour to kilometers/hour or MPH or NPH
     var modeModifier: Double {
         let retValue: Double
         switch self {
@@ -105,7 +117,7 @@ enum SpeedMode: String, CaseIterable {
         case .nautical:
             retValue = 1.94384
         case .metric:
-            retValue = 1
+            retValue = 3.6
         }
         return retValue
     }
@@ -133,25 +145,24 @@ enum DistanceMode: String, CaseIterable, Codable {
     
     // This method works on the assumption that the GPS system in IOS works in meters only
     //  So this is the value to convert a meter into the desired scale: mile, nautical mile or kilometer
-    var findConversionValue: Double {
+    /// Since distances is measured in meters, here we convert to feet and meters.
+    var fineConversionValue: Double {
         let retValue: Double
         switch self {
-        case .standard:
-            retValue = 2.23694
-        case .nautical:
-            retValue = 1.94384
+        case .standard, .nautical:
+            retValue = 3.28084
         case .metric:
             retValue = 1
         }
         return retValue
     }
     
+    
+    /// Since distances is measured in meters, here we convert to feet and meters.
     var fineDetail: String {
         let retValue: String
         switch self {
-        case .standard:
-            retValue = "feet"
-        case .nautical:
+        case .standard, .nautical:
             retValue = "feet"
         case .metric:
             retValue = "meters"
@@ -159,6 +170,8 @@ enum DistanceMode: String, CaseIterable, Codable {
         return retValue
     }
     
+    
+    /// Distances are measured in meters, here we convert meters to standard miles, nautical miles and kilometers
     var coarseDetail: String {
         let retValue: String
         switch self {
@@ -172,7 +185,10 @@ enum DistanceMode: String, CaseIterable, Codable {
         return retValue
     }
     
-   var conversionValue: Double {
+    
+    
+    /// Since distances are measured in meters, here we convert meters to standard miles, nautical miles and kilometers
+    var coarseConversionValue: Double {
         let retValue: Double
         switch self {
         case .standard:
@@ -194,6 +210,25 @@ enum DisplayMode: String, CaseIterable {
     case estimatedCentered
 }
 
+
+enum NavigationMode: CaseIterable {
+    case matchHeading
+    case steerToWayPoint
+    
+    var text: String {
+        let retValue: String
+        switch self {
+        case .matchHeading:
+            retValue = "Match HDG"
+            // This displays the aircraft heading in the offset bar and the desired heading in the fixed center bar.
+        case .steerToWayPoint:
+            retValue = "Steer TO"
+            // This displays the heading to the waypoint in the center bar and the aircraft heading in the offset bar.
+        }
+        
+        return retValue
+    }
+}
 
 enum OperationMode: Int, CaseIterable, Codable {
     case climb

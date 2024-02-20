@@ -9,6 +9,7 @@
 
 import SwiftUI
 import CoreLocation
+import NavTool
 
 struct HeadingNavigationView: View {
     
@@ -17,18 +18,18 @@ struct HeadingNavigationView: View {
     
     @State var altimeterTitle: String = "ALT"
     @State var speedTitle: String = "GS"
-    @Binding var controllingWayPoint: WayPoint
+    let controllingWayPoint: WayPoint
+    let nextWayPoint: WayPoint?
     
     @State var altimeterRange: Double = 1000
-    @Binding var plannedAltimeter: Double
+    var plannedAltimeter: Double
     @Binding var altOffset: Double
 
     @State var speedRange: Double = 100
-    @Binding var plannedSpeed: Double
+    var plannedSpeed: Double
 
-    @Binding var gpsIsActive: Bool
-    @Binding var timeToWayPoint: Double // This is in seconds
-    @Binding var fuelRemaining: Double // This is minutes to fuel exhaustion
+    var gpsIsActive: Bool
+    var navMode: NavigationMode
     
     var body: some View {
         ZStack(alignment: .topLeading, content: {
@@ -37,7 +38,7 @@ struct HeadingNavigationView: View {
                 .cornerRadius(15.0)
                 .foregroundColor(Color(.systemBackground))
             VStack(alignment: .center, content: {
-                Text("\(controllingWayPoint.headingFrom())")
+                Text("\(getCenterBarCourse())")
                     .font(.bold(.body)())
                     .frame(minWidth: 280, idealWidth: 300, maxWidth: .infinity, minHeight: 40, idealHeight: 40, maxHeight: 40, alignment: .center)
                     .foregroundColor(Color(.label))
@@ -48,7 +49,7 @@ struct HeadingNavigationView: View {
                 }
                 
                 if gpsIsActive {
-                    Text(getDirectionToTurn(width:300))
+                    Text(getDirectionToTurn())
                 }
                 
                 Spacer()
@@ -57,31 +58,24 @@ struct HeadingNavigationView: View {
             VStack(alignment: .center) {
                 HStack {
                     VStack(alignment: .center) {
-                        Text("Time to Waypoint")
-                            .frame(width: 75, height: 50, alignment: .leading)
                         if gpsIsActive {
-                            Text(convertTimeString(Double(timeToWayPoint)))
+                            Text("Time to Waypoint")
+                                .frame(width: 75, height: 50, alignment: .leading)
+                            Text(convertTimeString(getTimeToNextWaypoint()))
                                 .bold()
                                 .foregroundColor(Color.accentColor)
-                        } else {
-                            Text(" ")
                         }
-                        
-                        SliderBarView(currentValue: gpsTracker.altitude, range: altimeterRange, center: plannedAltimeter, mode: .altitude)
+                        SliderBarView(currentValue: (gpsIsActive ? gpsTracker.altitude : 0), range: altimeterRange, center: plannedAltimeter, mode: .altitude)
                     }
                     Spacer()
                     VStack(alignment: .leading) {
-                        Text("Fuel Left")
-                            .frame(width: 50, height: 50, alignment: .leading)
                         if gpsIsActive {
-                            Text(convertTimeString(fuelRemaining))
-                                .bold()
-                                .foregroundColor(Color.accentColor)
-                        } else {
+                            Text("")
+                                .frame(width: 75, height: 50, alignment: .leading)
                             Text(" ")
                         }
                         
-                        SliderBarView(currentValue: gpsTracker.speed, range: speedRange, center: plannedSpeed, mode: .groundSpeed)
+                        SliderBarView(currentValue: (gpsIsActive ? gpsTracker.speed : 0), range: speedRange, center: plannedSpeed, mode: .groundSpeed)
                     }
                 }
                 .padding(.leading, 30)
@@ -107,48 +101,63 @@ struct HeadingNavigationView: View {
                         Rectangle() // This is the current line
                             .frame(width: 2, height: 125)
                         Image(systemName: "airplane")
-                        .symbolRenderingMode(.monochrome)
-                        .rotationEffect(.degrees(270))
-                        .font(.system(size: 32))
+                            .symbolRenderingMode(.monochrome)
+                            .rotationEffect(.degrees(270))
+                            .font(.system(size: 32))
                     }
+                    .padding([.top], 10)
                 })
                 .foregroundColor(Color.accentColor)
-                .offset(x: convertDegreeToXOffset(size.width), y: -40)
+                .offset(x: convertDegreeToXOffset(), y: -40)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 0)
-//            } else {
-//                VStack(content: {
-//                    Text(" ")
-//                        .bold()
-//                    ZStack (alignment: .center) {
-//                        Rectangle() // This is the current line
-//                            .frame(width: 0, height: 125)
-//                    }
-//                })
-//                .foregroundColor(Color.accentColor)
-////                .offset(x: 100, y: 100)
-//                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 0)
             }
         })
         .clipped()
     }
     
-    private func getDirectionToTurn(width: CGFloat) -> String {
-        let x = convertDegreeToXOffset(300)
-        let string: String
-        if x >= 0 {
-            string = "Turn Left"
-        } else {
-            string = "Turn Right"
-        }
-        return string
+    /// Returns seconds
+    private func getTimeToNextWaypoint() -> Double {
+        var retValue: Double = 0
+        guard let nextWP = nextWayPoint,
+              let currentLoc = gpsTracker.currentLocation  else { return retValue }
+        let speed = currentLoc.speed
+        let distance = currentLoc.distance(from: nextWP.location)
+        guard speed > 0,
+              distance > 0 else { return retValue }
+        retValue = distance / speed
+        return retValue
     }
     
-    func convertDegreeToXOffset(_ width: CGFloat) -> CGFloat {
+    private func getCenterBarCourse() -> Int {
+        let retValue: Int
+        switch navMode {
+        case .matchHeading:
+            retValue = Int(controllingWayPoint.headingFrom())
+        case .steerToWayPoint:
+            // We need to compute the course from where we are to the next waypoint
+            guard let nextWP = nextWayPoint,
+                  let currentLoc = gpsTracker.currentLocation else { return 0 }
+            let newHeading = Core.services.navEngine.computeCourseBetweeen(currentLocation: nextWP.location, and: currentLoc)
+            retValue = Int(newHeading)
+        }
+        return retValue
+    }
+    
+    private func getDirectionToTurn() -> String {
+        var retValue: String = ""
+        let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
+        let currentHeading: Double = gpsTracker.course
+        let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
+        retValue = "Turn \(turn.textOfTurn)"
+        return retValue
+    }
+    
+    func convertDegreeToXOffset() -> CGFloat {
         var retValue: CGFloat = 0
         
         let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
         let currentHeading: Double = gpsTracker.course
-        let reciprocal: Double = plannedHeading - 180
+        let reciprocal: Double = plannedHeading < 180 ? plannedHeading + 180 : plannedHeading - 180
         
         let offset: Double
         if currentHeading < reciprocal {
@@ -166,7 +175,7 @@ struct HeadingNavigationView: View {
             retValue = -range
         }
         
-        return (retValue * 2)
+        return (retValue * -2)
     }
     
     private func convertLocationAltitudeToDouble(_ location: CLLocation?) -> Double {
@@ -198,13 +207,14 @@ struct HeadingNavigationView: View {
 }
 
 #Preview {
-    HeadingNavigationView(controllingWayPoint: .constant(Core.services.navEngine.loadWayPoints().first!),
+    HeadingNavigationView(controllingWayPoint:
+                          Core.services.navEngine.loadWayPoints().first!,
+                          nextWayPoint: nil,
                           altimeterRange: 1000,
-                          plannedAltimeter: .constant(5500),
+                          plannedAltimeter: 5500,
                           altOffset: .constant(25),
                           speedRange: 100,
-                          plannedSpeed: .constant(110),
-                          gpsIsActive: .constant(true),
-                          timeToWayPoint: .constant(76),
-                          fuelRemaining: .constant(225))
+                          plannedSpeed: 110,
+                          gpsIsActive: true,
+                          navMode: NavigationMode.matchHeading)
 }

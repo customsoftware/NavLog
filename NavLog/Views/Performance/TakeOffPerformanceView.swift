@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import NavTool
 
 struct TakeOffPerformanceView: View {
     var performance: PerformanceResults
@@ -36,7 +37,7 @@ struct TakeOffPerformanceView: View {
                     .bold()
             }
             
-            Text("Distances are all in \(metrics.distanceMode.fineDetail)")
+            Text("Crosswind component \(computeCrossWind()) \(metrics.speedMode.modeSymbol)")
                 .padding()
                 .italic()
             
@@ -49,6 +50,16 @@ struct TakeOffPerformanceView: View {
             Text("Landing roll: \(performance.computedLandingRoll)")
             Text("Landing over 50': \(performance.computedLandingOver50Roll)")
         })
+    }
+    
+    private func computeCrossWind() -> String {
+        let retValue: String
+        let deltaWind = abs(environment.windDirection - (environment.runwayDirection * 10))
+        let deltaWindRadians = NavTool.shared.convertToRadians(degrees: deltaWind)
+        let crossWindRadians = sin(deltaWindRadians)
+        let crossWindSpeed = abs(round(crossWindRadians * environment.windSpeed))
+        retValue = "\(Int(crossWindSpeed))"
+        return retValue
     }
 }
 

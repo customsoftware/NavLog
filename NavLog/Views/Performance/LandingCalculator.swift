@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NavTool
 
 class LandingCalculator {
     
@@ -41,7 +42,7 @@ class LandingCalculator {
         let relativeWindDirection = abs((environment.runwayDirection * 10) - environment.windDirection)
         // Then it's triginometry to get the headwind (a negative value means you have a tail wind)
         // Convert the relativeWindDirection to radian
-        let radWind = TrigTool.deg2rad(relativeWindDirection)
+        let radWind = NavTool.shared.convertToRadians(degrees: relativeWindDirection)
         let cosOfWind = cos(radWind)
         // I need the cos of the wind speed over the relativeWindDirection
         var parallelWind = cosOfWind * environment.windSpeed

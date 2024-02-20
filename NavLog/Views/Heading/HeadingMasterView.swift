@@ -12,8 +12,7 @@ struct HeadingMasterView: View {
     @Binding var altimeterOffset: Double
     @State var activeWayPointIndex: Int = 0
     @State var gpsIsRunning: Bool = false
-    @State var fuelTimeRemaining: Double = Core.services.navEngine.activeLog?.fuelRemaining() ?? 0
-    
+    @State var navigationMode: NavigationMode = .steerToWayPoint
     
     
     var body: some View {
@@ -26,21 +25,21 @@ struct HeadingMasterView: View {
                     }
                     let currentValues = getDisplayValues()
                     HeadingNavigationView(
-                        controllingWayPoint: $navEngine.activeWayPoints[activeWayPointIndex],
+                        controllingWayPoint: navEngine.activeWayPoints[activeWayPointIndex],
+                        nextWayPoint: getNextWayPoint(),
                         altimeterRange: 1000,
-                        plannedAltimeter: .constant(currentValues.plannedAltitude),
-                        altOffset: .constant(25.0),
-                        speedRange: 100,
-                        plannedSpeed: .constant(currentValues.plannedGroundSpeed),
-                        gpsIsActive: $gpsIsRunning,
-                        timeToWayPoint: .constant(currentValues.actualTimeToNextWaypoint()),
-                        fuelRemaining: $fuelTimeRemaining)
+                        plannedAltimeter: currentValues.plannedAltitude,
+                        altOffset: .constant(0),
+                        speedRange: 200,
+                        plannedSpeed: currentValues.plannedGroundSpeed,
+                        gpsIsActive: gpsIsRunning,
+                        navMode: navigationMode)
                     .padding(.bottom, 15)
                     if gpsIsRunning  {
                         HeadingSummarySwiftUIView(nextWayPoint: getNextWayPoint())
                             .padding(.bottom, 5)
                     }
-                    HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $navEngine.activeWayPoints[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: $navEngine.activeWayPoints.count, gpsIsRunning: $gpsIsRunning)
+                    HeadingDetailView(currentAltimeter: Core.services.gpsEngine.currentLocation?.altitude ?? 0, altimeterOffset: $altimeterOffset, aWayPoint: $navEngine.activeWayPoints[activeWayPointIndex], activeIndex: $activeWayPointIndex, waypointCount: $navEngine.activeWayPoints.count, gpsIsRunning: $gpsIsRunning, navMode: $navigationMode)
                     
                     NavigationLink {
                         NavigationLog()

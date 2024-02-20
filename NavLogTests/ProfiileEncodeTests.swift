@@ -36,7 +36,7 @@ final class ProfiileEncodeTests: XCTestCase {
                                              multipliers50: [m1, m2, m3, m4],
                                              temperatureBand: 20,
                                              temperatureDeltaRate: 0.1,
-                                             windrates: [w1, w2], seatCount: 4, 
+                                             windrates: [w1, w2], 
                                              landingProfile: Landing()
         )
 

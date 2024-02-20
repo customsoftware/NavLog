@@ -55,7 +55,6 @@ class Core {
                            plannedTimeToNextWaypoint: plannedTime,
                            distanceToWayPoint: distance)
     }
-
 }
 
 extension Logger {

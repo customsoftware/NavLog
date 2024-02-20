@@ -15,7 +15,7 @@ struct HeadingDetailView: View {
     @Binding var activeIndex: Int
     @State var waypointCount: Int
     @Binding var gpsIsRunning: Bool
-    
+    @Binding var navMode: NavigationMode
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10, content: {
@@ -53,11 +53,19 @@ struct HeadingDetailView: View {
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.numberPad)
             
-            Button("Sync Altitude") {
-                guard let newAlt = Double(manualAltitude) else { return }
-                syncGPSAltitude(newAlt)
+            HStack {
+                Button("Sync Altitude") {
+                    guard let newAlt = Double(manualAltitude) else { return }
+                    syncGPSAltitude(newAlt)
+                }
+                .buttonStyle(.bordered)
+                Picker("Select Heading Mode", selection: $navMode) {
+                    Text("Match").tag(NavigationMode.matchHeading)
+                    Text("WayPoint").tag(NavigationMode.steerToWayPoint)
+                }
+                .pickerStyle(.segmented)
+                .tint(Color.accentColor)
             }
-            .buttonStyle(.bordered)
         })
         .padding(.leading, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
         Spacer()
@@ -78,5 +86,5 @@ struct HeadingDetailView: View {
                        aWayPoint: .constant(Core.services.navEngine.loadWayPoints().first!),
                        activeIndex: .constant(0),
                        waypointCount: 0,
-                       gpsIsRunning: .constant(true))
+                       gpsIsRunning: .constant(true), navMode: .constant(NavigationMode.matchHeading))
 }
