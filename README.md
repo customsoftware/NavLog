@@ -1,4 +1,4 @@
-Welcome to NavLog. It is a tool for pilots to fly safely. It does two main things:
+Welcome to NavLog. It is a tool to help pilots fly safely. It does two main things:
 1.  It helps compute take off and landing performance using the aircraft's performance capabilities and current weather and current aircraft load.
 2.  It helps track your flight using the iPhone's built in GPS receiver. In this capacity, it acts as a simple HSI giving you stearing information, heading, airspeed and altitude.
 
