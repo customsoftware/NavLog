@@ -76,7 +76,7 @@ struct SliderBarView: View {
         case .altitude:
             workingValue = currentValue * AppMetricsSwift.settings.altitudeMode.modeModifier // TODO: Need to set this to be whatever altitude mode is set
         case .groundSpeed:
-            workingValue = currentValue //* AppMetricsSwift.settings.distanceMode.fineConversionValue // TODO: Need to set this to be whatever speed mode is set
+            workingValue = currentValue * AppMetricsSwift.settings.speedMode.modeModifier // TODO: Need to set this to be whatever speed mode is set
         }
         
         guard workingValue != 0 else {
@@ -109,7 +109,7 @@ struct SliderBarView: View {
                 retValue = "\(Int(workingValue))"
             }
         case .groundSpeed:
-            workingValue = currentValue // * AppMetricsSwift.settings.speedMode.modeModifier // TODO: Need to set this to be whatever speed mode is set
+            workingValue = currentValue * AppMetricsSwift.settings.speedMode.modeModifier // TODO: Need to set this to be whatever speed mode is set
             // round to the integer
             retValue = "\(Int(workingValue))"
         }

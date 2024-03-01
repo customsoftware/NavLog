@@ -107,8 +107,9 @@ enum SpeedMode: String, CaseIterable {
         return retValue
     }
     
-    // This method works on the assumption that the GPS system in IOS works in meters only
-    //  So this is the value to convert a meters/hour to kilometers/hour or MPH or NPH
+    // This method works on the assumption that the GPS system in IOS works in
+    //  meters per second only So this is the value to convert a meters/hour to
+    //  kilometers/hour or MPH or NPH
     var modeModifier: Double {
         let retValue: Double
         switch self {

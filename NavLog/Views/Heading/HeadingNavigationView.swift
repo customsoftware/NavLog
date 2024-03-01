@@ -74,7 +74,7 @@ struct HeadingNavigationView: View {
                                 .frame(width: 75, height: 50, alignment: .leading)
                             Text(" ")
                         }
-                        
+//                        SliderBarView(currentValue: (gpsIsActive ? 35.7632 : 0), range: speedRange, center: plannedSpeed, mode: .groundSpeed)
                         SliderBarView(currentValue: (gpsIsActive ? gpsTracker.speed : 0), range: speedRange, center: plannedSpeed, mode: .groundSpeed)
                     }
                 }
