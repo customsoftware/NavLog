@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9DCF777D-B545-487F-A663-E2CB614FC535"
-            shouldBeEnabled = "Yes"
+            uuid = "7FD58BF1-6186-4384-A2BB-F5293D89DB53"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NavLog/Components/AirportParser.swift"
+            filePath = "NavLog/Views/Performance/AircraftPerformanceView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "fetchNearbyAirports(for:closeIn:)"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "findAirportData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

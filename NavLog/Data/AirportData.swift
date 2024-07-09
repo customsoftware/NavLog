@@ -33,8 +33,9 @@ struct Runway: Hashable, Codable {
 
 
 struct AirportData: Hashable, Codable {
-    var name: String?
-    var iataId: String
+    var name: String
+    var faaId: String
+    var icaoId: String?
     var runways: [Runway]
     
     mutating func setRunways() {

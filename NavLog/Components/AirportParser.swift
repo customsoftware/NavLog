@@ -12,7 +12,7 @@ import CoreLocation
 class AirportParser: ObservableObject {
     @Published var runways: [Runway] = []
     @Published var airports: [AirportData] = []
-    @Published var chosenAirport: AirportData = AirportData(name: "", iataId: "", runways: [])
+    @Published var chosenAirport: AirportData = AirportData(name: "", faaId: "", icaoId: "", runways: [])
     
     private var cancellable = Set<AnyCancellable>()
     
@@ -68,7 +68,9 @@ class AirportParser: ObservableObject {
                 anAirport.name != "-"
             })
             
-            airports = airportList
+            airports = airportList.filter({ anAirport in
+                anAirport.icaoId != nil
+            })
             if airports.count == 0,
                closeIn == true {
                 try await fetchNearbyAirports(for: location, closeIn: false)

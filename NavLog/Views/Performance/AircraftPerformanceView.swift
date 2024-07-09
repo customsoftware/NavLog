@@ -50,9 +50,9 @@ struct AircraftPerformanceView: View {
                     if nearbyAirports.count > 0 {
                         Picker("Nearby Airports", selection: $viewModel.airportParser.chosenAirport) {
                             ForEach(viewModel.airportParser.airports.sorted(by: { a1, a2 in
-                                a1.name! < a2.name!
+                                a1.faaId < a2.faaId
                             }), id: \.self) {
-                                Text($0.name!).tag($0)
+                                Text($0.icaoId ?? $0.faaId).tag($0)
                             }
                         }
                     } else {
@@ -143,13 +143,13 @@ struct AircraftPerformanceView: View {
     }
     
     private func findAirportData() {
-        if let chosenName = viewModel.airportParser.chosenAirport.name,
-           chosenName.count > 2,
+        guard let chosenName = viewModel.airportParser.chosenAirport.icaoId else { return }
+        if chosenName.count > 2,
            chosenName != viewModel.weather.airportCode {
             viewModel.weather.airportCode = chosenName
         }
         
-        guard (viewModel.weather.airportCode.count > 2 || viewModel.airportParser.chosenAirport.name!.count > 1),
+        guard (viewModel.weather.airportCode.count > 2 || viewModel.airportParser.chosenAirport.name.count > 1),
               self.currentLocation == nil
         else {
             //  Here we could look for airports around us...
@@ -220,12 +220,12 @@ struct AircraftPerformanceView: View {
             _ = try! await viewModel.airportParser.fetchNearbyAirports(for: aLocation, closeIn: true)
             if viewModel.airportParser.airports.count > 0,
                viewModel.airportParser.airports.count < 2 {
-                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.name ?? "No name"
+                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.faaId
                 currentLocation = nil
                 findAirportData()
             } else if viewModel.airportParser.airports.count > 1 {
                 nearbyAirports = viewModel.airportParser.airports
-                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.name ?? "No name"
+                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.faaId
                 currentLocation = nil
                 findAirportData()
             }
