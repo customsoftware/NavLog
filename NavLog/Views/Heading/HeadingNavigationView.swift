@@ -145,22 +145,42 @@ struct HeadingNavigationView: View {
     
     private func getDirectionToTurn() -> String {
         var retValue: String = ""
-        let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
+        let plannedHeading: Double = self.getHeadingFrom()
         let currentHeading: Double = gpsTracker.course
         let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
         retValue = "Turn \(turn.textOfTurn)"
         return retValue
     }
     
+    private func getHeadingFrom() -> Double {
+        var retValue: Double = 0.0
+        
+        switch navMode {
+        case .matchHeading:
+            // Else in parallel heading mode
+            retValue = Double(controllingWayPoint.headingFrom())
+            
+        case .steerToWayPoint:
+            guard let nextWP = nextWayPoint,
+                  let currentLoc = gpsTracker.currentLocation else { return 0 }
+            let newHeading = Core.services.navEngine.computeCourseBetweeen(currentLocation: nextWP.location, and: currentLoc)
+            retValue = Double(newHeading)
+        }
+        
+        return retValue
+    }
+    
     func convertDegreeToXOffset() -> CGFloat {
         var retValue: CGFloat = 0
         
-        let plannedHeading: Double = Double(controllingWayPoint.headingFrom())
+        let plannedHeading: Double = getHeadingFrom()
         let currentHeading: Double = gpsTracker.course
         let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
         
         let offset: Double
-        if turn == .left {
+        if turn == .left,
+           currentHeading > 180,
+           currentHeading <= 360 {
             offset = (currentHeading + 360) - plannedHeading
         } else {
             offset = currentHeading - plannedHeading

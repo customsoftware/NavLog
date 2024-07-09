@@ -27,6 +27,21 @@ final class AirportParseTest: XCTestCase {
         XCTAssertTrue(runways.count == 4, "PVU just has four runways. Not \(runways.count)")
     }
     
+    func testParseAirport() throws {
+        guard let airportData = airportTest.data(using: .utf8) else {
+            XCTFail("JSON didn't build")
+            return
+        }
+        do {
+            var airportInformation = try JSONDecoder().decode(AirportData.self, from: airportData)
+            XCTAssertNil(airportInformation.iataId)
+            XCTAssertEqual(airportInformation.name, "AMERICAN FORK\\/AMERICAN FORK HOSPITAL ")
+            
+        } catch {
+            print(airportData)
+        }
+    }
+    
     func testParseRunway() throws {
         guard let runwayData = runwayTest.data(using: .utf8) else {
             XCTFail("JSON didn't build")
@@ -35,7 +50,7 @@ final class AirportParseTest: XCTestCase {
         do {
             let aRunway = try JSONDecoder().decode(Runway.self, from: runwayData)
             XCTAssertNotNil(aRunway, "You should have a runway")
-            XCTAssertTrue(aRunway.alignment == "192", "The alignment should be '192', it's \(aRunway.alignment)")
+            XCTAssertTrue(aRunway.alignment == 192, "The alignment should be '192', it's \(aRunway.alignment)")
         } catch {
             print("\(error.localizedDescription)")
         }
@@ -45,6 +60,11 @@ final class AirportParseTest: XCTestCase {
     let runwayTest: String =
     """
     {"id":"18\\/36","dimension":"6628x150","surface":"A","alignment":"192"}
+    """;
+    
+    let airportTest: String =
+    """
+    {"id": "17481","icaoId": null,"iataId": null,"faaId": "UT56","name": "AMERICAN FORK\\/AMERICAN FORK HOSPITAL ","state": "UT","country": "US","source": "FAA","type": "HEL","lat": 40.3797,"lon": -111.769,"elev": 1403,"magdec": "14E","owner": "R","runways": [{"id": "H1","dimension": "85x65","surface": "A","alignment": 0}],"rwyNum": "1","rwyLength": "S","rwyType": "A","services": null,"tower": null,"beacon": null,"operations": "0","passengers": null,"freqs": "-","priority": "9"}
     """;
 }
 

@@ -34,5 +34,5 @@ struct RunwaySwiftUIView: View {
 }
 
 #Preview {
-    RunwaySwiftUIView(runway: Runway(id: "13/31", dimension: "8000x150", surface: "A", alignment: "145"), isActive: .constant(true))
+    RunwaySwiftUIView(runway: Runway(id: "13/31", dimension: "8000x150", surface: "A", alignment: 145), isActive: .constant(true))
 }

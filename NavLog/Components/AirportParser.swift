@@ -12,7 +12,7 @@ import CoreLocation
 class AirportParser: ObservableObject {
     @Published var runways: [Runway] = []
     @Published var airports: [AirportData] = []
-    @Published var chosenAirport: AirportData = AirportData(name: "", iata: "", runways: [])
+    @Published var chosenAirport: AirportData = AirportData(name: "", iataId: "", runways: [])
     
     private var cancellable = Set<AnyCancellable>()
     
@@ -32,9 +32,11 @@ class AirportParser: ObservableObject {
         
         guard let url = URL(string: airportQueryString) else { throw HTTPError.badURL }
         
+        var resultString: String = ""
+        
         let (data, _) = try await URLSession.shared.data(from: url)
         do {
-            var resultString = String(data: data, encoding: .utf8)!
+            resultString = String(data: data, encoding: .utf8)!
             resultString.removeFirst()
             resultString.removeLast()
             
@@ -45,6 +47,7 @@ class AirportParser: ObservableObject {
             runways = airportData.runways
         } catch {
             print(error.localizedDescription)
+            print(resultString)
         }
     }
     

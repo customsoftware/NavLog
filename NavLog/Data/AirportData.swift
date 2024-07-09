@@ -14,7 +14,7 @@ struct Runway: Hashable, Codable {
     var id: String
     var dimension: String
     var surface: String
-    var alignment: String
+    var alignment: Int
     var direction: Int? = 0
     
     var runwayLength: Int {
@@ -34,14 +34,8 @@ struct Runway: Hashable, Codable {
 
 struct AirportData: Hashable, Codable {
     var name: String?
-    var iata: String
+    var iataId: String
     var runways: [Runway]
-    
-    enum CodingKeys: String, CodingKey {
-        case name = "id"
-        case iata
-        case runways
-    }
     
     mutating func setRunways() {
         guard runways.count > 0 else { return }
