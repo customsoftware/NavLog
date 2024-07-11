@@ -173,6 +173,7 @@
 		90980CE22B02B28B00F0E5F0 /* DataFetchEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFetchEngine.swift; sourceTree = "<group>"; };
 		90980CE72B02E03600F0E5F0 /* AircraftPerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPerformanceView.swift; sourceTree = "<group>"; };
 		90980CE92B02E51900F0E5F0 /* ScreenModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenModels.swift; sourceTree = "<group>"; };
+		909F69AA2C3F56C90041774F /* TurningTool.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = TurningTool.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		90A258472A96C27000B40DAD /* NavLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2584A2A96C27000B40DAD /* NavLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogApp.swift; sourceTree = "<group>"; };
 		90A2584C2A96C27000B40DAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -450,6 +451,7 @@
 		90B864242AD96768009D18E5 /* Playgrounds */ = {
 			isa = PBXGroup;
 			children = (
+				909F69AA2C3F56C90041774F /* TurningTool.playground */,
 			);
 			path = Playgrounds;
 			sourceTree = "<group>";
