@@ -11,20 +11,8 @@ import CoreLocation
 
 struct AircraftPerformanceView: View {
     @State private var shouldShowAlert: Bool = false
-    @State private var missionPerformance = PerformanceResults()
     @State private var temperatureInDegreesC: Bool = true
-    @State private var currentLocation: CLLocation?
-    @State private var nearbyAirports: [AirportData] = [AirportData]()
-    @Bindable private var aircraftManager = Core.services.acManager
     @StateObject private var viewModel = AircraftPerformanceViewModel()
-    @State private var theWeather: AirportWeather? {
-        didSet {
-            guard let weather = theWeather else {
-                resetAirfieldValues()
-                return }
-            setAirfieldValues(weather)
-        }
-    }
     
     private let textWidth: CGFloat = 170.0
     
@@ -41,13 +29,13 @@ struct AircraftPerformanceView: View {
                 Section(header: Text("Airport")) {
                     Button {
                         hideKeyboard()
-                        findAirportData()
+                        viewModel.findAirportData()
                         
                     } label: {
                         Text("1. Get Airport and Weather")
                     }
                     
-                    if nearbyAirports.count > 0 {
+                    if viewModel.nearbyAirports.count > 0 {
                         Picker("Nearby Airports", selection: $viewModel.weather.airportCode) {
                             ForEach(viewModel.airportParser.airports.sorted(by: { a1, a2 in
                                 a1.faaId < a2.faaId
@@ -71,8 +59,8 @@ struct AircraftPerformanceView: View {
                 
                 Section(header: Text("Mission Load")) {
                     
-                    Picker("2. Choose Aircraft", selection: $aircraftManager.chosenAircraft) {
-                        ForEach(aircraftManager.availableAircraft.sorted(by: { r1, r2 in
+                    Picker("2. Choose Aircraft", selection: $viewModel.aircraftManager.chosenAircraft) {
+                        ForEach(viewModel.aircraftManager.availableAircraft.sorted(by: { r1, r2 in
                             r1.aircraft < r2.aircraft
                         }), id: \.self) {
                             Text("\($0.aircraft)").tag($0)
@@ -84,21 +72,21 @@ struct AircraftPerformanceView: View {
                     TextEntryFieldView(formatter: formatter, captionText: "Co-Pilot", textWidth: textWidth, promptText: "Co-Pilot", textValue: $viewModel.mission.copilotSeat)
                     
                     // If there are more than four seats, we show the middle seats
-                    if aircraftManager.chosenAircraft.seatCount > 4 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", testValue: aircraftManager.chosenAircraft.maxMiddleWeight, textValue: $viewModel.mission.middleSeat)
+                    if viewModel.aircraftManager.chosenAircraft.seatCount > 4 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Middle Seat", textWidth: textWidth, promptText: "Middle Seat", testValue: viewModel.aircraftManager.chosenAircraft.maxMiddleWeight, textValue: $viewModel.mission.middleSeat)
                     }
                     // If there are more than two seats, we show the back seat
-                    if aircraftManager.chosenAircraft.seatCount > 2 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", testValue: aircraftManager.chosenAircraft.maxBackWeight, textValue: $viewModel.mission.backSeat)
+                    if viewModel.aircraftManager.chosenAircraft.seatCount > 2 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Back Seat", textWidth: textWidth, promptText: "Back Seat", testValue: viewModel.aircraftManager.chosenAircraft.maxBackWeight, textValue: $viewModel.mission.backSeat)
                     }
                     
-                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: aircraftManager.chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
+                    TextEntryFieldView(formatter: formatter, captionText: "Cargo", textWidth: textWidth, promptText: "Cargo", testValue: viewModel.aircraftManager.chosenAircraft.maxCargoWeight, textValue: $viewModel.mission.cargo)
                     
                     // We need a way to let the user know if they put more fuel than the tank can hold...
-                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(viewModel.metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: aircraftManager.chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
+                    TextEntryFieldView(formatter: formatter, captionText: "Fuel in \(viewModel.metrics.fuelMode.text.capitalized)", textWidth: textWidth, promptText: "Fuel Wings", testValue: viewModel.aircraftManager.chosenAircraft.maxFuelGallons, textValue: $viewModel.mission.fuel)
                     
-                    if aircraftManager.chosenAircraft.auxMaxFuelGallons > 0 {
-                        TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: aircraftManager.chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)
+                    if viewModel.aircraftManager.chosenAircraft.auxMaxFuelGallons > 0 {
+                        TextEntryFieldView(formatter: formatter, captionText: "Aux Fuel in Gallons", textWidth: textWidth, promptText: "Aux Fuel Tanks", testValue: viewModel.aircraftManager.chosenAircraft.auxMaxFuelGallons, textValue: $viewModel.mission.auxFuel)
                     }
                 }
                 
@@ -106,7 +94,7 @@ struct AircraftPerformanceView: View {
                     Button {
                         hideKeyboard()
                         guard validateForm() else { return }
-                        calculatePerformance()
+                        viewModel.calculatePerformance(temperatureInDegreesC: temperatureInDegreesC)
                         
                     } label: { Text("3. Calculate Performance") }
                     
@@ -125,7 +113,7 @@ struct AircraftPerformanceView: View {
                 })
                 
                 Section("Results", content: {
-                    TakeOffPerformanceView(performance: missionPerformance, environment: viewModel.weather)
+                    TakeOffPerformanceView(performance: viewModel.missionPerformance, environment: viewModel.weather)
                         .onAppear(perform: {
                             temperatureInDegreesC = viewModel.weather.inCelsiusMode
                         })
@@ -133,7 +121,7 @@ struct AircraftPerformanceView: View {
             })
             .alert(isPresented: $shouldShowAlert) {
                 // Put alert here
-                Alert(title: Text("You can't load more than \(Int(aircraftManager.chosenAircraft.maxFuelGallons)) gallons."))
+                Alert(title: Text("You can't load more than \(Int(viewModel.aircraftManager.chosenAircraft.maxFuelGallons)) gallons."))
             }
             .navigationTitle("Weight & Balance")
             .onAppear(perform:{
@@ -142,135 +130,10 @@ struct AircraftPerformanceView: View {
         })
     }
     
-    private func findAirportData() {
-        guard let chosenName = viewModel.airportParser.chosenAirport.icaoId else { return }
-        if chosenName.count > 2,
-           chosenName != viewModel.weather.airportCode {
-            viewModel.weather.airportCode = chosenName
-        }
-        
-        guard (viewModel.weather.airportCode.count > 2 || viewModel.airportParser.chosenAirport.name.count > 1),
-              self.currentLocation == nil
-        else {
-            //  Here we could look for airports around us...
-            if let _ = currentLocation {
-                getLocalAirports()
-            } else {
-                DispatchQueue.global().async(execute: {
-                    Core.services.gpsEngine.startTrackingLocation()
-                    var x = 0
-                    let now = Date()
-                    // Wait till we get a location
-                    while Core.services.gpsEngine.currentLocation == nil,
-                          Date().timeIntervalSince(now) < 5  {
-                        x += 1
-                    }
-                    currentLocation = Core.services.gpsEngine.currentLocation
-                    Core.services.gpsEngine.stopTrackingLocation()
-                    getLocalAirports()
-                })
-            }
-            return
-        }
-        // Load the results into the view controls
-        Task {
-            _ = try! await viewModel.complexParser.fetchWeatherData(for: [viewModel.weather.airportCode])
-            theWeather = viewModel.complexParser.weather.first
-            
-            _ = try! await viewModel.airportParser.fetchAirportData(for: viewModel.weather.airportCode)
-            let runways = viewModel.airportParser.runways
-            if runways.count > 1 {
-                let bestAlignment = viewModel.runwayChooser.chooseFrom(the: runways, wind: viewModel.weather.windDirection)
-                if let direction = bestAlignment.1,
-                   let aRunway = bestAlignment.0 {
-                    viewModel.weather.runwayDirection = direction
-                    viewModel.weather.runwayLength = Double(aRunway.runwayLength)
-                    viewModel.runwayChooser.selectedRunway = aRunway
-                }
-            }
-            viewModel.weather.save()
-        }
-    }
-    
-    private func calculatePerformance() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        if viewModel.runwayChooser.selectedRunway.id != "" {
-            viewModel.weather.runwayDirection = Double(viewModel.runwayChooser.selectedRunway.direction ?? 0)
-            viewModel.weather.runwayLength = Double(viewModel.runwayChooser.selectedRunway.runwayLength)
-        }
-        viewModel.weather.save()
-        // I want all this done in the missionPerformance object, but it works for now.
-        missionPerformance.cgIsInLimits = viewModel.computeCGLimits(using: aircraftManager.chosenAircraft)
-        missionPerformance.isUnderGross = viewModel.isInWeightLimits(using: aircraftManager.chosenAircraft)
-        missionPerformance.overWeightAmount = (viewModel.computeTotalWeight(with: aircraftManager.chosenAircraft) - aircraftManager.chosenAircraft.maxWeight)
-        
-        let runwayCalculations = viewModel.calculateRequiredRunwayLength(tempIsFarenheit: !temperatureInDegreesC, using: aircraftManager.chosenAircraft)
-        missionPerformance.computedTakeOffRoll = runwayCalculations.0
-        missionPerformance.computedOver50Roll = runwayCalculations.1
-        
-        let landingCalculations = viewModel.calculateRequiredLandingLength()
-        missionPerformance.computedLandingRoll = landingCalculations.0
-        missionPerformance.computedLandingOver50Roll = landingCalculations.1
-        viewModel.mission.save()
-    }
-    
-    private func getLocalAirports() {
-        guard let aLocation = Core.services.gpsEngine.currentLocation else { return }
-        Task {
-            _ = try! await viewModel.airportParser.fetchNearbyAirports(for: aLocation, closeIn: true)
-            if viewModel.airportParser.airports.count > 0,
-               viewModel.airportParser.airports.count < 2 {
-                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.faaId
-                currentLocation = nil
-                findAirportData()
-            } else if viewModel.airportParser.airports.count > 1 {
-                nearbyAirports = viewModel.airportParser.airports
-                viewModel.weather.airportCode = viewModel.airportParser.airports.first!.faaId
-                currentLocation = nil
-                findAirportData()
-            }
-        }
-    }
-    
     private func validateForm() -> Bool {
-        let retValue: Bool = (viewModel.mission.fuel <= aircraftManager.chosenAircraft.maxFuelGallons)
+        let retValue: Bool = (viewModel.mission.fuel <= viewModel.aircraftManager.chosenAircraft.maxFuelGallons)
         shouldShowAlert = !retValue
         return retValue
-    }
-    
-    private func setAirfieldValues(_ weather: AirportWeather) {
-        viewModel.weather.airportCode = weather.icaoId
-        if let aTemp = weather.temp {
-            temperatureInDegreesC = true
-            viewModel.weather.temp = aTemp
-        }
-        if let _ = weather.altim {
-            viewModel.weather.pressure = weather.altimeterSetting
-        }
-        
-        if let _ = weather.elev {
-            viewModel.weather.elevation = round(weather.elevation!)
-        }
-        if let speed = weather.windSpeed {
-            viewModel.weather.windSpeed = (speed as NSString).doubleValue
-        } else {
-            viewModel.weather.windSpeed = 0
-        }
-        if let direction = weather.windDirection {
-            viewModel.weather.windDirection = (direction as NSString).doubleValue
-        } else {
-            viewModel.weather.windDirection = 0
-        }
-    }
-    
-    private func resetAirfieldValues() {
-        viewModel.weather.temp = 0
-        viewModel.weather.pressure = 0
-        viewModel.weather.elevation = 0
-        viewModel.weather.windSpeed = 0
-        viewModel.weather.windDirection = 0
-        viewModel.weather.runwayDirection = 0
-        viewModel.weather.runwayLength = 0
     }
 }
 
