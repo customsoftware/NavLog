@@ -48,7 +48,7 @@ struct AircraftPerformanceView: View {
                     }
                     
                     if nearbyAirports.count > 0 {
-                        Picker("Nearby Airports", selection: $viewModel.airportParser.chosenAirport) {
+                        Picker("Nearby Airports", selection: $viewModel.weather.airportCode) {
                             ForEach(viewModel.airportParser.airports.sorted(by: { a1, a2 in
                                 a1.faaId < a2.faaId
                             }), id: \.self) {
