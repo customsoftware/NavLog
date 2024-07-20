@@ -12,7 +12,7 @@ import CoreLocation
 struct AircraftPerformanceView: View {
     @State private var shouldShowAlert: Bool = false
     @State private var temperatureInDegreesC: Bool = true
-    @StateObject private var viewModel = AircraftPerformanceViewModel()
+    @StateObject private var viewModel: AircraftPerformanceViewModel
     
     private let textWidth: CGFloat = 170.0
     
@@ -21,6 +21,11 @@ struct AircraftPerformanceView: View {
         formatter.numberStyle = .decimal
         return formatter
     }()
+    
+    init(viewModel: AircraftPerformanceViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        
+    }
     
     var body: some View {
         NavigationView( content: {
@@ -138,5 +143,5 @@ struct AircraftPerformanceView: View {
 }
 
 #Preview {
-    AircraftPerformanceView()
+    AircraftPerformanceView(viewModel: AircraftPerformanceViewModel())
 }

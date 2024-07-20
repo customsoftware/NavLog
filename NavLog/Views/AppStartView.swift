@@ -16,12 +16,12 @@ struct AppStartView: View {
     
     var body: some View {
         TabView {
-            AircraftPerformanceView()
+            AircraftPerformanceView(viewModel: AircraftPerformanceViewModel())
                 .tabItem {
                     Label("W&B", systemImage: "scalemass.fill")
                 }
                 .onAppear {
-                    UIApplication.shared.isIdleTimerDisabled = false
+                    UIApplication.shared.isIdleTimerDisabled = false 
                 }
                 .onAppear {
                     UIApplication.shared.isIdleTimerDisabled = false

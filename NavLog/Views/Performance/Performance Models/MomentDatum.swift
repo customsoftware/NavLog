@@ -45,22 +45,27 @@ struct MomentDatum: Codable, Hashable {
     }
     
     func frontArm() -> Double {
+        guard maxFrontWeight > 0 else { return 0.0 }
         return frontMoment/maxFrontWeight
     }
     
     func backArm() -> Double {
+        guard maxBackWeight > 0 else { return 0.0 }
         return backMoment/maxBackWeight
     }
     
     func cargoArm() -> Double {
+        guard maxCargoWeight > 0 else { return 0.0 }
         return cargoMoment/maxCargoWeight
     }
     
     func fuelArm() -> Double {
+        guard maxFuelGallons > 0 else { return 0.0 }
         return fuelMoment/(maxFuelGallons * fuelWeight)
     }
     
     func auxFuelArm() -> Double {
+        guard auxMaxFuelGallons > 0 else { return 0.0 }
         return auxFuelMoment/(auxMaxFuelGallons * fuelWeight)
     }
     
