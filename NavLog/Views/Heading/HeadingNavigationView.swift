@@ -143,6 +143,7 @@ struct HeadingNavigationView: View {
         return retValue
     }
     
+    /// This displays the text to show turning "Left" or "Right" to get to desired heading
     private func getDirectionToTurn() -> String {
         var retValue: String = ""
         let plannedHeading: Double = self.getHeadingFrom()
@@ -152,6 +153,8 @@ struct HeadingNavigationView: View {
         return retValue
     }
     
+    /// This gets the heading the plane should be on to get to the next way point or at
+    /// least parallel to the heading that will get the plane to the next way point.
     private func getHeadingFrom() -> Double {
         var retValue: Double = 0.0
         
@@ -170,23 +173,16 @@ struct HeadingNavigationView: View {
         return retValue
     }
     
+    /// This computes where to place the desired heading bar/line on the display
     func convertDegreeToXOffset() -> CGFloat {
         var retValue: CGFloat = 0
         
         let plannedHeading: Double = getHeadingFrom()
         let currentHeading: Double = gpsTracker.course
-        let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
         
-        let offset: Double
-        if turn == .left,
-           currentHeading > 180,
-           currentHeading <= 360 {
-            offset = (currentHeading + 360) - plannedHeading
-        } else {
-            offset = currentHeading - plannedHeading
-        }
-        retValue = CGFloat(offset)
-
+        let turn = NavTool.shared.getDirectionOfTurn(from: currentHeading, to: plannedHeading)
+        retValue = NavTool.shared.getAmountOfTurn(from: currentHeading, to: plannedHeading, directionOfTurn: turn)
+        
         let range: CGFloat = 25.0
         
         if retValue >= range {

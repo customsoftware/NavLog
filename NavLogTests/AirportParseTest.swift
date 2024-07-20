@@ -34,7 +34,7 @@ final class AirportParseTest: XCTestCase {
         }
         do {
             var airportInformation = try JSONDecoder().decode(AirportData.self, from: airportData)
-            XCTAssertNil(airportInformation.iataId)
+            XCTAssertNil(airportInformation.icaoId)
             XCTAssertEqual(airportInformation.name, "AMERICAN FORK\\/AMERICAN FORK HOSPITAL ")
             
         } catch {
