@@ -62,6 +62,7 @@
 		90980CE52B02B28B00F0E5F0 /* DataFetchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90980CE22B02B28B00F0E5F0 /* DataFetchEngine.swift */; };
 		90980CE82B02E03600F0E5F0 /* AircraftPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90980CE72B02E03600F0E5F0 /* AircraftPerformanceView.swift */; };
 		90980CEA2B02E51900F0E5F0 /* ScreenModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90980CE92B02E51900F0E5F0 /* ScreenModels.swift */; };
+		909BF0992C4C7C4600873AA4 /* PerformanceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909BF0982C4C7C4600873AA4 /* PerformanceConstants.swift */; };
 		90A2584B2A96C27000B40DAD /* NavLogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584A2A96C27000B40DAD /* NavLogApp.swift */; };
 		90A2584D2A96C27000B40DAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A2584C2A96C27000B40DAD /* ContentView.swift */; };
 		90A258512A96C27300B40DAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A258502A96C27300B40DAD /* Assets.xcassets */; };
@@ -173,6 +174,7 @@
 		90980CE22B02B28B00F0E5F0 /* DataFetchEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFetchEngine.swift; sourceTree = "<group>"; };
 		90980CE72B02E03600F0E5F0 /* AircraftPerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPerformanceView.swift; sourceTree = "<group>"; };
 		90980CE92B02E51900F0E5F0 /* ScreenModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenModels.swift; sourceTree = "<group>"; };
+		909BF0982C4C7C4600873AA4 /* PerformanceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceConstants.swift; sourceTree = "<group>"; };
 		909F69AA2C3F56C90041774F /* TurningTool.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = TurningTool.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		90A258472A96C27000B40DAD /* NavLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90A2584A2A96C27000B40DAD /* NavLogApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLogApp.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				90AD6FCA2B1A7B4E002866F8 /* LandingCalculator.swift */,
 				90EC52292B4C3C30002C8C20 /* TextEntryFieldStringView.swift */,
 				9062A3AD2B52EFC700F821A6 /* RunwaySwiftUIView.swift */,
+				909BF0982C4C7C4600873AA4 /* PerformanceConstants.swift */,
 			);
 			path = Performance;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				90038F8B2AA16D3200B3FAFC /* NavigationEngine.swift in Sources */,
 				90EC522A2B4C3C30002C8C20 /* TextEntryFieldStringView.swift in Sources */,
 				90B864232AD95F0D009D18E5 /* FlightPlan.swift in Sources */,
+				909BF0992C4C7C4600873AA4 /* PerformanceConstants.swift in Sources */,
 				9058F1792A994FAA00C7CE81 /* AircraftMetaItemIntView.swift in Sources */,
 				90D53A1C2B12CA4D00ED34EB /* MotionCapture.swift in Sources */,
 				90BFCB2E2B5F4BAB00657389 /* TextEntryIntFieldView.swift in Sources */,

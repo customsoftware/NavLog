@@ -27,11 +27,27 @@ class AircraftPerformanceViewModel: ObservableObject {
         }
     }
     
+    var missionPerformance = PerformanceResults()
     var currentLocation: CLLocation?
     private var toCalc: TakeOffCalculator?
     private var landingCalc: LandingCalculator?
     private let standardBaroPressure: Double = 29.92
-    var missionPerformance = PerformanceResults()
+    
+    func elevationCaption() -> String {
+        "\(PerformanceConstants.String.elevation): (" + metrics.altitudeMode.text + ")"
+    }
+    
+    func windSpeedCaption() -> String {
+        "\(PerformanceConstants.String.windSpeed): " + metrics.speedMode.modeSymbol
+    }
+    
+    func fuelOnboardCaption() -> String {
+        "\(PerformanceConstants.String.fuelIn) \(metrics.fuelMode.text.capitalized)"
+    }
+    
+    func fuelCapacityWarning() -> String {
+        "\(PerformanceConstants.String.fuelWarning) \(Int(aircraftManager.chosenAircraft.maxFuelGallons)) \(PerformanceConstants.String.gallons)."
+    }
     
     func calculatePerformance(temperatureInDegreesC: Bool) {
         if runwayChooser.selectedRunway.id != "" {
