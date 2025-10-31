@@ -14,7 +14,7 @@ struct Runway: Hashable, Codable {
     var id: String
     var dimension: String
     var surface: String
-    var alignment: Int
+    var alignment: Int? = 0
     var direction: Int? = 0
     
     var runwayLength: Int {

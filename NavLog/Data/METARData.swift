@@ -45,7 +45,6 @@ struct InterimAirportWeather: Codable {
     //  altimeter setting
     //  lat
     //  long
-    var metar_id: Int
     var icaoId: String
     var temp: Double?
     var altim: Double?
@@ -73,7 +72,6 @@ protocol VariableWindSpeed {
 
 struct AiportWindSpeedString: Codable, VariableWindSpeed {
     var icaoId: String
-    var metar_id: Int
     var wspd: String?
     var windSpeed: String {
         get {
@@ -84,7 +82,6 @@ struct AiportWindSpeedString: Codable, VariableWindSpeed {
 
 struct AiportWindSpeedInt: Codable, VariableWindSpeed {
     var icaoId: String
-    var metar_id: Int
     var wspd: Int?
     var windSpeed: String {
         get {
@@ -100,7 +97,6 @@ protocol VariableWindDirection {
 
 struct AiportWindDirectionString: Codable, VariableWindDirection {
     var icaoId: String
-    var metar_id: Int
     var wdir: String?
     var windDirection: String {
         get {
@@ -111,7 +107,6 @@ struct AiportWindDirectionString: Codable, VariableWindDirection {
 
 struct AiportWindDirectionInt: Codable, VariableWindDirection {
     var icaoId: String
-    var metar_id: Int
     var wdir: Int?
     var windDirection: String {
         get {

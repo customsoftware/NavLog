@@ -35,8 +35,7 @@ class ComplexMetarParser: ObservableObject {
         let (data, _) = try await URLSession.shared.data(from: url)
         do {
             stringResults = String(decoding: data, as: UTF8.self)
-            var metarResults = stringResults.components(separatedBy: "metar_id")
-            metarResults.removeFirst()
+            var metarResults = [stringResults]
             
             // Process the results - iterate through each airport's data.
             for aResult in metarResults {
@@ -102,13 +101,15 @@ class ComplexMetarParser: ObservableObject {
     
     private func repairJSONString(_ aResult: String) -> String {
         // We have an array of metar reports. Parse each one...
-        var parsableResult = "[{metar_id" + aResult
+        var parsableResult = aResult
         parsableResult = parsableResult.replacingOccurrences(of: "}]},{", with: "}]")
         
         // Strip out the array components
         parsableResult = parsableResult.replacingOccurrences(of: "[{m", with: "{\"m")
         parsableResult = parsableResult.replacingOccurrences(of: "}]\"", with: "}]}")
         parsableResult = parsableResult.replacingOccurrences(of: "}]}]", with: "}]}")
+        parsableResult.removeFirst()
+        parsableResult.removeLast()
         
         return parsableResult
     }
